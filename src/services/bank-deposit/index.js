@@ -1,6 +1,5 @@
 import Cookies from "js-cookie";
 
-<<<<<<< HEAD
 export const getAllSellerDeposits = async () => {
   try {
     const res = await fetch("http://localhost:3000/api/hr/all-deposits", {
@@ -28,22 +27,13 @@ export const getAllSellerDeposits = async () => {
         "refkey": refkey,
         "imageUrl": imageUrl,
       }
-=======
-  export const updateDeposit = async (formData) => {
-    try {
-      console.log(formData, "idk")
->>>>>>> 8fface09e5e6d42c4cfc1216771e638d6bfb4271
       const response = await fetch("/api/bank-deposit", {
         method: "POST",
         headers: {
           "content-type": "application/json",
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
-<<<<<<< HEAD
         body: JSON.stringify(newFormData),
-=======
-        body: JSON.stringify(formData),
->>>>>>> 8fface09e5e6d42c4cfc1216771e638d6bfb4271
       });
   
       const data = await response.json();
