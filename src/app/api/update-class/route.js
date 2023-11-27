@@ -1,7 +1,7 @@
-import connectToDB from "@/database";
+/* import connectToDB from "@/database";
 import AuthUser from "@/middleware/AuthUser";
 import User from "@/models/user";
-import classData from "@/models/classData";
+import class_datas from "@/models/classData";
 import lvlTwoclassData from "@/models/lvlTwoclassData";
 import { NextResponse } from "next/server";
 
@@ -1816,4 +1816,4 @@ export async function PUT(req1) {
 //             message: "Something went wrong! Please try again later",
 //         });
 //     }
-// }
+// } */
