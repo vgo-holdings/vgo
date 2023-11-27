@@ -339,15 +339,9 @@ export default function Register() {
       <div className="flex flex-col items-center justify-between pt-0 md:pr-10 md:pl-10 pr-0 pb-0 pl-0 mt-8 mr-auto xl:px-5 lg:flex-row">
         <div className="flex flex-col justify-center items-center w-full pr-0 pl-0 md:pr-10 md:pl-10 lg:flex-row space-x-4">
           <div className="w-full mt-10 mr-0 mb-0 ml-0 relative max-w-2xl lg:mt-0 lg:w-5/12">
-<<<<<<< HEAD
             <div className="flex flex-col items-center justify-start pt-10 pr-10 pb-10 pl-10 bg-white bg-opacity-50 filter backdrop-blur-sm shadow-2xl relative z-10">
               <p className="w-full text-2xl font-medium text-center font-serif text-black">
               Procees with Online Payment
-=======
-            <div className="flex flex-col items-center justify-start pt-10 pr-10 pb-10 pl-10 bg-white shadow-2xl relative z-10">
-              <p className="w-full text-2xl font-medium text-center font-serif text-black">
-                Proceed with Online Payment
->>>>>>> 8fface09e5e6d42c4cfc1216771e638d6bfb4271
               </p>
               <p className="w-full text-4xl font-medium text-center font-serif text-black">
                 {isRegistered
@@ -416,15 +410,9 @@ export default function Register() {
             </div>
           </div>
           <div className="w-full mt-10 mr-0 mb-0 ml-0 relative max-w-2xl lg:mt-0 lg:w-5/12">
-<<<<<<< HEAD
             <div className="flex flex-col items-center justify-start pt-10 pr-10 pb-10 pl-10 bg-white bg-opacity-50 filter backdrop-blur-sm shadow-2xl rounded-xl relative z-10">
               <p className="w-full text-2xl font-medium text-center font-serif text-black">
               Procees with Bank deosit
-=======
-            <div className="flex flex-col items-center justify-start pt-10 pr-10 pb-10 pl-10 bg-white shadow-2xl rounded-xl relative z-10">
-              <p className="w-full text-2xl font-medium text-center font-serif text-black">
-                Proceed with Bank deosit
->>>>>>> 8fface09e5e6d42c4cfc1216771e638d6bfb4271
               </p>
               <p className="w-full text-4xl font-medium text-center font-serif text-black">
                 {isRegistered
