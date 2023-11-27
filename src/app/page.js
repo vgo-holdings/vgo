@@ -658,7 +658,7 @@ export default function Home() {
                       FREELANCER
                     </div>
                     <div className="uppercase tracking-wide text-2xl text-white">
-                      LKR 3000
+                      LKR 5000
                     </div>
                     <h2 className="mt-2 text-xl font-bold"></h2>
                     <p className="mt-2 text-gray-500"></p>
