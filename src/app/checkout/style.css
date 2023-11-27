@@ -1,0 +1,132 @@
+.checkout-container{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    align-items: center;
+    width: 80%;
+    margin: auto;
+    margin-top: 1%;
+    box-shadow: 0 4px 30px rgba(43, 43, 43, 0.342);
+    backdrop-filter: blur(12.7px);
+    -webkit-backdrop-filter: blur(12.7px);
+    border-radius: 5px;
+    margin-bottom: 5%;
+    margin-top: 1%;
+    height: 80vh;
+}
+.checkout-cartContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-items: flex-start;
+    width: 50%;
+    height: 100%; 
+    background-color: #f7bfb0;
+}
+.checkout-header{  
+    position: fixed;
+    z-index: 6;
+    padding: 10px;
+    color: black;
+    font-weight: 500;
+    width: 50%;
+    font-size: 40px;  
+    background-color: #f7bfb0;
+    backdrop-filter: blur(12.7px);
+    -webkit-backdrop-filter: blur(12.7px);
+    border-radius: 5px 0 0 0px;
+}
+.checkout-CartConainer{
+    display: flex;
+    flex-direction: column; 
+    grid-gap:1rem;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-top: 12%;
+    padding-right: 3%;
+    padding-left: 3%;
+    width: 100%; 
+    overflow-y: scroll;
+    padding-bottom: 5%;
+} 
+.checkout-cartItem{
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    width: 100%; 
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.685);
+    color: black;
+    backdrop-filter: blur(12.7px);
+    -webkit-backdrop-filter: blur(12.7px); 
+}
+.checkout-dataContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-items: flex-start;
+    width: 50%; 
+    height: 100%;
+    color: black;
+    padding: 20px;
+}
+.checkout-addressContainer{
+    display: flex;
+    margin-top: 3%;
+    flex-direction: column; 
+    grid-gap:1rem;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding-top: 1%;
+    padding-right: 2%;
+    padding-left: 2%;
+    width: 100%; 
+    overflow-y: scroll;
+    padding-bottom: 5%;
+    border: 1px solid #f09c879c;
+    border-radius: 5px;
+}
+.checkout-addressItem{
+    width: 100%;
+    background-color: #e7e7e7;
+    border-radius: 5px;
+}
+.checkout-addressSelect{
+    position: absolute;
+    right: 20px;
+    background-color: black;
+    color: #e7e7e7;
+    padding: 5px 8px;
+    border-radius: 5px;
+    min-width: 40px;
+    height: 40px;
+}
+.checkout-addressData{
+    width: 80%;
+    text-wrap: wrap;
+    font-size: 16px;
+    text-align: left;
+}
+.checkout-addAddressBtn{
+    color: #e84118;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    padding : 8px 13px;
+    border: #f7c0b000 1px solid;
+    transition: all ease-in-out 0.3s;
+    border-radius: 8px;
+    float: right;
+    position: absolute; 
+    right: 0;
+}
+.checkout-addAddressBtn:hover{
+    color: #e84118;
+    font-size: 20px;
+    font-weight: 550;
+    cursor: pointer; 
+    text-shadow: 1px 1px 6px #f7bfb0  ;
+}

@@ -1,0 +1,43 @@
+{
+  "name": "ecommerce",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@articulate/react-animate-on-scroll": "^2.3.0",
+    "@headlessui/react": "^1.7.15",
+    "@react-google-maps/api": "^2.19.2",
+    "@stripe/stripe-js": "^1.54.1",
+    "autoprefixer": "10.4.14",
+    "bcryptjs": "^2.4.3",
+    "buffer": "^6.0.3",
+    "firebase": "^10.0.0",
+    "joi": "^17.9.2",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.3.2",
+    "next": "13.4.9",
+    "postcss": "8.4.25",
+    "react": "18.2.0",
+    "react-animate-on-scroll": "^2.1.7",
+    "react-dom": "18.2.0",
+    "react-indiana-drag-scroll": "^3.0.3-alpha",
+    "react-responsive-carousel": "^3.2.23",
+    "react-spinners": "^0.13.8",
+    "react-star-ratings": "^2.3.0",
+    "react-tabs": "^6.0.2",
+    "react-toastify": "^9.1.3",
+    "react-use-draggable-scroll": "^0.4.7",
+    "stripe": "^12.12.0",
+    "tailwindcss": "3.3.2"
+  },
+  "devDependencies": {
+    "encoding": "^0.1.13",
+    "sass": "^1.69.5"
+  }
+}
