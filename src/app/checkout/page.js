@@ -276,7 +276,7 @@ export default function Checkout() {
             <div className="flex  mb-4 mt-4 items-center justify-between">
               <p className="text-lg font-medium text-gray-900">Subtotal</p>
               <p className="text-lg font-bold text-gray-900">
-                $
+                LKR
                 {cartItems && cartItems.length
                   ? cartItems.reduce(
                       (total, item) => item.productID.price + total,
@@ -292,7 +292,7 @@ export default function Checkout() {
             <div className="flex items-center justify-between">
               <p className="text-xl font-bold text-gray-900">Total</p>
               <p className="text-lg font-bold text-gray-900">
-                $
+                LKR
                 {cartItems && cartItems.length
                   ? cartItems.reduce(
                       (total, item) => item.productID.price + total,
