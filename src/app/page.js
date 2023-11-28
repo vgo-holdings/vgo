@@ -168,7 +168,7 @@ export default function Home() {
               <div className="home-heroButtonRow">
                 <button
                   type="button"
-                  onClick={() => router.push("/new-page")}
+                  onClick={() => router.push("/product/listing/all-products")}
                   className="mt-1 inline-block rounded-lg px-3 py-4 text-xm font-medium uppercase tracking-wide text-white"
                   style={{ backgroundColor: "#e84118" }}
                 >
