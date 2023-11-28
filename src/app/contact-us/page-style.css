@@ -1,64 +1,273 @@
-.cart-container{
+.contact-detailsContainer{
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    align-items: center;
-    width: 80%;
-    margin: auto;
-    margin-top: 1%;
-    box-shadow: 0 4px 30px rgba(43, 43, 43, 0.342);
-    backdrop-filter: blur(12.7px);
-    -webkit-backdrop-filter: blur(12.7px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    border: 1px solid #ccc;
     border-radius: 5px;
+    box-shadow: 0 0 10px #ccc; 
+    width: 100%;
+    margin-top: 2%;
+    height: 100%;
 }
-.cart-leftContainer{
-    width: 60%; 
-    height: 80vh;
-    overflow-y: scroll;
-}
-.cart-header{
-    position: fixed;
-    z-index: 6;
-    padding: 10px;
-    color: black;
-    font-weight: 500;
-    width: 59%;
-    font-size: 40px;  
-    background-color: #ffffffaf;
-    backdrop-filter: blur(12.7px);
-    -webkit-backdrop-filter: blur(12.7px);
-    border-radius: 5px 0 0 0px;
-}
-.cart-cartList{
-    padding-top: 10%;
-    padding-bottom: 10%;
-}
-.cart-cartItem{
+.contact-dataContainer{
     display: flex;
     flex-direction: row;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;  
+    width: 100%;
+    height: 100%;
+}
+.contact-mapContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content:  flex-start;
+    align-items:  flex-start;  
+    width: 70%;
     padding: 20px;
-    margin: 10px 15px;
-    box-shadow: 0 4px 30px rgba(141, 141, 141, 0.342);
+    padding-left: 4%;
+    height: 100%;
+}.contact-emailContainer{ 
+    margin-left:3%;
+    height:73vh;
+    padding-top:1%;
+    border-radius: 0px 5px 5px 0px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(12.7px);
     -webkit-backdrop-filter: blur(12.7px);
+    padding-left:3%;
+    background-color:#f7bfb0;
 }
-.cart-rightContainer{
-    width: 40%;
-    height: 80vh;
-    padding-top: 20px;
+.contact-contactDataContainer{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
-    padding: 20px;
-    overflow-y: scroll;
-    border-radius: 0px 5px 5px 0px ;
-    background-color: #f7bfb0;
-}
-.divider{
-    margin-top: 10px;
-    height: 2px;
+    align-items: flex-start;  
     width: 100%;
-    background-color: #e84218;
+    margin-top: 3%;
+    height: 100%; 
+    padding-left: 2%;
+}
+.contact-contactDataGride{
+    display: grid;
+    align-items: flex-start;
+    justify-content: flex-start;
+    grid-template-columns: 1fr 1fr; 
+    width: 100%;
+    height: 100%;
+    grid-gap: 10%;
+    text-align: start;
+}
+
+.contact-socialContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    width: 100%;
+    margin-left: 0px;
+    height: 14vh;
+    padding-left: 2%;
+    text-align: start;
+    padding-bottom: 7%;
+}
+
+.socialIcon {
+    --g: 8px;     /* the gap */
+    --b: 2px;    /* border thickness*/
+    --c: #ffffff; /* the color */
+    
+    
+    padding: calc(var(--g) + var(--b));
+    --_c: #0000 0 5%, var(--c) 0 30%;
+    --_g1: repeating-linear-gradient(10deg ,var(--_c)) repeat-x;
+    --_g2: repeating-linear-gradient(180deg,var(--_c)) repeat-y;
+    background:
+      var(--_g1) var(--_p, 25%) 0   ,var(--_g2) 0    var(--_p,125%),
+      var(--_g1) var(--_p,125%) 100%,var(--_g2) 100% var(--_p, 25%);
+    background-size: 200% var(--b),var(--b) 200%;
+    cursor: pointer; 
+    transition:all .3s ease-in-out;
+    display: flex;
+    border-radius: 5px;
+    width: 80px;
+    height: 80%;
+    justify-content: center;
+    margin-right: 10px;
+    background-color: #ffffff;
+  }
+
+  .socialIcon:hover {
+    --_p: 75%;
+    background-color: #c2c2c2;
+  }
+
+  .socialIconFont{
+    font-size: 40px;
+    color:#e84118;
+  }
+
+  @media only screen and (min-width:760px) and (max-width: 922px){
+    .contact-mailBtn{
+        width: 100%;
+    }
+    .contact-detailsContainer{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center; 
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px #ccc; 
+        width: 100%;
+        height: 100%;
+    }
+    .contact-dataContainer{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;  
+        width: 100%;
+        height: 100%;
+    }
+    .contact-mapContainer{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;  
+        width: 100%;
+        height: 100%;
+        padding-top: 5%;
+        text-align: left;
+    }
+    .contact-contactDataContainer{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;  
+        width: 100%;
+        height: 100%;  
+        margin-top: 5%;
+    }
+    .contact-contactDataGride{
+        display: grid;
+        align-items: flex-start;
+        justify-content: flex-start;
+        grid-template-columns: 1fr 1fr; 
+        width: 100%;
+        height: 100%;
+        grid-gap: 10%;
+        text-align: start;
+    
+    }
+    .contact-socialContainer{
+        display: grid;
+        align-items: flex-start;
+        justify-content: flex-start;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-gap: 1%;
+        width: 60%;
+        margin-left: 14px;
+        height: 100%;
+        text-align: start;
+        margin-bottom: 5%;
+    
+    }
+    
+}
+
+@media screen and (max-width: 480px){
+    .contact-mailBtn{
+        width: 100%;
+    }
+    .contact-detailsContainer{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center; 
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px #ccc; 
+        width: 100%;
+        height: 100%;
+    }
+    .contact-dataContainer{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;  
+        width: 100%;
+        height: 100%;
+    }
+    .contact-mapContainer{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;  
+        width: 100%;
+        height: 100%;
+    }
+    .contact-contactDataContainer{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;  
+        width: 100%;
+        height: 100%;  
+        margin-top: 5%;
+    }
+    .contact-contactDataGride{
+        display: grid;
+        align-items: flex-start;
+        justify-content: flex-start;
+        grid-template-columns: 1fr 1fr; 
+        width: 100%;
+        height: 100%;
+        grid-gap: 2%;
+        text-align: start;
+    
+    }
+    .contact-socialContainer{
+        display: grid;
+        align-items: flex-start;
+        justify-content: flex-start;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-gap: 1%;
+        width: 60%;
+        margin-left: 0px;
+        height: 16%;
+        text-align: start;
+        margin-bottom: 5%;
+    }
+
+    .socialIcon {
+        --g: 8px;     /* the gap */
+        --b: 2px;    /* border thickness*/
+        --c: #ffffff; /* the color */
+        
+        padding: calc(var(--g) + var(--b));
+        --_c: #0000 0 5%, var(--c) 0 30%;
+        --_g1: repeating-linear-gradient(10deg ,var(--_c)) repeat-x;
+        --_g2: repeating-linear-gradient(180deg,var(--_c)) repeat-y;
+        background:
+          var(--_g1) var(--_p, 25%) 0   ,var(--_g2) 0    var(--_p,125%),
+          var(--_g1) var(--_p,125%) 100%,var(--_g2) 100% var(--_p, 25%);
+        background-size: 200% var(--b),var(--b) 200%;
+        cursor: pointer; 
+        transition:all .3s ease-in-out;
+        display: flex;
+        border-radius: 5px;
+        width: 55px;
+        height: 55%;
+        justify-content: center;
+        margin-right: 10px;
+        background-color: #ffffff;
+      }
+
+    .socialIconFont{
+        font-size: 20px;
+        color:#e84118;
+    }
 }
