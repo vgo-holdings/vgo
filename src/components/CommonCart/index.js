@@ -88,7 +88,7 @@ export default function CommonCart({
                 <div className="flex mt-8  mb-2 w-full items-center pt-4 justify-between">
                   <p className="text-2xl text-black ">Sub Total</p>
                   <p className="text-2xl text-black font-semibold">
-                    $
+                    LKR
                     {cartItems && cartItems.length
                       ? cartItems.reduce(
                           (total, item) => item.productID.price + total,
@@ -105,7 +105,7 @@ export default function CommonCart({
                 <div className="flex mt-4 mb-8 w-full items-center justify-between">
                   <p className="text-4xl font-bold text-black">Total</p>
                   <p className="text-4xl text-black font-bold">
-                    $
+                    LKR
                     {cartItems && cartItems.length
                       ? cartItems.reduce(
                           (total, item) => item.productID.price + total,
