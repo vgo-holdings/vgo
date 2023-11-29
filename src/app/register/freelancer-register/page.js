@@ -341,7 +341,7 @@ export default function Register() {
           <div className="w-full mt-10 mr-0 mb-0 ml-0 relative max-w-2xl lg:mt-0 lg:w-5/12">
             <div className="flex flex-col items-center justify-start pt-10 pr-10 pb-10 pl-10 bg-white bg-opacity-50 filter backdrop-blur-sm shadow-2xl relative z-10">
               <p className="w-full text-2xl font-medium text-center font-serif text-black">
-              Procees with Online Payment
+              Proceed with Online Payment
               </p>
               <p className="w-full text-4xl font-medium text-center font-serif text-black">
                 {isRegistered
@@ -412,7 +412,7 @@ export default function Register() {
           <div className="w-full mt-10 mr-0 mb-0 ml-0 relative max-w-2xl lg:mt-0 lg:w-5/12">
             <div className="flex flex-col items-center justify-start pt-10 pr-10 pb-10 pl-10 bg-white bg-opacity-50 filter backdrop-blur-sm shadow-2xl rounded-xl relative z-10">
               <p className="w-full text-2xl font-medium text-center font-serif text-black">
-              Procees with Bank deposit
+              Proceed with Bank deposit
               </p>
               <p className="w-full text-4xl font-medium text-center font-serif text-black">
                 {isRegistered
