@@ -138,8 +138,8 @@ export default function Navbar() {
                     <Image
                       src={user?.imageURL}
                       alt="User 1"
-                      height={isMobileView ? 50 : isTabletView ? 35 : 60}
-                      width={isMobileView ? 50 : isTabletView ? 35 : 80}
+                      height={isMobileView ? 30 : isTabletView ? 35 : 50}
+                      width={isMobileView ? 30 : isTabletView ? 35 : 50}
                       style={{
                         objectFit: "fill",
                         borderRadius: "100%",
