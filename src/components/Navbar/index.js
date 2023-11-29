@@ -130,18 +130,18 @@ export default function Navbar() {
               <Fragment>
                 <button
                   className={
-                    "flex flex-row border-orange-600 py-2 text-sm md:text-xl font-medium upprcase tracking-wide text-white pl-1 pr-1 md:pl-5 md:pr-5 shadow-xl rounded-md"
+                    "flex flex-row border-orange-600 py-2 text-sm md:text-xl font-medium upprcase tracking-wide text-white p-1 mt-1 md:pl-5 md:pr-5 shadow-xl rounded-md"
                   }
                   onClick={() => router.push("/account")}
                 >
-                  {user.imageUrl ? (
+                  {user?.imageURL ? (
                     <Image
-                      src={user.imageUrl}
+                      src={user?.imageURL}
                       alt="User 1"
-                      height={isMobileView ? 30 : isTabletView ? 35 : 50}
-                      width={isMobileView ? 30 : isTabletView ? 35 : 50}
+                      height={isMobileView ? 50 : isTabletView ? 35 : 60}
+                      width={isMobileView ? 50 : isTabletView ? 35 : 80}
                       style={{
-                        objectFit: "cover",
+                        objectFit: "fill",
                         borderRadius: "100%",
                         border: "1px solid #e84118",
                       }}
