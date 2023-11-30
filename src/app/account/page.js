@@ -15,65 +15,15 @@ import {
   loginFormControls,
   updateProfileFormControls,
   updateSellerProfileFormControls,
-  registrationFormControls,
-  firebaseConfig,
-  firebaseStroageURL,
 } from "@/utils";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { handleVerify } from "@/services/verifyAccount";
 import "./page-style.css";
 import Image from "next/image";
-import { updateImage, updateProfile } from "@/services/user";
-import { initializeApp } from "firebase/app";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app, firebaseStroageURL);
-
-const createUniqueFileName = (getFile) => {
-  const timeStamp = Date.now();
-  const randomStringValue = Math.random().toString(36).substring(2, 12);
-
-  return `${getFile.name}-${timeStamp}-${randomStringValue}`;
-};
-
-async function helperForUPloadingImageToFirebase(file) {
-  console.log(file, "file");
-  const maxSize = 2 * 1024 * 1024; // 2MB in bytes
-  if (file.size > maxSize) {
-    toast.error("File size exceeds the limit (2MB).", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-    return;
-  }
-  const getFileName = createUniqueFileName(file);
-  const storageReference = ref(storage, `ecommerce/${getFileName}`);
-  const uploadImage = uploadBytesResumable(storageReference, file);
-
-  return new Promise((resolve, reject) => {
-    uploadImage.on(
-      "state_changed",
-      (snapshot) => {},
-      (error) => {
-        console.log(error);
-        reject(error);
-      },
-      () => {
-        getDownloadURL(uploadImage.snapshot.ref)
-          .then((downloadUrl) => resolve(downloadUrl))
-          .catch((error) => reject(error));
-      }
-    );
-  });
-}
+import { updateProfile } from "@/services/user";
 
 export default function Account() {
   const {
@@ -93,9 +43,6 @@ export default function Account() {
   const [copySuccess, setCopySuccess] = useState(false);
   const [showUpdateProfileForm, setShowUpdateProfileForm] = useState(false);
   const [currentEditedAddressId, setCurrentEditedAddressId] = useState(null);
-  const [file, setFile] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(user?.imageURL);
-  const fileInputRef = useRef(null);
   const [formData, setFormData] = useState({
     _id: user?._id,
     imageURL: user?.imageURL,
@@ -110,11 +57,11 @@ export default function Account() {
     minutes: 0,
     seconds: 0,
   });
-  console.log(formData, "account FormDatas");
+  console.log(formData, "account FormDatas")
 
   const calculateTimeLeft = () => {
     const createdAt = new Date(user?.createdAt);
-
+  
     // Calculate expiration date based on user role
     let expireDate;
     if (user?.role === "freelancer") {
@@ -129,18 +76,16 @@ export default function Account() {
       // No countdown for other roles
       return;
     }
-
+  
     const currentDate = new Date();
     const timeLeft = expireDate.getTime() - currentDate.getTime();
-
+  
     if (timeLeft > 0) {
       const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
+  
       setCountdown({ days, hours, minutes, seconds });
     }
   };
@@ -189,8 +134,7 @@ export default function Account() {
         imageURL: user?.imageURL,
         role: user?.role,
         email: user?.email,
-        password: "",
-      });
+        password: ""})
     } else {
       toast.error(res.message, {
         position: toast.POSITION.TOP_RIGHT,
@@ -202,8 +146,7 @@ export default function Account() {
         imageURL: user?.imageURL,
         role: user?.role,
         email: user?.email,
-        password: "",
-      });
+        password: ""})
     }
   }
 
@@ -314,35 +257,13 @@ export default function Account() {
     }
   }
 
-  async function handleImage(event) {
-    const currentFile = event.target.files[0];
-    setFile(currentFile);
-    if (currentFile) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(currentFile);
-      const extractImageUrl = await helperForUPloadingImageToFirebase(
-        currentFile
-      );
-      if (extractImageUrl !== "") {
-        const res = await updateImage(user._id, extractImageUrl);
-        console.log(res, "Image");
-      }
-      toast.success("File Uploaded.", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-    }
-  }
-
   useEffect(() => {
     if (user !== null) extractAllAddresses();
   }, [user]);
 
   return (
     <>
-      <div className="profile-container">
+      <div className="profile-container  ">
         <div
           className="profile-containerLeft"
           style={{
@@ -377,7 +298,7 @@ export default function Account() {
             }}
           >
             <Image
-              src={selectedImage ? selectedImage : user?.imageURL}
+              src={user?.imageURL}
               className="profile-propieImage"
               style={{
                 backgroundColor:
@@ -393,19 +314,9 @@ export default function Account() {
               width={500}
               height={500}
             />
-            <input
-              accept="image/*"
-              max="1000000"
-              type="file"
-              name="file-image"
-              id="file-image"
-              className="profile-image-input"
-              onChange={handleImage}
-              style={{ display: "none" }}
-            />
-            <label htmlFor="file-image" className="profile-propieImageBtn">
-              <i className="fa fa-camera"></i>
-            </label>
+            <button className="profile-propieImageBtn">
+              <i className="fa fa-camera "></i>
+            </button>
             <p className="propile-userId">
               Ref id :
               <span onClick={handleCopyUserId} style={{ cursor: "pointer" }}>
@@ -437,33 +348,33 @@ export default function Account() {
           }}
         >
           <div className="flex flex-col flex-1 bg-white bg-opacity-40 pt-2 rounded-md">
-            <h2 className="  ml-10 mb-4 font-semibold text-center md:text-left  text-4xl">
+            <h2 className="  md:ml-10 mb-4 font-semibold text-center md:text-left  text-4xl  xm:text-2xl xm:text-center">
               {user?.name}
             </h2>
             <p
-              className="  ml-10 text-2xl mb-4"
-              style={{ color: "#ffffff", fontStyle: "italic" }}
+              className="  md:ml-10 text-2xl mb-4  xm:text-center"
+              style={{ color: "#ffffff",fontStyle: "italic" }}
             >
               {user?.email}
             </p>
             <p
-              className="  ml-10 mb-4 text-2xl"
+              className="  md:ml-10 mb-4 text-2xl "
               style={{ color: "#ffffff", fontWeight: "800" }}
             >
               User Role: {user?.role}
             </p>
-            {user?.class_name && (
-              <p
-                className="  ml-10 mb-4 text-2xl"
-                style={{ color: "#ffffff", fontWeight: "800" }}
-              >
-                User Class: {user?.class_name}
-              </p>
-            )}
+            {user?.class_name &&
+            <p
+              className="  ml-10 mb-4 text-2xl  xm:text-center"
+              style={{ color: "#ffffff", fontWeight: "800" }}
+            >
+              User Class: {user?.class_name}
+            </p>
+            }
           </div>
           <button
             onClick={() => router.push("/orders")}
-            className="mt-5  ml-10 mb-4  inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+            className="md:mt-5  md:ml-10 mb-4  inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
           >
             View Your Orders
           </button>
@@ -480,183 +391,183 @@ export default function Account() {
                 role: user?.role,
               });
             }}
-            className="mt-5  ml-10     inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+            className="md:mt-5  md:ml-10     inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
           >
             Update Profile
           </button>
-          {user?.role === "freelancer" && (
-            <div className="flex flex-row space-x-4 ml-10">
-              <div className="flex flex-col w-20   ">
-                <h1
-                  className="text-md text-center text-white"
-                  style={{ backgroundColor: "#e84118", color: "white" }}
-                >
-                  Days
-                </h1>
-                <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
-                  <div className="flex items-center justify-center h-full">
-                    <div
-                      className="text-center text-3xl font-semibold"
-                      style={{ color: "#e84118" }}
-                    >
-                      {countdown.days < 10
-                        ? `0${countdown.days}`
-                        : countdown.days}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col w-20  ">
-                <h1
-                  className="text-md text-center text-white"
-                  style={{ backgroundColor: "#e84118", color: "white" }}
-                >
-                  Hours
-                </h1>
-                <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
-                  <div className="flex items-center justify-center h-full">
-                    <div
-                      className="text-center text-3xl font-semibold"
-                      style={{ color: "#e84118" }}
-                    >
-                      {countdown.hours < 10
-                        ? `0${countdown.hours}`
-                        : countdown.hours}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col w-20">
-                <h1
-                  className="text-md text-center text-white"
-                  style={{ backgroundColor: "#e84118", color: "white" }}
-                >
-                  Mins.
-                </h1>
-                <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
-                  <div className="flex items-center justify-center h-full">
-                    <div
-                      className="text-center text-3xl font-semibold"
-                      style={{ color: "#e84118" }}
-                    >
-                      {countdown.minutes < 10
-                        ? `0${countdown.minutes}`
-                        : countdown.minutes}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col w-20">
-                <h1
-                  className="text-md text-center text-white"
-                  style={{ backgroundColor: "#e84118", color: "white" }}
-                >
-                  Secs.
-                </h1>
-                <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
-                  <div className="flex items-center justify-center h-full">
-                    <div
-                      className="text-center text-3xl font-semibold"
-                      style={{ color: "#e84118" }}
-                    >
-                      {countdown.seconds < 10
-                        ? `0${countdown.seconds}`
-                        : countdown.seconds}
-                    </div>
+          {user?.role === "freelancer" &&
+          <div className="flex flex-row space-x-4 ml-10">
+            <div className="flex flex-col w-20   ">
+              <h1
+                className="text-md text-center text-white"
+                style={{ backgroundColor: "#e84118", color: "white" }}
+              >
+                Days
+              </h1>
+              <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
+                <div className="flex items-center justify-center h-full">
+                  <div
+                    className="text-center text-3xl font-semibold"
+                    style={{ color: "#e84118" }}
+                  >
+                    {countdown.days < 10
+                      ? `0${countdown.days}`
+                      : countdown.days}
                   </div>
                 </div>
               </div>
             </div>
-          )}
-          {user?.role === "member" && (
-            <div className="flex flex-row space-x-4 ml-10">
-              <div className="flex flex-col w-20   ">
-                <h1
-                  className="text-md text-center text-white"
-                  style={{ backgroundColor: "#e84118", color: "white" }}
-                >
-                  Days
-                </h1>
-                <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
-                  <div className="flex items-center justify-center h-full">
-                    <div
-                      className="text-center text-3xl font-semibold"
-                      style={{ color: "#e84118" }}
-                    >
-                      {countdown.days < 10
-                        ? `0${countdown.days}`
-                        : countdown.days}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col w-20  ">
-                <h1
-                  className="text-md text-center text-white"
-                  style={{ backgroundColor: "#e84118", color: "white" }}
-                >
-                  Hours
-                </h1>
-                <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
-                  <div className="flex items-center justify-center h-full">
-                    <div
-                      className="text-center text-3xl font-semibold"
-                      style={{ color: "#e84118" }}
-                    >
-                      {countdown.hours < 10
-                        ? `0${countdown.hours}`
-                        : countdown.hours}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col w-20">
-                <h1
-                  className="text-md text-center text-white"
-                  style={{ backgroundColor: "#e84118", color: "white" }}
-                >
-                  Mins.
-                </h1>
-                <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
-                  <div className="flex items-center justify-center h-full">
-                    <div
-                      className="text-center text-3xl font-semibold"
-                      style={{ color: "#e84118" }}
-                    >
-                      {countdown.minutes < 10
-                        ? `0${countdown.minutes}`
-                        : countdown.minutes}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col w-20">
-                <h1
-                  className="text-md text-center text-white"
-                  style={{ backgroundColor: "#e84118", color: "white" }}
-                >
-                  Secs.
-                </h1>
-                <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
-                  <div className="flex items-center justify-center h-full">
-                    <div
-                      className="text-center text-3xl font-semibold"
-                      style={{ color: "#e84118" }}
-                    >
-                      {countdown.seconds < 10
-                        ? `0${countdown.seconds}`
-                        : countdown.seconds}
-                    </div>
+            <div className="flex flex-col w-20  ">
+              <h1
+                className="text-md text-center text-white"
+                style={{ backgroundColor: "#e84118", color: "white" }}
+              >
+                Hours
+              </h1>
+              <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
+                <div className="flex items-center justify-center h-full">
+                  <div
+                    className="text-center text-3xl font-semibold"
+                    style={{ color: "#e84118" }}
+                  >
+                    {countdown.hours < 10
+                      ? `0${countdown.hours}`
+                      : countdown.hours}
                   </div>
                 </div>
               </div>
             </div>
-          )}
+            <div className="flex flex-col w-20">
+              <h1
+                className="text-md text-center text-white"
+                style={{ backgroundColor: "#e84118", color: "white" }}
+              >
+                Mins.
+              </h1>
+              <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
+                <div className="flex items-center justify-center h-full">
+                  <div
+                    className="text-center text-3xl font-semibold"
+                    style={{ color: "#e84118" }}
+                  >
+                    {countdown.minutes < 10
+                      ? `0${countdown.minutes}`
+                      : countdown.minutes}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col w-20">
+              <h1
+                className="text-md text-center text-white"
+                style={{ backgroundColor: "#e84118", color: "white" }}
+              >
+                Secs.
+              </h1>
+              <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
+                <div className="flex items-center justify-center h-full">
+                  <div
+                    className="text-center text-3xl font-semibold"
+                    style={{ color: "#e84118" }}
+                  >
+                    {countdown.seconds < 10
+                      ? `0${countdown.seconds}`
+                      : countdown.seconds}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+          {user?.role === "member" &&
+          <div className="flex flex-row space-x-4 ml-10">
+            <div className="flex flex-col w-20   ">
+              <h1
+                className="text-md text-center text-white"
+                style={{ backgroundColor: "#e84118", color: "white" }}
+              >
+                Days
+              </h1>
+              <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
+                <div className="flex items-center justify-center h-full">
+                  <div
+                    className="text-center text-3xl font-semibold"
+                    style={{ color: "#e84118" }}
+                  >
+                    {countdown.days < 10
+                      ? `0${countdown.days}`
+                      : countdown.days}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col w-20  ">
+              <h1
+                className="text-md text-center text-white"
+                style={{ backgroundColor: "#e84118", color: "white" }}
+              >
+                Hours
+              </h1>
+              <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
+                <div className="flex items-center justify-center h-full">
+                  <div
+                    className="text-center text-3xl font-semibold"
+                    style={{ color: "#e84118" }}
+                  >
+                    {countdown.hours < 10
+                      ? `0${countdown.hours}`
+                      : countdown.hours}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col w-20">
+              <h1
+                className="text-md text-center text-white"
+                style={{ backgroundColor: "#e84118", color: "white" }}
+              >
+                Mins.
+              </h1>
+              <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
+                <div className="flex items-center justify-center h-full">
+                  <div
+                    className="text-center text-3xl font-semibold"
+                    style={{ color: "#e84118" }}
+                  >
+                    {countdown.minutes < 10
+                      ? `0${countdown.minutes}`
+                      : countdown.minutes}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col w-20">
+              <h1
+                className="text-md text-center text-white"
+                style={{ backgroundColor: "#e84118", color: "white" }}
+              >
+                Secs.
+              </h1>
+              <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
+                <div className="flex items-center justify-center h-full">
+                  <div
+                    className="text-center text-3xl font-semibold"
+                    style={{ color: "#e84118" }}
+                  >
+                    {countdown.seconds < 10
+                      ? `0${countdown.seconds}`
+                      : countdown.seconds}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
         </div>
       </div>
       <div className="profile-dataContainer text-black ">
-        <div className="bg-white shadow">
-          <div className="p-6 sm:p-12 space-x-2">
+        <div className="bg-white shadow ">
+          <div className="p-6 sm:p-12 xm:p-0 space-x-2">
             <div className=" ">
               {hideButton ? (
                 <div className="propile-dataEditForm">
@@ -679,27 +590,25 @@ export default function Account() {
                         />
                       </div> */}
                         {user?.role == "customer"
-                          ? updateProfileFormControls.map(
-                              (controlItem, key) => (
-                                <InputComponent
-                                  key={key}
-                                  type={controlItem.type}
-                                  placeholder={controlItem.placeholder}
-                                  label={controlItem.label}
-                                  value={formData[controlItem.id]}
-                                  onChange={(event) =>
-                                    setFormData({
-                                      ...formData,
-                                      [controlItem.id]: event.target.value,
-                                    })
-                                  }
-                                />
-                              )
-                            )
+                          ? updateProfileFormControls.map((controlItem, key) => (
+                              <InputComponent
+                                key={key}
+                                type={controlItem.type}
+                                placeholder={controlItem.placeholder}
+                                label={controlItem.label}
+                                value={formData[controlItem.id]}
+                                onChange={(event) =>
+                                  setFormData({
+                                    ...formData,
+                                    [controlItem.id]: event.target.value,
+                                  })
+                                }
+                              />
+                            ))
                           : updateSellerProfileFormControls.map(
-                              (controlItem, key) => (
+                              (controlItem,key) => (
                                 <InputComponent
-                                  key={key}
+                                key={key}
                                   type={controlItem.type}
                                   placeholder={controlItem.placeholder}
                                   label={controlItem.label}
@@ -739,9 +648,9 @@ export default function Account() {
                   ) : (
                     <div className="flex bg-white rounded-xl flex-col  justify-center p-4 items-center">
                       <div className="w-full   mr-0 mb-0 ml-0 space-y-8">
-                        {loginFormControls.map((controlItem, key) => (
+                        {loginFormControls.map((controlItem,key) => (
                           <InputComponent
-                            key={key}
+                          key={key}
                             type={controlItem.type}
                             placeholder={controlItem.placeholder}
                             label={controlItem.label}
@@ -785,7 +694,7 @@ export default function Account() {
                 </div>
               ) : null}
             </div>
-            <div className="mt-6">
+            <div className="addres-container">
               <h1 className="font-bold text-2xl my-3">Your Addresses :</h1>
               {pageLevelLoader ? (
                 <PulseLoader
@@ -851,9 +760,9 @@ export default function Account() {
             {showAddressForm ? (
               <div className="flex flex-col mt-5 justify-center pt-4 items-center propile-dataEditForm">
                 <div className="w-full  mr-0 mb-0 ml-0 space-y-8">
-                  {addNewAddressFormControls.map((controlItem, key) => (
+                  {addNewAddressFormControls.map((controlItem,key) => (
                     <InputComponent
-                      key={key}
+                    key={key}
                       type={controlItem.type}
                       placeholder={controlItem.placeholder}
                       label={controlItem.label}
