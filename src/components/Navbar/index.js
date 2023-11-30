@@ -9,6 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import CartModal from "../CartModal";
 import logo from "./vgo 1.png";
 import Image from "next/image";
+import imagePlaceHolder from "@/assets/images/propic.png";
 
 function NavItems({ isModalView = false, isAdminView, router, isSellerView, isHrView }) {
   return (
@@ -134,21 +135,17 @@ export default function Navbar() {
                   }
                   onClick={() => router.push("/account")}
                 >
-                  {user?.imageURL ? (
                     <Image
-                      src={user?.imageURL}
+                      src={user.imageURL === undefined ? imagePlaceHolder : user.imageURL}
                       alt="User 1"
-                      height={isMobileView ? 30 : isTabletView ? 35 : 50}
-                      width={isMobileView ? 30 : isTabletView ? 35 : 50}
+                      height={isMobileView ? 50 : isTabletView ? 35 : 50}
+                      width={isMobileView ? 50 : isTabletView ? 35 : 50}
                       style={{
                         objectFit: "fill",
                         borderRadius: "100%",
                         border: "1px solid #e84118",
                       }}
                     />
-                  ) : (
-                    <i className="fa fa-user-circle"></i>
-                  )}
                   <span className="hidden md:inline font-bold text-black p-4">{user.name}</span>
                 </button>
                 <button
@@ -193,7 +190,8 @@ export default function Navbar() {
                     borderColor: "#e84118",
                   }}
                 >
-                  Admin View
+                  <i className="fa fa-user-secret"></i>
+                  <span className="hidden md:inline">Admin View</span>
                 </button>
               )
             ) : user?.role === "hr" ? (
@@ -223,7 +221,8 @@ export default function Navbar() {
                     borderColor: "#e84118",
                   }}
                 >
-                  Hr View
+                  <i className="fa fa-user-secret"></i>
+                  <span className="hidden md:inline">Hr View</span>
                 </button>
               )
             ) : user?.role === "freelancer" || user?.role === "member" || user?.role === "rookie" ? (
