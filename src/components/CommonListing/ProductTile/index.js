@@ -9,6 +9,9 @@ export default function ProductTile({ item }) {
 
   return (
     <div
+    onClick={() =>
+      router.push(`/product/${item._id}`)
+    }
     className="cursor-pointer relative  "
     style={{ backgroundColor: "#F2F0F0",  
     boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
