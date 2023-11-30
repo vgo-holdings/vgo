@@ -4,6 +4,7 @@ import { getAllAdminProducts, getFiveAdminProducts } from "@/services/product";
 import "./page-style.css";
 import Image from "next/image";
 import bannerIMage from "../../../../assets/images/assets/img2.png";
+import React, { useEffect, useState } from "react";
 /* import { useState } from "react"; */
 
 export default async function AllProducts() {/* 
