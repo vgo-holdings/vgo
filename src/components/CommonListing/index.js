@@ -21,7 +21,7 @@ export default function CommonListing({ data }) {
   async function handleSearch() {
     console.log("search and give relavent data")
     console.log(productName)
-    
+
     const newFilteredData = data.filter(item =>
       item.name.toLowerCase().includes(productName.toLowerCase())
     );
@@ -40,14 +40,14 @@ export default function CommonListing({ data }) {
         </p>
         <Image
           src={bannerIMage}
-          className=""
+          className="shop-bannerImage"
           alt="shop-banner"
           width={500}
           height={500}
         />
       </div>
       <div className="shop-searchContainer">
-        <input
+       <input
           className="shop-searchInput"
           type="text"
           placeholder="Search for products...."
@@ -59,10 +59,13 @@ export default function CommonListing({ data }) {
       </div>
       <div className="shop-categoryContainer"></div>
       <div className="shop-container">
-        <div className="shop-filterContainer">
-          <h1 className="text-2xl lg:text-2xl font-bold h-300 leading-7 lg:leading-9 text-gray-900">
-            Filter menu
-          </h1>
+        <div className={showFilters ? 'shop-filterContainerShow shop-filterContainer ' : 'shop-filterContainerHide  shop-filterContainer'}>
+          <div className="shop-filter-header">
+            <h1 className="text-2xl lg:text-2xl p-3  font-bold h-300 leading-7 lg:leading-9 text-gray-900">
+              Filter menu
+            </h1>
+            <button className="mr-4" onClick={() => setShowFilters(!showFilters)}> <i className="fa fa-chevron-down  p-3"></i></button>
+          </div>
           <div className="shop-filterMenu">
             <div className="shop-filterMenuHeader">
               <p>Price</p>
@@ -121,8 +124,8 @@ export default function CommonListing({ data }) {
                   type="checkbox"
                   className="shop-filterCheckbox"
                   id="location1"/* 
-                  checked={isChecked}
-                  onChange={setIsChecked(!isChecked)} */
+                checked={isChecked}
+                onChange={setIsChecked(!isChecked)} */
                 />
                 <label for="location1" className="shop-filterLabel">
                   Colombo
@@ -495,25 +498,16 @@ export default function CommonListing({ data }) {
             </div>
           </div>
         </div>{/* 
-        {isChecked && (
-          <div className="shop-productContainer">
-            <CommonListing data={getFiveProduct && getFiveProduct.data} />
-          </div>
-        )} */}
+      {isChecked && (
+        <div className="shop-productContainer">
+          <CommonListing data={getFiveProduct && getFiveProduct.data} />
+        </div>
+      )} */}
         <div className="shop-productContainer">
           <section className="bg-white  ">
             <div className=" ">
               <div className="  grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-9">
-                {/* {data && data.length
-                  ? data.map((item) => (
-                    <article
-                      className="relative flex flex-col overflow-hidden border cursor-pointer"
-                      key={item._id}
-                    >
-                      <ProductTile item={item} />
-                    </article>
-                  ))
-                  : null} */}
+
                 {filteredData && filteredData.length
                   ? filteredData.map((item) => (
                     <article
