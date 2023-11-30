@@ -1,7 +1,8 @@
-.cart-container {
+.cart-container{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
+    align-items: center;
     width: 80%;
     margin: auto;
     margin-top: 1%;
@@ -9,47 +10,42 @@
     backdrop-filter: blur(12.7px);
     -webkit-backdrop-filter: blur(12.7px);
     border-radius: 5px;
-  }
-  
-  .cart-leftContainer {
-    width: 100%;
-    height: auto;
+}
+.cart-leftContainer{
+    width: 60%; 
+    height: 80vh;
     overflow-y: scroll;
-  }
-  
-  .cart-header {
+}
+.cart-header{
     position: fixed;
     z-index: 6;
     padding: 10px;
     color: black;
     font-weight: 500;
-    width: 100%;
-    font-size: 24px;
+    width: 59%;
+    font-size: 40px;  
     background-color: #ffffffaf;
     backdrop-filter: blur(12.7px);
     -webkit-backdrop-filter: blur(12.7px);
     border-radius: 5px 0 0 0px;
-  }
-  
-  .cart-cartList {
+}
+.cart-cartList{
     padding-top: 10%;
     padding-bottom: 10%;
-  }
-  
-  .cart-cartItem {
+}
+.cart-cartItem{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     padding: 20px;
     margin: 10px 15px;
     box-shadow: 0 4px 30px rgba(141, 141, 141, 0.342);
     backdrop-filter: blur(12.7px);
     -webkit-backdrop-filter: blur(12.7px);
-  }
-  
-  .cart-rightContainer {
-    width: 100%;
-    height: auto;
+}
+.cart-rightContainer{
+    width: 40%;
+    height: 80vh;
     padding-top: 20px;
     display: flex;
     flex-direction: column;
@@ -57,35 +53,12 @@
     align-items: flex-start;
     padding: 20px;
     overflow-y: scroll;
-    border-radius: 0px;
+    border-radius: 0px 5px 5px 0px ;
     background-color: #f7bfb0;
-  }
-  
-  .divider {
+}
+.divider{
     margin-top: 10px;
     height: 2px;
     width: 100%;
     background-color: #e84218;
-  }
-  
-  @media screen and (min-width: 768px) {
-    .cart-container {
-      flex-direction: row;
-    }
-  
-    .cart-leftContainer {
-      width: 60%;
-      height: 80vh;
-    }
-  
-    .cart-header {
-      font-size: 40px;
-    }
-  
-    .cart-rightContainer {
-      width: 40%;
-      height: 80vh;
-      border-radius: 0px 5px 5px 0px;
-    }
-  }
-  
+}
