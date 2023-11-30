@@ -1,3 +1,4 @@
+"use client"; 
 import CommonListing from "@/components/CommonListing";
 import { getAllAdminProducts, getFiveAdminProducts } from "@/services/product";
 import "./page-style.css";
@@ -7,7 +8,7 @@ import bannerIMage from "../../../../assets/images/assets/img2.png";
 
 export default async function AllProducts() {/* 
   const [isChecked, setIsChecked] = useState(false); */
-
+  const [showFilters, setShowFilters] = useState(true); 
   const getAllProducts = await getAllAdminProducts();/* 
   const getFiveProduct = await getFiveAdminProducts(); */
 
@@ -19,7 +20,7 @@ export default async function AllProducts() {/*
         </p>
         <Image
           src={bannerIMage}
-          className=""
+          className="shop-bannerImage"
           alt="shop-banner"
           width={500}
           height={500}
@@ -37,10 +38,13 @@ export default async function AllProducts() {/*
       </div>
       <div className="shop-categoryContainer"></div>
       <div className="shop-container">
-        <div className="shop-filterContainer">
-          <h1 className="text-2xl lg:text-2xl font-bold h-300 leading-7 lg:leading-9 text-gray-900">
-            Filter menu
-          </h1>
+        <div className={showFilters ? 'shop-filterContainerShow shop-filterContainer ' : 'shop-filterContainerHide  shop-filterContainer'}>
+          <div className="shop-filter-header"> 
+            <h1 className="text-2xl lg:text-2xl p-3  font-bold h-300 leading-7 lg:leading-9 text-gray-900">
+              Filter menu
+            </h1>
+            <button className="mr-4"  onClick={() => setShowFilters(!showFilters)}> <i className="fa fa-chevron-down  p-3"></i></button>
+          </div>
           <div className="shop-filterMenu">
             <div className="shop-filterMenuHeader">
               <p>Price</p>
