@@ -8,12 +8,29 @@ import Image from "next/image";
 import bannerIMage from "../../assets/images/assets/img2.png";
 import "./page-style.css";
 export default function CommonListing({ data }) {
-const router = useRouter();
-const [showFilters, setShowFilters] = useState(true);
+  const router = useRouter();
+  const [showFilters, setShowFilters] = useState(true);
+  const [filteredData, setFilteredData] = useState(data);
 
   useEffect(() => {
     router.refresh();
   }, []);
+
+  const [productName, setproductName] = useState('');
+
+  async function handleSearch() {
+    console.log("search and give relavent data")
+    console.log(productName)
+    
+    const newFilteredData = data.filter(item =>
+      item.name.toLowerCase().includes(productName.toLowerCase())
+    );
+
+    setFilteredData(newFilteredData);
+
+    console.log(filteredData, "filteredData");
+
+  }
 
   return (
     <div className="shop-mainContainer">
@@ -34,8 +51,9 @@ const [showFilters, setShowFilters] = useState(true);
           className="shop-searchInput"
           type="text"
           placeholder="Search for products...."
+          onChange={(e) => setproductName(e.target.value)}
         />
-        <button className="shop-searchBtn">
+        <button className="shop-searchBtn" onClick={handleSearch}>
           <i className="fa fa-search"></i>
         </button>
       </div>
@@ -486,7 +504,7 @@ const [showFilters, setShowFilters] = useState(true);
           <section className="bg-white  ">
             <div className=" ">
               <div className="  grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-9">
-                {data && data.length
+                {/* {data && data.length
                   ? data.map((item) => (
                     <article
                       className="relative flex flex-col overflow-hidden border cursor-pointer"
@@ -495,7 +513,18 @@ const [showFilters, setShowFilters] = useState(true);
                       <ProductTile item={item} />
                     </article>
                   ))
-                  : null}
+                  : null} */}
+                {filteredData && filteredData.length
+                  ? filteredData.map((item) => (
+                    <article
+                      className="relative flex flex-col overflow-hidden border cursor-pointer"
+                      key={item._id}
+                    >
+                      <ProductTile item={item} />
+                    </article>
+                  ))
+                  : <p>No matching products found</p>
+                }
               </div>
             </div>
           </section>
