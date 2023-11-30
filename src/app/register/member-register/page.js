@@ -14,8 +14,6 @@ import {
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { loadStripe } from "@stripe/stripe-js";
-import { callStripeSession1 } from "@/services/stripe";
 import { toast } from "react-toastify";
 import { updateAUser } from "@/services/register";
 import { updateDeposit } from "@/services/bank-deposit";
@@ -142,22 +140,11 @@ export default function Register() {
     }
   }, [user]);
 
-  const packageData = {
-    id: "654d648e5d84d67154f724fe",
-    role: "member",
-    memberCount: 1,
-    shopCount: 25,
-  };
-
-  async function handleUpdateUser() {
-    const res = await updateAUser(packageData);
-    console.log(res);
-  }
 
   useEffect(() => {
     const status = searchParams.get("status");
     if (status === "success") {
-      handleUpdateUser();
+      // handleUpdateUser();
       console.log("Payment successful!");
     } else if (status === "cancel") {
       // Payment was canceled, you can show a cancel message or redirect to a cancel page
@@ -188,9 +175,6 @@ export default function Register() {
       : false;
   }
 
-  const publishableKey =
-    "pk_test_51MVHj2HaRX1qSYJHJReqlUbxDqRRg15KZ7MBmZBi9vcK8AiNMANDRLkBhfCUkPBIcO65szXpMlMQEqlunzSFfxeo00Lr1nKepQ";
-  const stripePromise = loadStripe(publishableKey);
 
   async function handleImage(event) {
     const currentFile = event.target.files[0];
@@ -214,83 +198,16 @@ export default function Register() {
 
       const res = await updateDeposit(depositFormData, imageUploadResult);
 
-      /* if (imageUploadResult !== "") {
-        setDepositFormData({
-          ...depositFormData,
-          imageUrl: imageUploadResult,
-        });
-
-        console.log('depositFormData:', depositFormData);
-
-        toast.success("File Uploaded.", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-        const res = await updateDeposit(depositFormData);
-        if (res.success) {
-          toast.success(res.message, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-        }
-      } else {
-        console.log('failed. URL is empty.');
-      } */
-  
-      /* if (imageUploadResult === "success") {
-        const res = await updateDeposit(depositFormData);
-        console.log(depositFormData, "image url generated")
-  
-        if (res.success) {
-          toast.success(res.message, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-        }
-      } else {
-        // Handle failure or other cases
-        toast.error("Image upload failed", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      }
-  
-      setFile(null); */
     } catch (error) {
-      // Handle errors here
+      toast.error("Error", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
       console.error("Error in handleDeposit:", error);
     }
   }
 
   async function handleCheckout() {
-    const stripe = await stripePromise;
-
-    // Replace this with your actual cart items logic
-    const cartItems = [
-      {
-        shippingAddress: {},
-        paymentMethod: "card",
-        isPaid: false,
-        paidAt: 2023 - 11 - 10,
-        isProcessing: true,
-      },
-    ];
-
-    const createLineItems = cartItems.map((item) => ({
-      price_data: {
-        currency: "jpy",
-        product_data: {
-          name: "Starter",
-        },
-        unit_amount: 15000,
-      },
-      quantity: 1,
-    }));
-
-    const res = await callStripeSession1(createLineItems);
-    localStorage.setItem("stripe-package", true);
-    localStorage.setItem("checkoutFormData", JSON.stringify(initialFormData));
-
-    const { error } = await stripe.redirectToCheckout({
-      sessionId: res.id,
-    });
-    console.log(error);
+    console.log("payment gate way");
   }
 
   async function handleChooseImage() {
@@ -298,26 +215,14 @@ export default function Register() {
       if (file) {
         const extractImageUrl = await helperForUPloadingImageToFirebase(file);
         console.log('extractImageUrl:', extractImageUrl);
+        toast.success("Slip Uploaded.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
         return extractImageUrl;
-  
-        /* if (extractImageUrl !== "") {
-          setDepositFormData({
-            ...depositFormData,
-            imageUrl: extractImageUrl,
-          });
-  
-          console.log('depositFormData:', depositFormData);
-  
-          toast.success("File Uploaded.", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-  
-          return extractImageUrl;
-        } else {
-          console.log('Image upload failed. URL is empty.');
-          return "failure";
-        } */
       } else {
+        toast.error("Error in handleChooseImage", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
         console.log('No file to upload.');
         return "no file";
       }
@@ -326,13 +231,7 @@ export default function Register() {
       return "failure";
     }
   }
-  
-  
 
-  async function handleUpdateUser() {
-    const res = await updateAUser(formData);
-    console.log(res, 'asdasd');
-  }
 
   return (
     <div className="bg-white relative register-formImage">
