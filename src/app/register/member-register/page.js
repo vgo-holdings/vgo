@@ -276,6 +276,7 @@ export default function Register() {
                             [controlItem.id]: event.target.value,
                           });
                         }}
+                        disabled= {controlItem.disabled || false}
                         value={formData[controlItem.id]}
                       />
                     ) : controlItem.componentType === "select" ? (
