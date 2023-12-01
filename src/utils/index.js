@@ -368,17 +368,17 @@ export const freelanceBankDepoRegistrationFormControls = [
     componentType: "input",
   },
   {
-    id: "New (Member or Freelancer Key)",
+    id: "user_id",
     type: "text",
     placeholder: "Enter New (Member or Freelancer Key)",
-    label: "User ID",
+    label: "New (Member or Freelancer Key)",
     componentType: "input",
   },
   {
-    id: "Refkey (Sponsor)",
+    id: "refkey",
     type: "text",
     placeholder: "Enter your Reference (Sponsor)Key",
-    label: "Ref Key",
+    label: "Refkey (Sponsor)",
     componentType: "input",
   },
 ];
