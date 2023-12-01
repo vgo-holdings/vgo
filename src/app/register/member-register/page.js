@@ -351,6 +351,7 @@ export default function Register() {
                               [controlItem.id]: event.target.value,
                             });
                           }}
+                          disabled= {controlItem.disabled || false}
                           value={depositFormData[controlItem.id]}
                         />
                       ) : controlItem.componentType === "select" ? (
