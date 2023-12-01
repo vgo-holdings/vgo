@@ -366,6 +366,7 @@ export const freelanceBankDepoRegistrationFormControls = [
     placeholder: "Enter your name",
     label: "Name",
     componentType: "input",
+    disabled: true,
   },
   {
     id: "user_id",
@@ -373,6 +374,7 @@ export const freelanceBankDepoRegistrationFormControls = [
     placeholder: "Enter New (Member or Freelancer Key)",
     label: "User id",
     componentType: "input",
+    disabled: true,
   },
   {
     id: "refkey",
