@@ -328,6 +328,7 @@ export const freelanceRegistrationFormControls = [
     placeholder: "Enter your name",
     label: "Name",
     componentType: "input",
+    disabled: true,
   },
   {
     id: "email",
@@ -335,6 +336,7 @@ export const freelanceRegistrationFormControls = [
     placeholder: "Enter your email",
     label: "Email",
     componentType: "input",
+    disabled: true,
   },
   {
     id: "facebookURL",
