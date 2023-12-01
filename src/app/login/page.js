@@ -40,11 +40,16 @@ export default function Login() {
       : false;
   }
 
-  async function handleLogin() {
+ async function handleLogin() {
     setComponentLevelLoader({ loading: true, id: "" });
-    const res = await login(formData);
-
-    console.log(res)
+  
+    // Convert email to lowercase
+    const lowercaseEmail = formData.email.toLowerCase();
+    
+    // Use the lowercase email in the login function
+    const res = await login({ ...formData, email: lowercaseEmail });
+  
+    console.log(res);
     if (res.success) {
       toast.success(res.message, {
         position: toast.POSITION.BOTTOM_CENTER,
