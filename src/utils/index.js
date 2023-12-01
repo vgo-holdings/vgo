@@ -371,7 +371,7 @@ export const freelanceBankDepoRegistrationFormControls = [
     id: "user_id",
     type: "text",
     placeholder: "Enter New (Member or Freelancer Key)",
-    label: "New (Member or Freelancer Key)",
+    label: "User id",
     componentType: "input",
   },
   {
