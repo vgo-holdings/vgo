@@ -6,6 +6,7 @@ export default function InputComponent({
   onChange,
   value,
   type,
+  disabled,
 }) {
   const [showPassword, setShowPassword] = useState(false);
   return (
@@ -31,6 +32,7 @@ export default function InputComponent({
         type={type || "text"}
         value={value}
         onChange={onChange}
+        disabled = {disabled}
         className="border placeholder-gray-400 focus:outline-none   w-full pt-4 pr-4 pb-4 pl-4 mr-0 mt-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
       />
       ) }
