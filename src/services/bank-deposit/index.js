@@ -27,6 +27,8 @@ export const getAllSellerDeposits = async () => {
         "refkey": refkey,
         "imageUrl": imageUrl,
       }
+      console.log(newFormData,"newFormData in services");
+      
       const response = await fetch("/api/bank-deposit", {
         method: "POST",
         headers: {
@@ -37,6 +39,7 @@ export const getAllSellerDeposits = async () => {
       });
   
       const data = await response.json();
+      console.log(data,"data in services") 
   
       return data;
     } catch (error) {
