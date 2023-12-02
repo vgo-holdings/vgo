@@ -21,7 +21,7 @@ export async function POST(req) {
 
   const lowercasedEmail = email.toLowerCase();
 
-  const { error } = schema.validate({ name, email, password, phone });
+  const { error } = schema.validate({ name, email: lowercasedEmail, password, phone });
 
   if (error) {
     console.log(error);
@@ -34,7 +34,7 @@ export async function POST(req) {
   try {
     //check if the user is exists or not
 
-    const isUserAlreadyExists = await User.findOne({ email });
+    const isUserAlreadyExists = await User.findOne({ email: lowercasedEmail });
 
     if (isUserAlreadyExists) {
       return NextResponse.json({
@@ -47,7 +47,7 @@ export async function POST(req) {
       const newlyCreatedUser = await User.create({
         imageURL,
         name,
-        email,
+        email: lowercasedEmail,
         password: hashPassword,
         role: "customer",
         phone,
