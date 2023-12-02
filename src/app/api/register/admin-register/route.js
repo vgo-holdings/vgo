@@ -20,6 +20,8 @@ export async function POST(req) {
   const { imageURL, name, email, password, phone, whatsapp, refkey } = await req.json();
   //validate the schema
 
+  const lowercasedEmail = email.toLowerCase();
+
   const { error } = schema.validate({ name, email, password, phone, refkey });
 
   if (error) {
