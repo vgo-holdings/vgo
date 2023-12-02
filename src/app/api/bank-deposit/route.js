@@ -1,5 +1,4 @@
 import connectToDB from "@/database";
-import AuthUser from "@/middleware/AuthUser";
 import Bankdeposit from "@/models/bankdeposit";
 import Joi from "joi";
 import { NextResponse } from "next/server";
@@ -17,13 +16,6 @@ export async function POST(req) {
   try {
     await connectToDB();
 
-    const isAuthUser = await AuthUser(req);
-
-    if (
-      isAuthUser?.role === "freelancer" ||
-      isAuthUser?.role === "member" ||
-      isAuthUser?.role === "rookie"
-    ) {
       const extractData = await req.json();
 
       const {
@@ -32,7 +24,7 @@ export async function POST(req) {
         refkey,
         imageUrl
       } = extractData;
-
+      console.log(extractData,"extractData");
       const { error } = BankDepositschema.validate({
         name,
         user_id,
@@ -48,8 +40,10 @@ export async function POST(req) {
       }
 
       const newlyCreatedDeposit = await Bankdeposit.create(extractData);
+      console.log(newlyCreatedDeposit,"newlyCreatedDeposit");
 
       if (newlyCreatedDeposit) {
+        console.log("Deposit added successfully","Deposit added successfully");
         return NextResponse.json({
           success: true,
           message: "Deposit added successfully",
@@ -60,12 +54,6 @@ export async function POST(req) {
           message: "Failed to add the deposit ! please try again",
         });
       }
-    } else {
-      return NextResponse.json({
-        success: false,
-        message: "You are not autorized !",
-      });
-    }
   } catch (error) {
     console.log(error);
     return NextResponse.json({
