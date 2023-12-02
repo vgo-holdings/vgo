@@ -15,6 +15,8 @@ const schema = Joi.object({
 
 export const dynamic = "force-dynamic";
 
+const lowercasedEmail = email.toLowerCase();
+
 export async function POST(req) {
   await connectToDB();
   console.log(req, "hi")
