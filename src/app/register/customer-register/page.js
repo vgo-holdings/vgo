@@ -129,6 +129,7 @@ export default function Register() {
   }
 
   async function handleRegisterOnSubmit() {
+    console.log(formData,"formData in reg");
     setPageLevelLoader(true);
     const uploadPhoto = await handleChooseImage();
     const data = await registerNewUser(formData);
