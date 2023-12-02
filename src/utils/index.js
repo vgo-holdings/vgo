@@ -195,6 +195,13 @@ export const registrationFormControls = [
     componentType: "input",
   },
   {
+    id: "nic",
+    type: "text",
+    placeholder: "Enter your NIC",
+    label: "NIC",
+    componentType: "input",
+  },
+  {
     id: "email",
     type: "email",
     placeholder: "Enter your email",
@@ -220,6 +227,13 @@ export const registrationFormControls = [
     type: "text",
     placeholder: "Enter your whatsapp number",
     label: "Whatsapp No",
+    componentType: "input",
+  },
+  {
+    id: "district",
+    type: "text",
+    placeholder: "Enter your district",
+    label: "District",
     componentType: "input",
   },
   {
