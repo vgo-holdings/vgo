@@ -25,7 +25,8 @@ export async function PUT(req1) {
       youtubeURL,
       refkey,
     } = extractData;
-
+    
+    const lowercasedEmail = email.toLowerCase();
     const hashPassword = await hash(password, 12);
     let existsUser;
 
@@ -48,7 +49,7 @@ export async function PUT(req1) {
         {
           imageURL,
           name,
-          email,
+          email: lowercasedEmail,
           password: hashPassword,
           role,
           city,
@@ -66,7 +67,7 @@ export async function PUT(req1) {
         {
           imageURL,
           name,
-          email,
+          email: lowercasedEmail,
           password: hashPassword,
           role,
           city,
