@@ -23,7 +23,7 @@ export async function POST(req) {
   const { imageURL, name, email, password, phone, whatsapp, refkey } = await req.json();
   //validate the schema
 
-  const { error } = schema.validate({ name, email, password, phone, refkey });
+  const { error } = schema.validate({ name, email: lowercasedEmail, password, phone, refkey });
 
   if (error) {
     console.log(error);
@@ -36,8 +36,8 @@ export async function POST(req) {
   try {
     //check if the user is exists or not
 
-    const isUserAlreadyExists = await User.findOne({ email });
-    const isPendinguserAlreadyExists = await Pendinguser.findOne({ email });
+    const isUserAlreadyExists = await User.findOne({ email: lowercasedEmail });
+    const isPendinguserAlreadyExists = await Pendinguser.findOne({ email: lowercasedEmail });
     const isAdminExits = await User.findOne({_id : refkey});
     const isExsistingUserAdmin = isAdminExits.role === "admin";
 
@@ -59,7 +59,7 @@ export async function POST(req) {
       const newlyCreatedUser = await Pendinguser.create({
         imageURL,
         name,
-        email,
+        email: lowercasedEmail,
         password: hashPassword,
         role: "pending-director",
         phone,
