@@ -4,6 +4,7 @@ const UserSchema = new mongoose.Schema(
   {
   imageURL: String,
   name: String,
+  nic: String, 
   email: String,
   phone: String,
   whatsapp: String,
@@ -38,6 +39,7 @@ const UserSchema = new mongoose.Schema(
   class_loaction:Number,
   // lvl3_count:Number,
   // lvl4_count:Number,
+  district: String,
   city: String,
 },
 { timestamps: true }
