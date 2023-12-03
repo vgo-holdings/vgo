@@ -15,6 +15,8 @@ import {
   loginFormControls,
   updateProfileFormControls,
   updateSellerProfileFormControls,
+  firebaseConfig,
+  firebaseStroageURL,
 } from "@/utils";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
@@ -23,7 +25,54 @@ import { toast } from "react-toastify";
 import { handleVerify } from "@/services/verifyAccount";
 import "./page-style.css";
 import Image from "next/image";
-import { updateProfile } from "@/services/user";
+import { updateImage, updateProfile } from "@/services/user";
+import { initializeApp } from "firebase/app";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app, firebaseStroageURL);
+
+const createUniqueFileName = (getFile) => {
+  const timeStamp = Date.now();
+  const randomStringValue = Math.random().toString(36).substring(2, 12);
+
+  return `${getFile.name}-${timeStamp}-${randomStringValue}`;
+};
+
+async function helperForUPloadingImageToFirebase(file) {
+  console.log(file, "file");
+  const maxSize = 2 * 1024 * 1024; // 2MB in bytes
+  if (file.size > maxSize) {
+    toast.error("File size exceeds the limit (2MB).", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+    return;
+  }
+  const getFileName = createUniqueFileName(file);
+  const storageReference = ref(storage, `ecommerce/${getFileName}`);
+  const uploadImage = uploadBytesResumable(storageReference, file);
+
+  return new Promise((resolve, reject) => {
+    uploadImage.on(
+      "state_changed",
+      (snapshot) => {},
+      (error) => {
+        console.log(error);
+        reject(error);
+      },
+      () => {
+        getDownloadURL(uploadImage.snapshot.ref)
+          .then((downloadUrl) => resolve(downloadUrl))
+          .catch((error) => reject(error));
+      }
+    );
+  });
+}
 
 export default function Account() {
   const {
@@ -43,6 +92,7 @@ export default function Account() {
   const [copySuccess, setCopySuccess] = useState(false);
   const [showUpdateProfileForm, setShowUpdateProfileForm] = useState(false);
   const [currentEditedAddressId, setCurrentEditedAddressId] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(user?.imageURL);
   const [formData, setFormData] = useState({
     _id: user?._id,
     imageURL: user?.imageURL,
@@ -257,6 +307,27 @@ export default function Account() {
     }
   }
 
+  async function handleImage(event) {
+    const currentFile = event.target.files[0];
+    if (currentFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(currentFile);
+      const extractImageUrl = await helperForUPloadingImageToFirebase(
+        currentFile
+      );
+      if (extractImageUrl !== "") {
+        const res = await updateImage(user._id, extractImageUrl);
+        console.log(res, "Image");
+      }
+      toast.success("File Uploaded.", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  }
+
   useEffect(() => {
     if (user !== null) extractAllAddresses();
   }, [user]);
@@ -298,7 +369,7 @@ export default function Account() {
             }}
           >
             <Image
-              src={user?.imageURL}
+              src={selectedImage ? selectedImage : user?.imageURL}
               className="profile-propieImage"
               style={{
                 backgroundColor:
@@ -314,9 +385,19 @@ export default function Account() {
               width={500}
               height={500}
             />
-            <button className="profile-propieImageBtn">
+              <input
+              accept="image/*"
+              max="1000000"
+              type="file"
+              name="file-image"
+              id="file-image"
+              className="profile-image-input"
+              onChange={handleImage}
+              style={{ display: "none" }}
+            />
+             <label htmlFor="file-image" className="profile-propieImageBtn">
               <i className="fa fa-camera "></i>
-            </button>
+            </label>
             <p className="propile-userId">
               Ref id :
               <span onClick={handleCopyUserId} style={{ cursor: "pointer" }}>
