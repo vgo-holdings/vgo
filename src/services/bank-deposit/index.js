@@ -17,7 +17,7 @@ export const getAllSellerDeposits = async () => {
 
 export const getAllDeposits = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/hr/false-deposits", {
+    const res = await fetch("http://www.vigour.space/api/hr/false-deposits", {
       method: "GET",
       cache: "no-store",
     });
