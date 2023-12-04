@@ -77,6 +77,7 @@ async function helperForUPloadingImageToFirebase(file) {
 export default function Account() {
   const {
     user,
+    setUser,
     addresses,
     setAddresses,
     addressFormData,
@@ -321,6 +322,7 @@ export default function Account() {
       console.log(extractImageUrl, "extractImageUrl user");
       if (extractImageUrl !== "") {
         const res = await updateImage(user._id, extractImageUrl);
+        setUser(res?.finalData?.user);
         console.log(res, "Image");
       }
       toast.success("File Uploaded.", {
