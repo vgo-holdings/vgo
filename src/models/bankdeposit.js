@@ -6,6 +6,7 @@ const BankdepositSchema = new mongoose.Schema(
     user_id: String,
     refkey: String,
     imageUrl: String,
+    approved: Boolean,
   },
   { timestamps: true }
 );
