@@ -128,3 +128,28 @@ export const userById = async (id) => {
     console.log(e);
   }
 };
+
+export const updateImage = async (id,imageUrl) => {
+  console.log(id, imageUrl, "dn sapada")
+    const newFormData = {
+      "user_id": id,
+      "imageURL": imageUrl,
+    }
+  try {
+    const res = await fetch("/api/update-image", {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+      cache: "no-store",
+      body: JSON.stringify(newFormData),
+    });
+
+    const data = await res.json();
+
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
