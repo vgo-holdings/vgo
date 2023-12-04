@@ -39,7 +39,13 @@ export async function POST(req) {
         });
       }
 
-      const newlyCreatedDeposit = await Bankdeposit.create(extractData);
+      const newlyCreatedDeposit = await Bankdeposit.create({
+        name,
+        user_id,
+        refkey,
+        imageUrl,
+        approved: false,
+      });
       console.log(newlyCreatedDeposit,"newlyCreatedDeposit");
 
       if (newlyCreatedDeposit) {
