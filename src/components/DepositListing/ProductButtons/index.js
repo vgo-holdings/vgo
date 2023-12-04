@@ -18,7 +18,11 @@ export default function ProductButton({ item }) {
     setShowCartModal,
   } = useContext(GlobalContext);
   const router = useRouter();
-
+  
+   const refreshData = () => {
+      router.refresh();
+    }
+  
   const isAdminView = pathName.includes("admin-view");
   const isSellerView = pathName.includes("seller-view");
 
@@ -28,11 +32,11 @@ export default function ProductButton({ item }) {
     const res = await declineDeposit(item._id);
 
     if (res.success) {
+      refreshData();
       setComponentLevelLoader({ loading: false, id: "" });
       toast.success(res.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
-      router.refresh();
     } else {
       toast.error(res.message, {
         position: toast.POSITION.TOP_RIGHT,
@@ -46,6 +50,7 @@ export default function ProductButton({ item }) {
     const res = await approveDeposit({ _id: getItem._id});
 
     if (res.success) {
+      refreshData();
       toast.success(res.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
