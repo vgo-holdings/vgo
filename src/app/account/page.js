@@ -318,6 +318,7 @@ export default function Account() {
       const extractImageUrl = await helperForUPloadingImageToFirebase(
         currentFile
       );
+      console.log(extractImageUrl, "extractImageUrl user");
       if (extractImageUrl !== "") {
         const res = await updateImage(user._id, extractImageUrl);
         console.log(res, "Image");
