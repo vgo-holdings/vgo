@@ -12,7 +12,7 @@ import user2 from "../../public/user 2.jpg";
 import user3 from "../../public/user 3.jpg";
 import user4 from "../../public/user 4.jpg";
 import user5 from "../../public/user 5.jpg";
-import u1 from "../../public/u1.jpg";
+import u1 from "../../public/u2.jpg";
 import vgo from "../../public/vgo.jpg";
 import i1 from "../assets/images/assets/i1.png";
 import i2 from "../assets/images/assets/i2.png";
