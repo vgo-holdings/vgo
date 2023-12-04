@@ -12,6 +12,7 @@ import user2 from "../../public/user 2.jpg";
 import user3 from "../../public/user 3.jpg";
 import user4 from "../../public/user 4.jpg";
 import user5 from "../../public/user 5.jpg";
+import u1 from "../../public/u1.jpg";
 import vgo from "../../public/vgo.jpg";
 import i1 from "../assets/images/assets/i1.png";
 import i2 from "../assets/images/assets/i2.png";
@@ -694,7 +695,7 @@ export default function Home() {
             > 
               <div className="home-pricingItemHeaderContainer rounded-full  w-full " >
               <Image
-                src={user1}
+                src={u1}
                 alt="Package Image"
                 className="w-24 h-24 rounded-full   z-10 absolute  transform -translate-y-1/2  "
               />
