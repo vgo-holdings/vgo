@@ -73,6 +73,11 @@ export const hrNavOptions = [
     label: "Manage All Deposits",
     path: "/hr-view/seller-slip",
   },
+  {
+    id: "approvedListing",
+    label: "Approved Deposits",
+    path: "/hr-view/approved-slip",
+  },
 ];
 
 export const updateProfileFormControls = [
