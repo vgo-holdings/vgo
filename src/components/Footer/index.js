@@ -16,7 +16,7 @@ export default function Footer() {
                   </div>
                 </div>
                 <p className="sm:text-center" style={{ color: "#8B8989"}}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 
+                V go holding is the largest e-commerce platform that includes the only business to business concept born in Sri Lanka.By providing knowledge and training to entrepreneurs and setting up a direct market for products, every Sri Lankan person as a forerunner is to endow the world with a strong economy.
                 </p>
             </div>
             <div className="md:w-1/4 md:text-center">
