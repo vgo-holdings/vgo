@@ -15,6 +15,58 @@ export const getAllSellerDeposits = async () => {
   }
 };
 
+export const getAllDeposits = async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/hr/false-deposits", {
+      method: "GET",
+      cache: "no-store",
+    });
+
+    const data = await res.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const approveDeposit = async (formData) => {
+  try {
+    console.log(formData, "approve")
+    const response = await fetch("/api/hr/approve-deposit", {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+      body: JSON.stringify(formData),
+    }); 
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const declineDeposit = async (itemId) => {
+  try {
+    const res = await fetch(`/api/hr/delete-deposit?id=${itemId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
+
+    const data = await res.json();
+
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
   export const updateDeposit = async (formData, imageUrl) => {
     try {
       const name = formData["name"];
