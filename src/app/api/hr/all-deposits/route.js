@@ -8,12 +8,14 @@ export async function GET(req) {
   try {
     await connectToDB();
 
-      const extractAlldeposits = await Bankdeposit.find({});
+    const extractApprovedDeposits = await Bankdeposit.find({
+      approved: true,
+    });
 
-      if (extractAlldeposits) {
+      if (extractApprovedDeposits) {
         return NextResponse.json({
           success: true,
-          data: extractAlldeposits,
+          data: extractApprovedDeposits,
         });
       } else {
         return NextResponse.json({
