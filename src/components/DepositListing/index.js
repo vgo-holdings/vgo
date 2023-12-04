@@ -11,19 +11,24 @@ export default function CommonListing({ data }) {
   useEffect(() => {
     router.refresh();
   }, []);
-
+  console.log(data, "whys")
   return (
     <section className="bg-white  ">
       <div className=" "> 
         <div className="  grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-9">
-          {data && data.length
+          {data && data.length && data.approved !== false
             ? data.map((item) => (
+              <>
+              {item.approved === false &&
                 <article
                   className="relative flex flex-col overflow-hidden border cursor-pointer"
                   key={item._id}
                 >
                   <ProductTile item={item} />
+                  
                 </article>
+              }
+              </>
               ))
             : null}
         </div>
