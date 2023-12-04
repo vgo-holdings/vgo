@@ -2,8 +2,7 @@
 
 import ComponentLevelLoader from "@/components/Loader/componentlevel";
 import { GlobalContext } from "@/context";
-import { addToCart } from "@/services/cart";
-import { deleteAProduct, deleteAProductBySeller } from "@/services/product";
+import { approveDeposit, declineDeposit } from "@/services/bank-deposit";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
 import { toast } from "react-toastify";
@@ -23,10 +22,10 @@ export default function ProductButton({ item }) {
   const isAdminView = pathName.includes("admin-view");
   const isSellerView = pathName.includes("seller-view");
 
-  async function handleDeleteProduct(item) {
+  async function handleDeclineDeposit(item) {
     setComponentLevelLoader({ loading: true, id: item._id });
 
-    const res = await deleteAProductBySeller(item._id);
+    const res = await declineDeposit(item._id);
 
     if (res.success) {
       setComponentLevelLoader({ loading: false, id: "" });
@@ -42,23 +41,20 @@ export default function ProductButton({ item }) {
     }
   }
 
-  async function handleAddToCart(getItem) {
+  async function handleApprove(getItem) {
     setComponentLevelLoader({ loading: true, id: getItem._id });
-
-    const res = await addToCart({ productID: getItem._id, userID: user._id });
+    const res = await approveDeposit({ _id: getItem._id});
 
     if (res.success) {
       toast.success(res.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
       setComponentLevelLoader({ loading: false, id: "" });
-      setShowCartModal(true);
     } else {
       toast.error(res.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
       setComponentLevelLoader({ loading: false, id: "" });
-      setShowCartModal(true);
     }
 
     console.log(res);
@@ -69,7 +65,7 @@ export default function ProductButton({ item }) {
       <button
         className="text-white text-sm font-semibold px-4 py-2 rounded-md mt-4 w-full"
         style={{ backgroundColor: "#e84118" }}
-        onClick={() => handleAddToCart(item)}
+        onClick={() => handleApprove(item)}
       >
         {componentLevelLoader &&
         componentLevelLoader.loading &&
@@ -86,7 +82,7 @@ export default function ProductButton({ item }) {
       <button
         className="text-white text-sm font-semibold px-4 py-2 rounded-md mt-4 w-full"
         style={{ backgroundColor: "#e84118" }}
-        onClick={() => handleAddToCart(item)}
+        onClick={() => handleDeclineDeposit(item)}
       >
         {componentLevelLoader &&
         componentLevelLoader.loading &&
