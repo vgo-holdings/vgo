@@ -3,6 +3,7 @@
 import ComponentLevelLoader from "@/components/Loader/componentlevel";
 import { GlobalContext } from "@/context";
 import { approveDeposit, declineDeposit } from "@/services/bank-deposit";
+import { updateClassRef } from "@/services/register";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
 import { toast } from "react-toastify";
@@ -44,9 +45,15 @@ export default function ProductButton({ item }) {
       setComponentLevelLoader({ loading: false, id: "" });
     }
   }
-
+  
+  async function handleUpdateUserAndClass(uid,rfid) {
+    const res1 = await updateClassRef(uid,rfid)
+    console.log(res1)
+  }
+  
   async function handleApprove(getItem) {
     setComponentLevelLoader({ loading: true, id: getItem._id });
+    // await handleUpdateUserAndClass(item.user_id,item.refkey);
     const res = await approveDeposit({ _id: getItem._id});
 
     if (res.success) {
