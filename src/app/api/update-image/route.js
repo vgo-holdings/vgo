@@ -22,7 +22,10 @@ export async function PUT(req1) {
         {
           imageURL,
         },
-        { new: true }
+        { 
+            new: false,
+            timestamps:false
+        }
       );
 
     console.log(updatedUser, "why this");
