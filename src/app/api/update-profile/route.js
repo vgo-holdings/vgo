@@ -59,7 +59,10 @@ export async function PUT(req1) {
           youtubeURL,
           refkey,
         },
-        { new: true }
+        { 
+          new: false,
+          timestamps:false
+        }
       );
     } else if(_id !== refkey) {
       updatedUser = await User.findOneAndUpdate(
@@ -76,7 +79,10 @@ export async function PUT(req1) {
           facebookURL,
           youtubeURL,
         },
-        { new: true }
+        { 
+          new: false,
+          timestamps:false
+        }
       );
     }
 
