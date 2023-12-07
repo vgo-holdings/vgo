@@ -1,6 +1,7 @@
 import connectToDB from "@/database";
 import AuthUser from "@/middleware/AuthUser";
 import Class_data from "@/models/class_datas";
+import User from "@/models/user";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -12,7 +13,11 @@ export async function GET(req) {
 
     if (isAuthUser?.role === "hr") {
       const getAllClasses = await Class_data.find({})
+      // console.log("🚀 ~ file: route.js:16 ~ GET ~ getAllClasses:", getAllClasses)
       const classDataWithUsers = [];
+      
+      // const users1 = await User.find({ class_name: "655e4ae872b3f1641f0cb3fb" }, { name: 1 });
+      // console.log("🚀 ~ file: route.js:21 ~ GET ~ users1:", users1)
 
       for (let i = 0; i < getAllClasses.length; i++) {
         const classId = getAllClasses[i]._id;
@@ -38,6 +43,8 @@ export async function GET(req) {
         classDataWithUsers.push(classWithUsers);
 
       }
+
+      console.log("🚀 ~ file: route.js:19 ~ GET ~ classDataWithUsers:", classDataWithUsers)
 
       if (getAllClasses) {
         return NextResponse.json({
