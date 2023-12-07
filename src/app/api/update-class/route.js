@@ -7,12 +7,13 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 export async function PUT(req1) {
+    console.log("test1");
     try {
         await connectToDB();
         const ObjectId = require('mongodb').ObjectId;
         const extractData = await req1.json();
 
-        console.log(extractData, "api req 1");
+        console.log(extractData, "api req 1"); 
         const getUId = extractData.uId;
         const refGetId = extractData.rId;
 
@@ -62,8 +63,12 @@ export async function PUT(req1) {
                         class_name: classDataId,
                         refkey: refGetId,
                     },
-                    { new: true }
+                    {
+                        new: true,
+                        timestamps:true
+                    }
                 );
+                
                 // update ref class
                 const updatedRefCls = await classData.findOneAndUpdate(
                     { _id: classDataId },
@@ -82,9 +87,9 @@ export async function PUT(req1) {
                     clasRdata = await classData.find(new ObjectId(ClassR));
                     clasLdata = await classData.find(new ObjectId(ClassL));
 
-                    const clusters_lvl2 = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 2 }] });
-                    const clusters_lvl3 = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 2 }] });
-                    const clusters_lvl4 = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 2 }] });
+                    const clusters_lvl2 = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
+                    const clusters_lvl3 = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
+                    const clusters_lvl4 = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
 
                     let updatedClassL;
 
@@ -159,10 +164,11 @@ export async function PUT(req1) {
                                 );
                             }
                         }else{
-                            const clusters_lvl2_rest = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 1 }] });
-                            const clusters_lvl3_rest = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 1 }] });
-                            const clusters_lvl4_rest = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 1 }] });
+                            const clusters_lvl2_rest = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
+                            const clusters_lvl3_rest = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
+                            const clusters_lvl4_rest = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
                             clasRdata = await classData.find(new ObjectId(ClassR));
+                            clasLdata = await classData.find(new ObjectId(ClassL));
 
                             if (clusters_lvl2_rest[0] != undefined) {
                                 if (clusters_lvl2_rest.length >= 2) {
@@ -232,7 +238,7 @@ export async function PUT(req1) {
                                     );
                                 }
                             }else{
-                                const clusters_lvl2_rest_mem = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 0 }] });
+                                const clusters_lvl2_rest_mem = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 0 }] }).sort({'updatedAt':1});
                                 const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2_rest_mem[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
                                     const updatedClassR = await classData.updateOne(
                                         { _id: clasRdata[0]._id },
@@ -249,10 +255,11 @@ export async function PUT(req1) {
                     }
 
                     if (updatedClassL == undefined) {
-                        const clusters_lvl2 = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 2 }] });
-                        const clusters_lvl3 = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 2 }] });
-                        const clusters_lvl4 = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 2 }] });
+                        const clusters_lvl2 = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
+                        const clusters_lvl3 = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
+                        const clusters_lvl4 = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
                         clasRdata = await classData.find(new ObjectId(ClassR));
+                        clasLdata = await classData.find(new ObjectId(ClassL));
                         if (clusters_lvl2[0] != undefined) {
                             console.log("clusters_lvl2 lvl LL")
                             const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
@@ -277,9 +284,9 @@ export async function PUT(req1) {
                                 { $set: { lvl1_count: 1 } }
                             );
                         }else{
-                            const clusters_lvl2_rest = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 1 }] });
-                            const clusters_lvl3_rest = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 1 }] });
-                            const clusters_lvl4_rest = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 1 }] });
+                            const clusters_lvl2_rest = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
+                            const clusters_lvl3_rest = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
+                            const clusters_lvl4_rest = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
 
                             if (clusters_lvl2_rest[0] != undefined) {
                                 console.log("clusters_lvl2_rest lvl LL")
@@ -305,7 +312,7 @@ export async function PUT(req1) {
                                     { $set: { lvl1_count: 1 } }
                                 );
                             }else{
-                                const clusters_lvl2_rest_mem = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 0 }] });
+                                const clusters_lvl2_rest_mem = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 0 }] }).sort({'updatedAt':1});
                                 const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2_rest_mem[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
                                 updatedClassL = await classData.updateOne(
                                         { _id: clasLdata[0]._id },
@@ -317,17 +324,25 @@ export async function PUT(req1) {
 
                     // lvl 1 completed,
 
-                    const clusters_lvl2_ = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 2 }] });
-                    const clusters_lvl3_ = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 2 }] });
-                    const clusters_lvl4_ = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 2 }] });
+                    const clusters_lvl2_ = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
+                    console.log("🚀 ~ file: route.js:321 ~ PUT ~ clusters_lvl2_:", clusters_lvl2_)
+                    const clusters_lvl3_ = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
+                    console.log("🚀 ~ file: route.js:323 ~ PUT ~ clusters_lvl3_:", clusters_lvl3_)
+                    const clusters_lvl4_ = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
+                    console.log("🚀 ~ file: route.js:325 ~ PUT ~ clusters_lvl4_:", clusters_lvl4_)
 
                     clasRdata = await classData.find(new ObjectId(ClassR));
+                    clasLdata = await classData.find(new ObjectId(ClassL));
+                    console.log("🚀 ~ file: route.js:325 ~ PUT ~ clasRdata:", clasRdata)
+                    
 
                     if (clusters_lvl2_[0] != undefined) {
                         console.log("clusters_lvl2", "Has clusters");
                         console.log(clusters_lvl2_.length, "length");
 
                         for (let i = 0; i < clusters_lvl2_.length; i++) {
+                            clasRdata = await classData.find(new ObjectId(ClassR));
+                            clasLdata = await classData.find(new ObjectId(ClassL));
                             const refkeyTest = clusters_lvl2_[i].refkey
                             if (refkeyTest == ''){
 
@@ -391,7 +406,7 @@ export async function PUT(req1) {
                                     );
                                 }
                             }else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl2_[i].refkey), { class_name: 1 });
+                                const refDataClass = await User.find(new ObjectId(clusters_lvl2_[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
                                 console.log(refDataClass[0].class_name, "refDataClass");
                                 const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
                                 console.log(refMainClass, "refMainClass");
@@ -467,11 +482,14 @@ export async function PUT(req1) {
                     }
 
                     clasRdata = await classData.find(new ObjectId(ClassR));
+                    clasLdata = await classData.find(new ObjectId(ClassL));
 
                     if (clusters_lvl3_[0] != undefined) {
                         console.log("clusters_lvl3 test here", "Has data");
                         console.log(clusters_lvl3_.length, "length");
                         for (let i = 0; i < clusters_lvl3_.length; i++) {
+                            clasRdata = await classData.find(new ObjectId(ClassR));
+                            clasLdata = await classData.find(new ObjectId(ClassL));
                             const refkeyTest = clusters_lvl3_[i].refkey
                             console.log(refkeyTest,"refkeyTest gg wp refkeyTest")
                             if (refkeyTest == ''){
@@ -537,7 +555,7 @@ export async function PUT(req1) {
                                 }
                             }
                             else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl3_[i].refkey), { class_name: 1 });
+                                const refDataClass = await User.find(new ObjectId(clusters_lvl3_[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
                                 console.log(refDataClass,"refDataClass gg wp")
                                 
                                 console.log(refDataClass[0].class_name, "refDataClass");
@@ -616,10 +634,13 @@ export async function PUT(req1) {
                         }
                     }
                     clasRdata = await classData.find(new ObjectId(ClassR));
+                    clasLdata = await classData.find(new ObjectId(ClassL));
                     if (clusters_lvl4_[0] != undefined) {
                         console.log("clusters_lvl4", "Has data");
                         console.log(clusters_lvl4_.length, "length");
                         for (let i = 0; i < clusters_lvl4_.length; i++) {
+                            clasRdata = await classData.find(new ObjectId(ClassR));
+                            clasLdata = await classData.find(new ObjectId(ClassL));
                             const refkeyTest = clusters_lvl4_[i].refkey
                             
                             if (refkeyTest == ''){
@@ -684,7 +705,7 @@ export async function PUT(req1) {
                                 }
                             }
                             else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl4_[i].refkey), { class_name: 1 });
+                                const refDataClass = await User.find(new ObjectId(clusters_lvl4_[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
                                 console.log(refDataClass[0].class_name, "refDataClass");
 
                                 const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
@@ -765,15 +786,18 @@ export async function PUT(req1) {
 
                     // Logic 2 check memberCount 1
 
-                    const clusters_lvl2_rest = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 1 }] });
-                    const clusters_lvl3_rest = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 1 }] });
-                    const clusters_lvl4_rest = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 1 }] });
+                    const clusters_lvl2_rest = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
+                    const clusters_lvl3_rest = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
+                    const clusters_lvl4_rest = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
                     clasRdata = await classData.find(new ObjectId(ClassR));
+                    clasLdata = await classData.find(new ObjectId(ClassL));
                     if (clusters_lvl2_rest[0] != undefined) {
                         console.log("clusters_lvl2_rest", "Has clusters");
                         console.log(clusters_lvl2_rest.length, "length");
 
                         for (let i = 0; i < clusters_lvl2_rest.length; i++) {
+                            clasRdata = await classData.find(new ObjectId(ClassR));
+                            clasLdata = await classData.find(new ObjectId(ClassL));
                             console.log(clusters_lvl2_rest[i].refkey, "clusters_lvl2_rest_refkey");
                             console.log(clusters_lvl2_rest[i].memberCount, "memberCount");
                             const refkeyTest = clusters_lvl2_rest[i].refkey
@@ -841,7 +865,7 @@ export async function PUT(req1) {
                                 }
                             }
                             else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl2_rest[i].refkey), { class_name: 1 });
+                                const refDataClass = await User.find(new ObjectId(clusters_lvl2_rest[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
                                 console.log(refDataClass[0].class_name, "refDataClass");
 
                                 const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
@@ -920,15 +944,17 @@ export async function PUT(req1) {
                         }
                     }
                     clasRdata = await classData.find(new ObjectId(ClassR));
+                    clasLdata = await classData.find(new ObjectId(ClassL));
                     if (clusters_lvl3_rest[0] != undefined) {
                         console.log("clusters_lvl3_rest", "Has clusters");
                         console.log(clusters_lvl3_rest.length, "length");
 
                         for (let i = 0; i < clusters_lvl3_rest.length; i++) {
+                            clasRdata = await classData.find(new ObjectId(ClassR));
+                            clasLdata = await classData.find(new ObjectId(ClassL));
                             console.log(clusters_lvl3_rest[i].refkey, "clusters_lvl3_rest_refkey");
                             console.log(clusters_lvl3_rest[i].memberCount, "memberCount");
                             const refkeyTest = clusters_lvl3_rest[i].refkey
-                            
                             
                             if (refkeyTest == ''){
                                 console.log("im fuking in")
@@ -993,7 +1019,7 @@ export async function PUT(req1) {
                                 }
                             }
                             else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl3_rest[i].refkey), { class_name: 1 });
+                                const refDataClass = await User.find(new ObjectId(clusters_lvl3_rest[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
                                 console.log(refDataClass,"refDataClass refDataClass")
                                 console.log(refDataClass[0].class_name, "refDataClass");
 
@@ -1073,11 +1099,14 @@ export async function PUT(req1) {
                         }
                     }
                     clasRdata = await classData.find(new ObjectId(ClassR));
+                    clasLdata = await classData.find(new ObjectId(ClassL));
                     if (clusters_lvl4_rest[0] != undefined) {
                         console.log("clusters_lvl4_rest", "Has clusters");
                         console.log(clusters_lvl4_rest.length, "length");
 
                         for (let i = 0; i < clusters_lvl4_rest.length; i++) {
+                            clasRdata = await classData.find(new ObjectId(ClassR));
+                            clasLdata = await classData.find(new ObjectId(ClassL));
                             console.log(clusters_lvl4_rest[i].refkey, "clusters_lvl4_rest_refkey");
                             console.log(clusters_lvl4_rest[i].memberCount, "memberCount");
                             const refkeyTest = clusters_lvl4_rest[i].refkey
@@ -1144,7 +1173,7 @@ export async function PUT(req1) {
                                 }
                             }
                             else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl4_rest[i].refkey), { class_name: 1 });
+                                const refDataClass = await User.find(new ObjectId(clusters_lvl4_rest[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
                                 console.log(refDataClass[0].class_name, "refDataClass");
 
                                 const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
@@ -1224,17 +1253,22 @@ export async function PUT(req1) {
                     console.log("logic 2", "Done")
 
                     // Logic 3 check memberCount 0
-                    const clusters_lvl2_rest_mem = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 0 }] });
-                    const clusters_lvl3_rest_mem = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 0 }] });
-                    const clusters_lvl4_rest_mem = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 0 }] });
+                    const clusters_lvl2_rest_mem = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 0 }] }).sort({'updatedAt':1});
+                    const clusters_lvl3_rest_mem = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 0 }] }).sort({'updatedAt':1});
+                    const clusters_lvl4_rest_mem = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 0 }] }).sort({'updatedAt':1});
 
                     clasRdata = await classData.find(new ObjectId(ClassR));
+                    clasLdata = await classData.find(new ObjectId(ClassL));
+                    console.log("🚀 ~ file: route.js:1237 ~ PUT ~ clasRdata:", clasRdata)
+                    
 
                     if (clusters_lvl2_rest_mem[0] != undefined) {
                         console.log("clusters_lvl2_rest_mem", "Has clusters");
                         console.log(clusters_lvl2_rest_mem.length, "length");
 
                         for (let i = 0; i < clusters_lvl2_rest_mem.length; i++) {
+                            clasRdata = await classData.find(new ObjectId(ClassR));
+                            clasLdata = await classData.find(new ObjectId(ClassL));
                             console.log(clusters_lvl2_rest_mem[i].refkey, "clusters_lvl2_rest_mem_refkey");
                             console.log(clusters_lvl2_rest_mem[i].memberCount, "memberCount");
                             const refkeyTest = clusters_lvl2_rest_mem[i].refkey
@@ -1301,7 +1335,7 @@ export async function PUT(req1) {
                                 }
                             }
                             else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl2_rest_mem[i].refkey), { class_name: 1 });
+                                const refDataClass = await User.find(new ObjectId(clusters_lvl2_rest_mem[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
                                 console.log(refDataClass[0].class_name, "refDataClass");
 
                                 const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
@@ -1377,11 +1411,14 @@ export async function PUT(req1) {
                         }
                     }
                     clasRdata = await classData.find(new ObjectId(ClassR));
+                    clasLdata = await classData.find(new ObjectId(ClassL));
                     if (clusters_lvl3_rest_mem[0] != undefined) {
                         console.log("clusters_lvl3_rest_mem", "Has clusters");
                         console.log(clusters_lvl3_rest_mem.length, "length");
 
                         for (let i = 0; i < clusters_lvl3_rest_mem.length; i++) {
+                            clasRdata = await classData.find(new ObjectId(ClassR));
+                            clasLdata = await classData.find(new ObjectId(ClassL));
                             console.log(clusters_lvl3_rest_mem[i].refkey, "clusters_lvl3_rest_mem_refkey");
                             console.log(clusters_lvl3_rest_mem[i].memberCount, "memberCount");
                             const refkeyTest = clusters_lvl3_rest_mem[i].refkey
@@ -1448,7 +1485,7 @@ export async function PUT(req1) {
                                 }
                             }
                             else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl3_rest_mem[i].refkey), { class_name: 1 });
+                                const refDataClass = await User.find(new ObjectId(clusters_lvl3_rest_mem[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
                                 console.log(refDataClass[0].class_name, "refDataClass");
 
                                 const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
@@ -1523,11 +1560,14 @@ export async function PUT(req1) {
                         }
                     }
                     clasRdata = await classData.find(new ObjectId(ClassR));
+                    clasLdata = await classData.find(new ObjectId(ClassL));
                     if (clusters_lvl4_rest_mem[0] != undefined) {
                         console.log("clusters_lvl4_rest_mem", "Has clusters");
                         console.log(clusters_lvl4_rest_mem.length, "length");
 
                         for (let i = 0; i < clusters_lvl4_rest_mem.length; i++) {
+                            clasRdata = await classData.find(new ObjectId(ClassR));
+                            clasLdata = await classData.find(new ObjectId(ClassL));
                             console.log(clusters_lvl4_rest_mem[i].refkey, "clusters_lvl4_rest_mem_refkey");
                             console.log(clusters_lvl4_rest_mem[i].memberCount, "memberCount");
                             const refkeyTest = clusters_lvl4_rest_mem[i].refkey
@@ -1594,11 +1634,14 @@ export async function PUT(req1) {
                                 }
                             }
                             else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl4_rest_mem[i].refkey), { class_name: 1 });
+                                // here im getting lvl2_count: 1,
+                                const refDataClass = await User.find(new ObjectId(clusters_lvl4_rest_mem[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
                                 console.log(refDataClass[0].class_name, "refDataClass");
 
                                 const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
+                                console.log("🚀 ~ file: route.js:1616 ~ PUT ~ refMainClass:", refMainClass)
                                 console.log(refMainClass, "refMainClass");
+                                
     
                                 if (refMainClass[0].lvl2_count != 2) {
     
@@ -1672,7 +1715,7 @@ export async function PUT(req1) {
                     // end of logic 3
                     console.log("logic 3", "Done")
 
-                    const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classDataId }] });
+                    const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classDataId }] }).sort({'updatedAt':1});
                     const topLVLClassName = await classData.find(new ObjectId(topLVL[0].class_name));
 
                     if (topLVL[0].refkey == '') {
@@ -1707,7 +1750,7 @@ export async function PUT(req1) {
             console.log("user in cls", "user in cls");
         }
 
-        const classID2_eq = await User.find({ class_name: classDataId });
+        const classID2_eq = await User.find({ class_name: classDataId }).sort({'updatedAt':1});
         console.log(classID2_eq.length, "classID2_eq")
         return NextResponse.json({
             success: true,
