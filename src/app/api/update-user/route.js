@@ -22,7 +22,10 @@ const updatedUser = await User.findOneAndUpdate(
             shopCount,
             role,
           },
-          { new: true }
+          { 
+            new: false,
+            timestamps:false
+          }
         );
 
       if (updatedUser) {
