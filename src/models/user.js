@@ -37,10 +37,11 @@ const UserSchema = new mongoose.Schema(
   class_name: String,
   class_lvl: Number,
   class_loaction:Number,
-  // lvl3_count:Number,
-  // lvl4_count:Number,
   district: String,
   city: String,
+  lvl2_memberCount:Number,
+  lvl3_memberCount:Number,
+  lvl4_memberCount:Number,
 },
 { timestamps: true }
 );
