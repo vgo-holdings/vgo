@@ -75,6 +75,9 @@ export async function POST(req) {
         class_loaction: 0,
         district:district,
         city:city,
+        lvl2_memberCount:0,
+        lvl3_memberCount:0,
+        lvl4_memberCount:0,
       });
 
       if (newlyCreatedUser) {
