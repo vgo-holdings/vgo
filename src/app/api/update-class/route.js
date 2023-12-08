@@ -6,6 +6,409 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
+async function getUserData(classNameTofind, memberCount, memberCountValue) {
+    const clusters_lvl2 = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classNameTofind }, { memberCount: memberCountValue }] }).sort({ 'updatedAt': 1 });
+    const clusters_lvl3 = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classNameTofind }, { memberCount: memberCountValue }] }).sort({ 'updatedAt': 1 });
+    const clusters_lvl4 = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classNameTofind }, { memberCount: memberCountValue }] }).sort({ 'updatedAt': 1 });
+
+    return {
+        clusters_lvl2,
+        clusters_lvl3,
+        clusters_lvl4
+    };
+}
+
+
+async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3, clusters_lvl4, classDataId, clsLvl) {
+    let clasRdata;
+    let clasLdata;
+    clasRdata = await classData.find(new ObjectId(ClassR));
+    clasLdata = await classData.find(new ObjectId(ClassL));
+    let updatedClassL;
+
+    if (clasRdata[0].lvl1_count != 1) {
+        console.log("clasRdata lvl 1 im inside")
+
+        if (clusters_lvl2[0] != undefined) {
+            if (clusters_lvl2.length >= 2) {
+                console.log("clusters_lvl2 lvl")
+                const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                const updatedClassR = await classData.updateOne(
+                    { _id: clasRdata[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+
+                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                updatedClassL = await classData.updateOne(
+                    { _id: clasLdata[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+
+            } else {
+                console.log("clusters_lvl2 lvl 1")
+                const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                const updatedClassR = await classData.updateOne(
+                    { _id: clasRdata[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+            }
+        } else if (clusters_lvl3[0] != undefined) {
+            if (clusters_lvl3.length >= 2) {
+                console.log("clusters_lvl3 lvl")
+                const updateLvl2Ref = await User.updateOne({ name: clusters_lvl3[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                const updatedClassR = await classData.updateOne(
+                    { _id: clasRdata[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+
+                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl3[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                updatedClassL = await classData.updateOne(
+                    { _id: clasLdata[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+            } else {
+                console.log("clusters_lvl3 lvl 1")
+                const updateLvl2Ref = await User.updateOne({ name: clusters_lvl3[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                const updatedClassR = await classData.updateOne(
+                    { _id: ClassR[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+            }
+        } else if (clusters_lvl4[0] != undefined) {
+            if (clusters_lvl4.length >= 2) {
+                console.log("clusters_lvl4 lvl")
+                const updateLvl2Ref = await User.updateOne({ name: clusters_lvl4[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                const updatedClassR = await classData.updateOne(
+                    { _id: clasRdata[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+
+                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl4[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                updatedClassL = await classData.updateOne(
+                    { _id: clasLdata[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+            } else {
+                console.log("clusters_lvl4 lvl 1")
+                const updateLvl2Ref = await User.updateOne({ name: clusters_lvl4[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                const updatedClassR = await classData.updateOne(
+                    { _id: clasRdata[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+            }
+        } else {
+            let clusters_lvl2_rest;
+            let clusters_lvl3_rest;
+            let clusters_lvl4_rest;
+            if (clsLvl == 'A') {
+                const userData = await getUserData(classDataId, "memberCount", 1);
+                clusters_lvl2_rest = userData.clusters_lvl2;
+                clusters_lvl3_rest = userData.clusters_lvl3;
+                clusters_lvl4_rest = userData.clusters_lvl4;
+            } else if (clsLvl == 'B') {
+                const userData = await getUserData(classDataId, "lvl2_memberCount", 1);
+                clusters_lvl2_rest = userData.clusters_lvl2;
+                clusters_lvl3_rest = userData.clusters_lvl3;
+                clusters_lvl4_rest = userData.clusters_lvl4;
+            } else if (clsLvl == 'C') {
+                const userData = await getUserData(classDataId, "lvl3_memberCount", 1);
+                clusters_lvl2_rest = userData.clusters_lvl2;
+                clusters_lvl3_rest = userData.clusters_lvl3;
+                clusters_lvl4_rest = userData.clusters_lvl4;
+            } else if (clsLvl == 'D') {
+                const userData = await getUserData(classDataId, "lvl4_memberCount", 1);
+                clusters_lvl2_rest = userData.clusters_lvl2;
+                clusters_lvl3_rest = userData.clusters_lvl3;
+                clusters_lvl4_rest = userData.clusters_lvl4;
+            }
+            clasRdata = await classData.find(new ObjectId(ClassR));
+            clasLdata = await classData.find(new ObjectId(ClassL));
+
+            if (clusters_lvl2_rest[0] != undefined) {
+                if (clusters_lvl2_rest.length >= 2) {
+                    console.log("clusters_lvl2_rest lvl")
+                    const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                    const updatedClassR = await classData.updateOne(
+                        { _id: clasRdata[0]._id },
+                        { $set: { lvl1_count: 1 } }
+                    );
+
+                    const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2_rest[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                    updatedClassL = await classData.updateOne(
+                        { _id: clasLdata[0]._id },
+                        { $set: { lvl1_count: 1 } }
+                    );
+
+                } else {
+                    console.log("clusters_lvl2 lvl 1")
+                    const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                    const updatedClassR = await classData.updateOne(
+                        { _id: clasRdata[0]._id },
+                        { $set: { lvl1_count: 1 } }
+                    );
+                }
+            } else if (clusters_lvl3_rest[0] != undefined) {
+                if (clusters_lvl3_rest.length >= 2) {
+                    console.log("clusters_lvl3_rest lvl")
+                    const updateLvl2Ref = await User.updateOne({ name: clusters_lvl3_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                    const updatedClassR = await classData.updateOne(
+                        { _id: clasRdata[0]._id },
+                        { $set: { lvl1_count: 1 } }
+                    );
+
+                    const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl3_rest[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                    updatedClassL = await classData.updateOne(
+                        { _id: clasLdata[0]._id },
+                        { $set: { lvl1_count: 1 } }
+                    );
+                } else {
+                    console.log("clusters_lvl3_rest lvl 1")
+                    const updateLvl2Ref = await User.updateOne({ name: clusters_lvl3_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                    const updatedClassR = await classData.updateOne(
+                        { _id: ClassR[0]._id },
+                        { $set: { lvl1_count: 1 } }
+                    );
+                }
+            } else if (clusters_lvl4_rest[0] != undefined) {
+                if (clusters_lvl4_rest.length >= 2) {
+                    console.log("clusters_lvl4_rest lvl")
+                    const updateLvl2Ref = await User.updateOne({ name: clusters_lvl4_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                    const updatedClassR = await classData.updateOne(
+                        { _id: clasRdata[0]._id },
+                        { $set: { lvl1_count: 1 } }
+                    );
+
+                    const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl4_rest[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                    updatedClassL = await classData.updateOne(
+                        { _id: clasLdata[0]._id },
+                        { $set: { lvl1_count: 1 } }
+                    );
+                } else {
+                    console.log("clusters_lvl4_rest lvl 1")
+                    const updateLvl2Ref = await User.updateOne({ name: clusters_lvl4_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                    const updatedClassR = await classData.updateOne(
+                        { _id: clasRdata[0]._id },
+                        { $set: { lvl1_count: 1 } }
+                    );
+                }
+            } else {
+                let clusters_lvl2_rest_mem;
+                if (clsLvl == 'A') {
+                    const userData = await getUserData(classDataId, "memberCount", 0);
+                    clusters_lvl2_rest_mem = userData.clusters_lvl2;
+                } else if (clsLvl == 'B') {
+                    const userData = await getUserData(classDataId, "lvl2_memberCount", 0);
+                    clusters_lvl2_rest_mem = userData.clusters_lvl2;
+                } else if (clsLvl == 'C') {
+                    const userData = await getUserData(classDataId, "lvl3_memberCount", 0);
+                    clusters_lvl2_rest_mem = userData.clusters_lvl2;
+                } else if (clsLvl == 'D') {
+                    const userData = await getUserData(classDataId, "lvl4_memberCount", 0);
+                    clusters_lvl2_rest_mem = userData.clusters_lvl2;
+                }
+                // const clusters_lvl2_rest_mem = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 0 }] }).sort({ 'updatedAt': 1 });
+                const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2_rest_mem[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                const updatedClassR = await classData.updateOne(
+                    { _id: clasRdata[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+
+                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2_rest_mem[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                updatedClassL = await classData.updateOne(
+                    { _id: clasLdata[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+            }
+        }
+    }
+
+    if (updatedClassL == undefined) {
+        let clusters_lvl2;
+        let clusters_lvl3;
+        let clusters_lvl4;
+        if (clsLvl == 'A') {
+            const userData = await getUserData(classDataId, "memberCount", 2);
+            clusters_lvl2 = userData.clusters_lvl2;
+            clusters_lvl3 = userData.clusters_lvl3;
+            clusters_lvl4 = userData.clusters_lvl4;
+        } else if (clsLvl == 'B') {
+            const userData = await getUserData(classDataId, "lvl2_memberCount", 1);
+        }
+        clasRdata = await classData.find(new ObjectId(ClassR));
+        clasLdata = await classData.find(new ObjectId(ClassL));
+        if (clusters_lvl2[0] != undefined) {
+            console.log("clusters_lvl2 lvl LL")
+            const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+            updatedClassL = await classData.updateOne(
+                { _id: clasLdata[0]._id },
+                { $set: { lvl1_count: 1 } }
+            );
+        }
+        else if (clusters_lvl3[0] != undefined) {
+            console.log("clusters_lvl3 lvl LL")
+            const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl3[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+            updatedClassL = await classData.updateOne(
+                { _id: clasLdata[0]._id },
+                { $set: { lvl1_count: 1 } }
+            );
+        }
+        else if (clusters_lvl4[0] != undefined) {
+            console.log("clusters_lvl4 lvl LL")
+            const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl4[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+            updatedClassL = await classData.updateOne(
+                { _id: clasLdata[0]._id },
+                { $set: { lvl1_count: 1 } }
+            );
+        } else {
+            let clusters_lvl2_rest;
+            let clusters_lvl3_rest;
+            let clusters_lvl4_rest;
+            if (clsLvl == 'A') {
+                const userData = await getUserData(classDataId, "memberCount", 1);
+                clusters_lvl2_rest = userData.clusters_lvl2;
+                clusters_lvl3_rest = userData.clusters_lvl3;
+                clusters_lvl4_rest = userData.clusters_lvl4;
+            } else if (clsLvl == 'B') {
+                const userData = await getUserData(classDataId, "lvl2_memberCount", 1);
+            }
+
+            if (clusters_lvl2_rest[0] != undefined) {
+                console.log("clusters_lvl2_rest lvl LL")
+                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2_rest[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                updatedClassL = await classData.updateOne(
+                    { _id: clasLdata[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+            }
+            else if (clusters_lvl3_rest[0] != undefined) {
+                console.log("clusters_lvl3_rest lvl LL")
+                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl3_rest[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                updatedClassL = await classData.updateOne(
+                    { _id: clasLdata[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+            }
+            else if (clusters_lvl4_rest[0] != undefined) {
+                console.log("clusters_lvl4_rest lvl LL")
+                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl4_rest[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                updatedClassL = await classData.updateOne(
+                    { _id: clasLdata[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+            } else {
+                let clusters_lvl2_rest_mem;
+                if (clsLvl == 'A') {
+                    const userData = await getUserData(classDataId, "memberCount", 0);
+                    clusters_lvl2_rest_mem = userData.clusters_lvl2;
+                } else if (clsLvl == 'B') {
+                    const userData = await getUserData(classDataId, "lvl2_memberCount", 1);
+                }
+                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2_rest_mem[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                updatedClassL = await classData.updateOne(
+                    { _id: clasLdata[0]._id },
+                    { $set: { lvl1_count: 1 } }
+                );
+            }
+        }
+    }
+}
+
+
+async function updateClassAndUser(user_id, class_id, class_lvl, lvl_count, lvl_count_Val) {
+    const updatedUser = await User.findOneAndUpdate(
+        { _id: user_id },
+        {
+            class_lvl: class_lvl,
+            class_name: class_id,
+        },
+        { new: true }
+    );
+
+    const updatedClass = await classData.updateOne(
+        { _id: class_id },
+        { $set: { [lvl_count]: lvl_count_Val } }
+    );
+}
+
+
+async function processClusters(ObjectId, clusters, ClassR, ClassL) {
+    let clasRdata;
+    let clasLdata;
+
+    if (clusters[0] != undefined) {
+        console.log(clusters.length, "length");
+
+        for (let i = 0; i < clusters.length; i++) {
+            clasRdata = await classData.find(new ObjectId(ClassR));
+            clasLdata = await classData.find(new ObjectId(ClassL));
+            const refkeyTest = clusters[i].refkey;
+
+            if (refkeyTest == '') {
+                console.log("im in processClusters no ref ");
+                if (clasRdata[0].lvl2_count != 2) {
+                    await updateClassAndUser(clusters[i]._id, clasRdata[0]._id, 2, 'lvl2_count', clasRdata[0].lvl2_count + 1);
+                } else if (clasLdata[0].lvl2_count != 2) {
+                    await updateClassAndUser(clusters[i]._id, clasLdata[0]._id, 2, 'lvl2_count', clasLdata[0].lvl2_count + 1);
+                } else if (clasRdata[0].lvl3_count != 4) {
+                    await updateClassAndUser(clusters[i]._id, clasRdata[0]._id, 3, 'lvl3_count', clasRdata[0].lvl3_count + 1);
+                } else if (clasLdata[0].lvl3_count != 4) {
+                    await updateClassAndUser(clusters[i]._id, clasLdata[0]._id, 3, 'lvl3_count', clasLdata[0].lvl3_count + 1);
+                }
+            } else {
+                console.log("im in processClusters ref ");
+                const refDataClass = await User.find(new ObjectId(clusters[i].refkey), { class_name: 1 }).sort({ 'updatedAt': 1 });
+                const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
+
+                // check same cls
+                if (refMainClass[0].name == clasRdata[0].name) {
+                    if (refMainClass[0].lvl2_count != 2) {
+                        await updateClassAndUser(clusters[i]._id, refMainClass[0]._id, 2, 'lvl2_count', refMainClass[0].lvl2_count + 1);
+                    } else if (refMainClass[0].lvl3_count != 4) {
+                        await updateClassAndUser(clusters[i]._id, refMainClass[0]._id, 3, 'lvl3_count', refMainClass[0].lvl3_count + 1);
+                    } else {
+                        //add class type later 
+                        const DataClass = await classData.find({ lvl3_count: { $ne: 4 } });
+                        if (DataClass[0].lvl2_count != 2) {
+                            await updateClassAndUser(clusters[i]._id, DataClass[0]._id, 2, 'lvl2_count', DataClass[0].lvl2_count + 1);
+                        } else if (DataClass[0].lvl3_count != 4) {
+                            await updateClassAndUser(clusters[i]._id, DataClass[0]._id, 3, 'lvl3_count', DataClass[0].lvl3_count + 1);
+                        }
+                    }
+                } else {
+                    if (clasRdata[0].lvl2_count != 2) {
+                        await updateClassAndUser(clusters[i]._id, clasRdata[0]._id, 2, 'lvl2_count', clasRdata[0].lvl2_count + 1);
+                    } else if (clasLdata[0].lvl2_count != 2) {
+                        await updateClassAndUser(clusters[i]._id, clasLdata[0]._id, 2, 'lvl2_count', clasLdata[0].lvl2_count + 1);
+                    } else if (clasRdata[0].lvl3_count != 4) {
+                        await updateClassAndUser(clusters[i]._id, clasRdata[0]._id, 3, 'lvl3_count', clasRdata[0].lvl3_count + 1);
+                    } else if (clasLdata[0].lvl3_count != 4) {
+                        await updateClassAndUser(clusters[i]._id, clasLdata[0]._id, 3, 'lvl3_count', clasLdata[0].lvl3_count + 1);
+                    }
+                }
+
+
+            }
+        }
+    }
+}
+
+async function processAndUpdateClusters(ObjectId, classDataId, witchCount, ClassR, ClassL, ClassName) {
+    const userData = await getUserData(classDataId, witchCount, 2);
+
+    await logic1Test(ObjectId, ClassR, ClassL, userData.clusters_lvl2, userData.clusters_lvl3, userData.clusters_lvl4, classDataId, ClassName);
+    console.log("Logic1 Done");
+
+    for (let i = 2; i >= 0; i--) {
+        const userDataMemCount2 = await getUserData(classDataId, witchCount, i);
+        await processClusters(ObjectId, userDataMemCount2.clusters_lvl2, ClassR, ClassL);
+        await processClusters(ObjectId, userDataMemCount2.clusters_lvl3, ClassR, ClassL);
+        await processClusters(ObjectId, userDataMemCount2.clusters_lvl4, ClassR, ClassL);
+        console.log(`Logic ${i} Done`);
+    }
+
+}
+
+
 export async function PUT(req1) {
     console.log("test1");
     try {
@@ -13,11 +416,12 @@ export async function PUT(req1) {
         const ObjectId = require('mongodb').ObjectId;
         const extractData = await req1.json();
 
-        console.log(extractData, "api req 1"); 
+        console.log(extractData, "api req 1");
         const getUId = extractData.uId;
         const refGetId = extractData.rId;
 
         const UserData = await User.find(new ObjectId(getUId));
+
         let refData;
         let classDataId;
         let classDataInfo_byID;
@@ -44,7 +448,7 @@ export async function PUT(req1) {
             lvl4_count: 0,
         };
 
-        if (UserData[0].refkey != refGetId && getUId != refGetId && classDataInfo_byID != undefined) {
+        if (UserData[0].refkey != refGetId && getUId != refGetId && classDataInfo_byID != undefined && classDataInfo_byID[0].name == 'A' && UserData[0].refkey == '') {
             // update ref 
             const updatedRef = await User.findOneAndUpdate(
                 { _id: refGetId },
@@ -65,10 +469,10 @@ export async function PUT(req1) {
                     },
                     {
                         new: true,
-                        timestamps:true
+                        timestamps: true
                     }
                 );
-                
+
                 // update ref class
                 const updatedRefCls = await classData.findOneAndUpdate(
                     { _id: classDataId },
@@ -79,1648 +483,31 @@ export async function PUT(req1) {
                 );
 
                 if (updatedRefCls.lvl4_count == 8) {
-                    const ClassR = await classData.create(classDataSchema);
-                    const ClassL = await classData.create(classDataSchema);
 
-                    let clasRdata;
-                    let clasLdata;
-                    clasRdata = await classData.find(new ObjectId(ClassR));
-                    clasLdata = await classData.find(new ObjectId(ClassL));
+                    const ClassRAll = await classData.create(classDataSchema);
+                    const ClassR = ClassRAll._id;
 
-                    const clusters_lvl2 = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
-                    const clusters_lvl3 = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
-                    const clusters_lvl4 = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
+                    const ClassLAll = await classData.create(classDataSchema);
+                    const ClassL = ClassLAll._id;
 
-                    let updatedClassL;
+                    await processAndUpdateClusters(ObjectId, classDataId, "memberCount", ClassR, ClassL, 'A');
 
-                    if (clasRdata[0].lvl1_count != 1) {
-                        console.log("clasRdata lvl")
+                    const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classDataId }] }).sort({ 'updatedAt': 1 });
+                    let refDataClassDetails;
+                    let referDetails;
 
-                        if (clusters_lvl2[0] != undefined) {
-                            if (clusters_lvl2.length >= 2) {
-                                console.log("clusters_lvl2 lvl")
-                                const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
-                                const updatedClassR = await classData.updateOne(
-                                    { _id: clasRdata[0]._id },
-                                    { $set: { lvl1_count: 1 } }
-                                );
-
-                                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
-                                updatedClassL = await classData.updateOne(
-                                    { _id: clasLdata[0]._id },
-                                    { $set: { lvl1_count: 1 } }
-                                );
-
-                            } else {
-                                console.log("clusters_lvl2 lvl 1")
-                                const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
-                                const updatedClassR = await classData.updateOne(
-                                    { _id: clasRdata[0]._id },
-                                    { $set: { lvl1_count: 1 } }
-                                );
-                            }
-                        } else if (clusters_lvl3[0] != undefined) {
-                            if (clusters_lvl3.length >= 2) {
-                                console.log("clusters_lvl3 lvl")
-                                const updateLvl2Ref = await User.updateOne({ name: clusters_lvl3[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
-                                const updatedClassR = await classData.updateOne(
-                                    { _id: clasRdata[0]._id },
-                                    { $set: { lvl1_count: 1 } }
-                                );
-
-                                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl3[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
-                                updatedClassL = await classData.updateOne(
-                                    { _id: clasLdata[0]._id },
-                                    { $set: { lvl1_count: 1 } }
-                                );
-                            } else {
-                                console.log("clusters_lvl3 lvl 1")
-                                const updateLvl2Ref = await User.updateOne({ name: clusters_lvl3[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
-                                const updatedClassR = await classData.updateOne(
-                                    { _id: ClassR[0]._id },
-                                    { $set: { lvl1_count: 1 } }
-                                );
-                            }
-                        } else if (clusters_lvl4[0] != undefined) {
-                            if (clusters_lvl4.length >= 2) {
-                                console.log("clusters_lvl4 lvl")
-                                const updateLvl2Ref = await User.updateOne({ name: clusters_lvl4[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
-                                const updatedClassR = await classData.updateOne(
-                                    { _id: clasRdata[0]._id },
-                                    { $set: { lvl1_count: 1 } }
-                                );
-
-                                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl4[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
-                                updatedClassL = await classData.updateOne(
-                                    { _id: clasLdata[0]._id },
-                                    { $set: { lvl1_count: 1 } }
-                                );
-                            } else {
-                                console.log("clusters_lvl4 lvl 1")
-                                const updateLvl2Ref = await User.updateOne({ name: clusters_lvl4[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
-                                const updatedClassR = await classData.updateOne(
-                                    { _id: clasRdata[0]._id },
-                                    { $set: { lvl1_count: 1 } }
-                                );
-                            }
-                        }else{
-                            const clusters_lvl2_rest = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
-                            const clusters_lvl3_rest = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
-                            const clusters_lvl4_rest = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
-                            clasRdata = await classData.find(new ObjectId(ClassR));
-                            clasLdata = await classData.find(new ObjectId(ClassL));
-
-                            if (clusters_lvl2_rest[0] != undefined) {
-                                if (clusters_lvl2_rest.length >= 2) {
-                                    console.log("clusters_lvl2_rest lvl")
-                                    const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
-                                    const updatedClassR = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl1_count: 1 } }
-                                    );
-    
-                                    const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2_rest[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
-                                    updatedClassL = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl1_count: 1 } }
-                                    );
-    
-                                } else {
-                                    console.log("clusters_lvl2 lvl 1")
-                                    const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
-                                    const updatedClassR = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl1_count: 1 } }
-                                    );
-                                }
-                            } else if (clusters_lvl3_rest[0] != undefined) {
-                                if (clusters_lvl3_rest.length >= 2) {
-                                    console.log("clusters_lvl3_rest lvl")
-                                    const updateLvl2Ref = await User.updateOne({ name: clusters_lvl3_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
-                                    const updatedClassR = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl1_count: 1 } }
-                                    );
-    
-                                    const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl3_rest[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
-                                    updatedClassL = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl1_count: 1 } }
-                                    );
-                                } else {
-                                    console.log("clusters_lvl3_rest lvl 1")
-                                    const updateLvl2Ref = await User.updateOne({ name: clusters_lvl3_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
-                                    const updatedClassR = await classData.updateOne(
-                                        { _id: ClassR[0]._id },
-                                        { $set: { lvl1_count: 1 } }
-                                    );
-                                }
-                            } else if (clusters_lvl4_rest[0] != undefined) {
-                                if (clusters_lvl4_rest.length >= 2) {
-                                    console.log("clusters_lvl4_rest lvl")
-                                    const updateLvl2Ref = await User.updateOne({ name: clusters_lvl4_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
-                                    const updatedClassR = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl1_count: 1 } }
-                                    );
-    
-                                    const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl4_rest[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
-                                    updatedClassL = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl1_count: 1 } }
-                                    );
-                                } else {
-                                    console.log("clusters_lvl4_rest lvl 1")
-                                    const updateLvl2Ref = await User.updateOne({ name: clusters_lvl4_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
-                                    const updatedClassR = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl1_count: 1 } }
-                                    );
-                                }
-                            }else{
-                                const clusters_lvl2_rest_mem = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 0 }] }).sort({'updatedAt':1});
-                                const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2_rest_mem[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
-                                    const updatedClassR = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl1_count: 1 } }
-                                    );
-    
-                                    const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2_rest_mem[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
-                                    updatedClassL = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl1_count: 1 } }
-                                    );
-                            }
-                        }
+                    try {
+                        referDetails = await User.find(new ObjectId(topLVL[0].refkey));
+                        console.log("🚀 ~ file: route.js:44 ~ PUT ~ referDetails:", referDetails)
+                        refDataClassDetails = await classData.find(new ObjectId(referDetails[0].class_name));
+                    } catch {
+                        refDataClassDetails = "";
                     }
 
-                    if (updatedClassL == undefined) {
-                        const clusters_lvl2 = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
-                        const clusters_lvl3 = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
-                        const clusters_lvl4 = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
-                        clasRdata = await classData.find(new ObjectId(ClassR));
-                        clasLdata = await classData.find(new ObjectId(ClassL));
-                        if (clusters_lvl2[0] != undefined) {
-                            console.log("clusters_lvl2 lvl LL")
-                            const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
-                            updatedClassL = await classData.updateOne(
-                                { _id: clasLdata[0]._id },
-                                { $set: { lvl1_count: 1 } }
-                            );
-                        }
-                        else if (clusters_lvl3[0] != undefined) {
-                            console.log("clusters_lvl3 lvl LL")
-                            const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl3[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
-                            updatedClassL = await classData.updateOne(
-                                { _id: clasLdata[0]._id },
-                                { $set: { lvl1_count: 1 } }
-                            );
-                        }
-                        else if (clusters_lvl4[0] != undefined) {
-                            console.log("clusters_lvl4 lvl LL")
-                            const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl4[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
-                            updatedClassL = await classData.updateOne(
-                                { _id: clasLdata[0]._id },
-                                { $set: { lvl1_count: 1 } }
-                            );
-                        }else{
-                            const clusters_lvl2_rest = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
-                            const clusters_lvl3_rest = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
-                            const clusters_lvl4_rest = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
-
-                            if (clusters_lvl2_rest[0] != undefined) {
-                                console.log("clusters_lvl2_rest lvl LL")
-                                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2_rest[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
-                                updatedClassL = await classData.updateOne(
-                                    { _id: clasLdata[0]._id },
-                                    { $set: { lvl1_count: 1 } }
-                                );
-                            }
-                            else if (clusters_lvl3_rest[0] != undefined) {
-                                console.log("clusters_lvl3_rest lvl LL")
-                                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl3_rest[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
-                                updatedClassL = await classData.updateOne(
-                                    { _id: clasLdata[0]._id },
-                                    { $set: { lvl1_count: 1 } }
-                                );
-                            }
-                            else if (clusters_lvl4_rest[0] != undefined) {
-                                console.log("clusters_lvl4_rest lvl LL")
-                                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl4_rest[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
-                                updatedClassL = await classData.updateOne(
-                                    { _id: clasLdata[0]._id },
-                                    { $set: { lvl1_count: 1 } }
-                                );
-                            }else{
-                                const clusters_lvl2_rest_mem = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 0 }] }).sort({'updatedAt':1});
-                                const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2_rest_mem[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
-                                updatedClassL = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl1_count: 1 } }
-                                );
-                            }
-                        }
-                    }
-
-                    // lvl 1 completed,
-
-                    const clusters_lvl2_ = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
-                    console.log("🚀 ~ file: route.js:321 ~ PUT ~ clusters_lvl2_:", clusters_lvl2_)
-                    const clusters_lvl3_ = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
-                    console.log("🚀 ~ file: route.js:323 ~ PUT ~ clusters_lvl3_:", clusters_lvl3_)
-                    const clusters_lvl4_ = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 2 }] }).sort({'updatedAt':1});
-                    console.log("🚀 ~ file: route.js:325 ~ PUT ~ clusters_lvl4_:", clusters_lvl4_)
-
-                    clasRdata = await classData.find(new ObjectId(ClassR));
-                    clasLdata = await classData.find(new ObjectId(ClassL));
-                    console.log("🚀 ~ file: route.js:325 ~ PUT ~ clasRdata:", clasRdata)
-                    
-
-                    if (clusters_lvl2_[0] != undefined) {
-                        console.log("clusters_lvl2", "Has clusters");
-                        console.log(clusters_lvl2_.length, "length");
-
-                        for (let i = 0; i < clusters_lvl2_.length; i++) {
-                            clasRdata = await classData.find(new ObjectId(ClassR));
-                            clasLdata = await classData.find(new ObjectId(ClassL));
-                            const refkeyTest = clusters_lvl2_[i].refkey
-                            if (refkeyTest == ''){
-
-                                if (clasRdata[0].lvl2_count != 2) {
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl2_count: clasRdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl2_count != 2){
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl2_count: clasLdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasRdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl3_count: clasRdata[0].lvl3_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl3_count: clasLdata[0].lvl3_count + 1 } }
-                                    );
-                                }
-                            }else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl2_[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
-                                console.log(refDataClass[0].class_name, "refDataClass");
-                                const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
-                                console.log(refMainClass, "refMainClass");
-                                if (refMainClass[0].lvl2_count != 2) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl2_count: refMainClass[0].lvl2_count + 1 } }
-                                    );
-    
-                                }
-                                else if (refMainClass[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl3_count: refMainClass[0].lvl3_count + 1 } }
-                                    );
-    
-                                }
-                                else {
-                                    const DataClass = await classData.find({ lvl3_count: { $ne: 4 } });
-                                    if (DataClass[0].lvl2_count != 2) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl2_[i]._id },
-                                            {
-                                                class_lvl: 2,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl2_count: DataClass[0].lvl2_count + 1 } }
-                                        );
-                                    }
-                                    else if (DataClass[0].lvl3_count != 4) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl2_[i]._id },
-                                            {
-                                                class_lvl: 3,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl3_count: DataClass[0].lvl3_count + 1 } }
-                                        );
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    clasRdata = await classData.find(new ObjectId(ClassR));
-                    clasLdata = await classData.find(new ObjectId(ClassL));
-
-                    if (clusters_lvl3_[0] != undefined) {
-                        console.log("clusters_lvl3 test here", "Has data");
-                        console.log(clusters_lvl3_.length, "length");
-                        for (let i = 0; i < clusters_lvl3_.length; i++) {
-                            clasRdata = await classData.find(new ObjectId(ClassR));
-                            clasLdata = await classData.find(new ObjectId(ClassL));
-                            const refkeyTest = clusters_lvl3_[i].refkey
-                            console.log(refkeyTest,"refkeyTest gg wp refkeyTest")
-                            if (refkeyTest == ''){
-                                console.log("gg wp im in fk")
-                                if (clasRdata[0].lvl2_count != 2) {
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl2_count: clasRdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl2_count != 2){
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl2_count: clasLdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasRdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl3_count: clasRdata[0].lvl3_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl3_count: clasLdata[0].lvl3_count + 1 } }
-                                    );
-                                }
-                            }
-                            else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl3_[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
-                                console.log(refDataClass,"refDataClass gg wp")
-                                
-                                console.log(refDataClass[0].class_name, "refDataClass");
-
-                                const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
-                                console.log(refMainClass, "refMainClass");
-    
-                                if (refMainClass[0].lvl2_count != 2) {
-    
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl2_count: refMainClass[0].lvl2_count + 1 } }
-                                    );
-    
-                                }
-                                else if (refMainClass[0].lvl3_count != 4) {
-    
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl3_count: refMainClass[0].lvl3_count + 1 } }
-                                    );
-    
-                                }
-                                else {
-                                    const DataClass = await classData.find({ lvl3_count: { $ne: 4 } });
-                                    if (DataClass[0].lvl2_count != 2) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl3_[i]._id },
-                                            {
-                                                class_lvl: 2,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl2_count: DataClass[0].lvl2_count + 1 } }
-                                        );
-                                    }
-                                    else if (DataClass[0].lvl3_count != 4) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl3_[i]._id },
-                                            {
-                                                class_lvl: 3,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl3_count: DataClass[0].lvl3_count + 1 } }
-                                        );
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    clasRdata = await classData.find(new ObjectId(ClassR));
-                    clasLdata = await classData.find(new ObjectId(ClassL));
-                    if (clusters_lvl4_[0] != undefined) {
-                        console.log("clusters_lvl4", "Has data");
-                        console.log(clusters_lvl4_.length, "length");
-                        for (let i = 0; i < clusters_lvl4_.length; i++) {
-                            clasRdata = await classData.find(new ObjectId(ClassR));
-                            clasLdata = await classData.find(new ObjectId(ClassL));
-                            const refkeyTest = clusters_lvl4_[i].refkey
-                            
-                            if (refkeyTest == ''){
-                                if (clasRdata[0].lvl2_count != 2) {
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl2_count: clasRdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl2_count != 2){
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl2_count: clasLdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasRdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl3_count: clasRdata[0].lvl3_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl3_count: clasLdata[0].lvl3_count + 1 } }
-                                    );
-                                }
-                            }
-                            else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl4_[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
-                                console.log(refDataClass[0].class_name, "refDataClass");
-
-                                const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
-                                console.log(refMainClass, "refMainClass");
-    
-                                if (refMainClass[0].lvl2_count != 2) {
-    
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl2_count: refMainClass[0].lvl2_count + 1 } }
-                                    );
-    
-                                }
-                                else if (refMainClass[0].lvl3_count != 4) {
-    
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl3_count: refMainClass[0].lvl3_count + 1 } }
-                                    );
-    
-                                }
-                                else {
-                                    const DataClass = await classData.find({ lvl3_count: { $ne: 4 } });
-                                    if (DataClass[0].lvl2_count != 2) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl4_[i]._id },
-                                            {
-                                                class_lvl: 2,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl2_count: DataClass[0].lvl2_count + 1 } }
-                                        );
-                                    }
-                                    else if (DataClass[0].lvl3_count != 4) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl4_[i]._id },
-                                            {
-                                                class_lvl: 3,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl3_count: DataClass[0].lvl3_count + 1 } }
-                                        );
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    // to do change if (refDataClass == undefined){} to funtion and its inside
-
-                    // Logic 2 check memberCount 1
-
-                    const clusters_lvl2_rest = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
-                    const clusters_lvl3_rest = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
-                    const clusters_lvl4_rest = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 1 }] }).sort({'updatedAt':1});
-                    clasRdata = await classData.find(new ObjectId(ClassR));
-                    clasLdata = await classData.find(new ObjectId(ClassL));
-                    if (clusters_lvl2_rest[0] != undefined) {
-                        console.log("clusters_lvl2_rest", "Has clusters");
-                        console.log(clusters_lvl2_rest.length, "length");
-
-                        for (let i = 0; i < clusters_lvl2_rest.length; i++) {
-                            clasRdata = await classData.find(new ObjectId(ClassR));
-                            clasLdata = await classData.find(new ObjectId(ClassL));
-                            console.log(clusters_lvl2_rest[i].refkey, "clusters_lvl2_rest_refkey");
-                            console.log(clusters_lvl2_rest[i].memberCount, "memberCount");
-                            const refkeyTest = clusters_lvl2_rest[i].refkey
-                            
-                            if (refkeyTest == ''){
-
-                                if (clasRdata[0].lvl2_count != 2) {
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_rest[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl2_count: clasRdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl2_count != 2){
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_rest[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl2_count: clasLdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasRdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_rest[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl3_count: clasRdata[0].lvl3_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_rest[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl3_count: clasLdata[0].lvl3_count + 1 } }
-                                    );
-                                }
-                            }
-                            else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl2_rest[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
-                                console.log(refDataClass[0].class_name, "refDataClass");
-
-                                const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
-                                console.log(refMainClass, "refMainClass");
-
-                                if (refMainClass[0].lvl2_count != 2) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_rest[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl2_count: refMainClass[0].lvl2_count + 1 } }
-                                    );
-    
-                                }
-                                else if (refMainClass[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_rest[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl3_count: refMainClass[0].lvl3_count + 1 } }
-                                    );
-    
-                                }
-                                else {
-                                    const DataClass = await classData.find({ lvl3_count: { $ne: 4 } });
-                                    if (DataClass[0].lvl2_count != 2) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl2_rest[i]._id },
-                                            {
-                                                class_lvl: 2,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl2_count: DataClass[0].lvl2_count + 1 } }
-                                        );
-                                    }
-                                    else if (DataClass[0].lvl3_count != 4) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl2_rest[i]._id },
-                                            {
-                                                class_lvl: 3,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl3_count: DataClass[0].lvl3_count + 1 } }
-                                        );
-                                    }
-                                }
-                                
-                            }
-                            
-                        }
-                    }
-                    clasRdata = await classData.find(new ObjectId(ClassR));
-                    clasLdata = await classData.find(new ObjectId(ClassL));
-                    if (clusters_lvl3_rest[0] != undefined) {
-                        console.log("clusters_lvl3_rest", "Has clusters");
-                        console.log(clusters_lvl3_rest.length, "length");
-
-                        for (let i = 0; i < clusters_lvl3_rest.length; i++) {
-                            clasRdata = await classData.find(new ObjectId(ClassR));
-                            clasLdata = await classData.find(new ObjectId(ClassL));
-                            console.log(clusters_lvl3_rest[i].refkey, "clusters_lvl3_rest_refkey");
-                            console.log(clusters_lvl3_rest[i].memberCount, "memberCount");
-                            const refkeyTest = clusters_lvl3_rest[i].refkey
-                            
-                            if (refkeyTest == ''){
-                                console.log("im fuking in")
-                                if (clasRdata[0].lvl2_count != 2) {
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_rest[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl2_count: clasRdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl2_count != 2){
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_rest[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl2_count: clasLdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasRdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_rest[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl3_count: clasRdata[0].lvl3_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_rest[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl3_count: clasLdata[0].lvl3_count + 1 } }
-                                    );
-                                }
-                            }
-                            else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl3_rest[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
-                                console.log(refDataClass,"refDataClass refDataClass")
-                                console.log(refDataClass[0].class_name, "refDataClass");
-
-                                const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
-                                
-                                console.log(refMainClass, "refMainClass");
-                                if (refMainClass[0].lvl2_count != 2) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_rest[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl2_count: refMainClass[0].lvl2_count + 1 } }
-                                    );
-    
-                                }
-                                else if (refMainClass[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_rest[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl3_count: refMainClass[0].lvl3_count + 1 } }
-                                    );
-    
-                                }
-                                else {
-                                    const DataClass = await classData.find({ lvl3_count: { $ne: 4 } });
-                                    if (DataClass[0].lvl2_count != 2) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl3_rest[i]._id },
-                                            {
-                                                class_lvl: 2,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl2_count: DataClass[0].lvl2_count + 1 } }
-                                        );
-                                    }
-                                    else if (DataClass[0].lvl3_count != 4) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl3_rest[i]._id },
-                                            {
-                                                class_lvl: 3,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl3_count: DataClass[0].lvl3_count + 1 } }
-                                        );
-                                    }
-                                }
-
-                            }
-
-                        }
-                    }
-                    clasRdata = await classData.find(new ObjectId(ClassR));
-                    clasLdata = await classData.find(new ObjectId(ClassL));
-                    if (clusters_lvl4_rest[0] != undefined) {
-                        console.log("clusters_lvl4_rest", "Has clusters");
-                        console.log(clusters_lvl4_rest.length, "length");
-
-                        for (let i = 0; i < clusters_lvl4_rest.length; i++) {
-                            clasRdata = await classData.find(new ObjectId(ClassR));
-                            clasLdata = await classData.find(new ObjectId(ClassL));
-                            console.log(clusters_lvl4_rest[i].refkey, "clusters_lvl4_rest_refkey");
-                            console.log(clusters_lvl4_rest[i].memberCount, "memberCount");
-                            const refkeyTest = clusters_lvl4_rest[i].refkey
-                            
-                            if (refkeyTest == ''){
-                                if (clasRdata[0].lvl2_count != 2) {
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_rest[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl2_count: clasRdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl2_count != 2){
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_rest[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl2_count: clasLdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasRdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_rest[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl3_count: clasRdata[0].lvl3_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_rest[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl3_count: clasLdata[0].lvl3_count + 1 } }
-                                    );
-                                }
-                            }
-                            else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl4_rest[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
-                                console.log(refDataClass[0].class_name, "refDataClass");
-
-                                const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
-                                console.log(refMainClass, "refMainClass");
-
-                                if (refMainClass[0].lvl2_count != 2) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_rest[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl2_count: refMainClass[0].lvl2_count + 1 } }
-                                    );
-    
-                                }
-                                else if (refMainClass[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_rest[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl3_count: refMainClass[0].lvl3_count + 1 } }
-                                    );
-    
-                                }
-                                else {
-                                    const DataClass = await classData.find({ lvl3_count: { $ne: 4 } });
-                                    if (DataClass[0].lvl2_count != 2) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl4_rest[i]._id },
-                                            {
-                                                class_lvl: 2,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl2_count: DataClass[0].lvl2_count + 1 } }
-                                        );
-                                    }
-                                    else if (DataClass[0].lvl3_count != 4) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl4_rest[i]._id },
-                                            {
-                                                class_lvl: 3,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl3_count: DataClass[0].lvl3_count + 1 } }
-                                        );
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    // end of logic 2
-                    console.log("logic 2", "Done")
-
-                    // Logic 3 check memberCount 0
-                    const clusters_lvl2_rest_mem = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 0 }] }).sort({'updatedAt':1});
-                    const clusters_lvl3_rest_mem = await User.find({ $and: [{ "class_lvl": 3 }, { "class_name": classDataId }, { "memberCount": 0 }] }).sort({'updatedAt':1});
-                    const clusters_lvl4_rest_mem = await User.find({ $and: [{ "class_lvl": 4 }, { "class_name": classDataId }, { "memberCount": 0 }] }).sort({'updatedAt':1});
-
-                    clasRdata = await classData.find(new ObjectId(ClassR));
-                    clasLdata = await classData.find(new ObjectId(ClassL));
-                    console.log("🚀 ~ file: route.js:1237 ~ PUT ~ clasRdata:", clasRdata)
-                    
-
-                    if (clusters_lvl2_rest_mem[0] != undefined) {
-                        console.log("clusters_lvl2_rest_mem", "Has clusters");
-                        console.log(clusters_lvl2_rest_mem.length, "length");
-
-                        for (let i = 0; i < clusters_lvl2_rest_mem.length; i++) {
-                            clasRdata = await classData.find(new ObjectId(ClassR));
-                            clasLdata = await classData.find(new ObjectId(ClassL));
-                            console.log(clusters_lvl2_rest_mem[i].refkey, "clusters_lvl2_rest_mem_refkey");
-                            console.log(clusters_lvl2_rest_mem[i].memberCount, "memberCount");
-                            const refkeyTest = clusters_lvl2_rest_mem[i].refkey
-                            
-                            if (refkeyTest == ''){
-                                if (clasRdata[0].lvl2_count != 2) {
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl2_count: clasRdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl2_count != 2){
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl2_count: clasLdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasRdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl3_count: clasRdata[0].lvl3_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl3_count: clasLdata[0].lvl3_count + 1 } }
-                                    );
-                                }
-                            }
-                            else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl2_rest_mem[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
-                                console.log(refDataClass[0].class_name, "refDataClass");
-
-                                const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
-                                console.log(refMainClass, "refMainClass");
-    
-                                if (refMainClass[0].lvl2_count != 2) {
-    
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl2_count: refMainClass[0].lvl2_count + 1 } }
-                                    );
-    
-                                } else if (refMainClass[0].lvl3_count != 4) {
-    
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl2_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl3_count: refMainClass[0].lvl3_count + 1 } }
-                                    );
-    
-                                } else {
-                                    const DataClass = await classData.find({ lvl3_count: { $ne: 4 } });
-                                    if (DataClass[0].lvl2_count != 2) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl2_rest_mem[i]._id },
-                                            {
-                                                class_lvl: 2,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl2_count: DataClass[0].lvl2_count + 1 } }
-                                        );
-                                    }
-                                    else if (DataClass[0].lvl3_count != 4) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl2_rest_mem[i]._id },
-                                            {
-                                                class_lvl: 3,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl3_count: DataClass[0].lvl3_count + 1 } }
-                                        );
-                                    }
-                                }
-                            }
-                            
-                        }
-                    }
-                    clasRdata = await classData.find(new ObjectId(ClassR));
-                    clasLdata = await classData.find(new ObjectId(ClassL));
-                    if (clusters_lvl3_rest_mem[0] != undefined) {
-                        console.log("clusters_lvl3_rest_mem", "Has clusters");
-                        console.log(clusters_lvl3_rest_mem.length, "length");
-
-                        for (let i = 0; i < clusters_lvl3_rest_mem.length; i++) {
-                            clasRdata = await classData.find(new ObjectId(ClassR));
-                            clasLdata = await classData.find(new ObjectId(ClassL));
-                            console.log(clusters_lvl3_rest_mem[i].refkey, "clusters_lvl3_rest_mem_refkey");
-                            console.log(clusters_lvl3_rest_mem[i].memberCount, "memberCount");
-                            const refkeyTest = clusters_lvl3_rest_mem[i].refkey
-                            
-                            if (refkeyTest == ''){
-                                if (clasRdata[0].lvl2_count != 2) {
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl2_count: clasRdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl2_count != 2){
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl2_count: clasLdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasRdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl3_count: clasRdata[0].lvl3_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl3_count: clasLdata[0].lvl3_count + 1 } }
-                                    );
-                                }
-                            }
-                            else{
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl3_rest_mem[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
-                                console.log(refDataClass[0].class_name, "refDataClass");
-
-                                const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
-                                console.log(refMainClass, "refMainClass");
-    
-                                if (refMainClass[0].lvl2_count != 2) {
-    
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl2_count: refMainClass[0].lvl2_count + 1 } }
-                                    );
-    
-                                } else if (refMainClass[0].lvl3_count != 4) {
-    
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl3_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl3_count: refMainClass[0].lvl3_count + 1 } }
-                                    );
-    
-                                } else {
-                                    const DataClass = await classData.find({ lvl3_count: { $ne: 4 } });
-                                    if (DataClass[0].lvl2_count != 2) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl3_rest_mem[i]._id },
-                                            {
-                                                class_lvl: 2,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl2_count: DataClass[0].lvl2_count + 1 } }
-                                        );
-                                    }
-                                    else if (DataClass[0].lvl3_count != 4) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl3_rest_mem[i]._id },
-                                            {
-                                                class_lvl: 3,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl3_count: DataClass[0].lvl3_count + 1 } }
-                                        );
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    clasRdata = await classData.find(new ObjectId(ClassR));
-                    clasLdata = await classData.find(new ObjectId(ClassL));
-                    if (clusters_lvl4_rest_mem[0] != undefined) {
-                        console.log("clusters_lvl4_rest_mem", "Has clusters");
-                        console.log(clusters_lvl4_rest_mem.length, "length");
-
-                        for (let i = 0; i < clusters_lvl4_rest_mem.length; i++) {
-                            clasRdata = await classData.find(new ObjectId(ClassR));
-                            clasLdata = await classData.find(new ObjectId(ClassL));
-                            console.log(clusters_lvl4_rest_mem[i].refkey, "clusters_lvl4_rest_mem_refkey");
-                            console.log(clusters_lvl4_rest_mem[i].memberCount, "memberCount");
-                            const refkeyTest = clusters_lvl4_rest_mem[i].refkey
-                            
-                            if (refkeyTest == ''){
-                                if (clasRdata[0].lvl2_count != 2) {
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl2_count: clasRdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl2_count != 2){
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl2_count: clasLdata[0].lvl2_count + 1 } }
-                                    );
-                                } else if (clasRdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasRdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasRdata[0]._id },
-                                        { $set: { lvl3_count: clasRdata[0].lvl3_count + 1 } }
-                                    );
-                                } else if (clasLdata[0].lvl3_count != 4) {
-
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: clasLdata[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: clasLdata[0]._id },
-                                        { $set: { lvl3_count: clasLdata[0].lvl3_count + 1 } }
-                                    );
-                                }
-                            }
-                            else{
-                                // here im getting lvl2_count: 1,
-                                const refDataClass = await User.find(new ObjectId(clusters_lvl4_rest_mem[i].refkey), { class_name: 1 }).sort({'updatedAt':1});
-                                console.log(refDataClass[0].class_name, "refDataClass");
-
-                                const refMainClass = await classData.find(new ObjectId(refDataClass[0].class_name));
-                                console.log("🚀 ~ file: route.js:1616 ~ PUT ~ refMainClass:", refMainClass)
-                                console.log(refMainClass, "refMainClass");
-                                
-    
-                                if (refMainClass[0].lvl2_count != 2) {
-    
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 2,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl2_count: refMainClass[0].lvl2_count + 1 } }
-                                    );
-    
-                                } else if (refMainClass[0].lvl3_count != 4) {
-    
-                                    const updatedUser = await User.findOneAndUpdate(
-                                        { _id: clusters_lvl4_rest_mem[i]._id },
-                                        {
-                                            class_lvl: 3,
-                                            class_name: refMainClass[0]._id,
-                                        },
-                                        { new: true }
-                                    );
-    
-                                    const updatedClass = await classData.updateOne(
-                                        { _id: refMainClass[0]._id },
-                                        { $set: { lvl3_count: refMainClass[0].lvl3_count + 1 } }
-                                    );
-    
-                                } else {
-                                    const DataClass = await classData.find({ lvl3_count: { $ne: 4 } });
-                                    if (DataClass[0].lvl2_count != 2) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl4_rest_mem[i]._id },
-                                            {
-                                                class_lvl: 2,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl2_count: DataClass[0].lvl2_count + 1 } }
-                                        );
-                                    }
-                                    else if (DataClass[0].lvl3_count != 4) {
-                                        const updatedUser = await User.findOneAndUpdate(
-                                            { _id: clusters_lvl4_rest_mem[i]._id },
-                                            {
-                                                class_lvl: 3,
-                                                class_name: DataClass[0]._id,
-                                            },
-                                            { new: true }
-                                        );
-    
-                                        const updatedClass = await classData.updateOne(
-                                            { _id: DataClass[0]._id },
-                                            { $set: { lvl3_count: DataClass[0].lvl3_count + 1 } }
-                                        );
-                                    }
-                                }
-                            }
-                            
-                        }
-                    }
-                    // end of logic 3
-                    console.log("logic 3", "Done")
-
-                    const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classDataId }] }).sort({'updatedAt':1});
-                    const topLVLClassName = await classData.find(new ObjectId(topLVL[0].class_name));
-
-                    if (topLVL[0].refkey == '') {
+                    if (topLVL[0].refkey == '' || refDataClassDetails[0].name != 'B') {
                         const lvl2 = await classData.find({ $and: [{ "name": "B" }, { "lvl4_count": { $ne: 8 } }] });
-                        
+                        const classLvl2Id = lvl2[0]._id
+
                         if (lvl2[0].lvl4_count != 8) {
 
                             const updatedUser = await User.findOneAndUpdate(
@@ -1732,26 +519,1573 @@ export async function PUT(req1) {
                                 { new: true }
                             );
 
-                            const updatedClass = await classData.updateOne(
+                            const updatedClass = await classData.findOneAndUpdate(
                                 { _id: lvl2[0]._id },
-                                { $set: { lvl4_count: lvl2[0].lvl4_count + 1 } }
+                                {
+                                    lvl4_count: lvl2[0].lvl4_count + 1,
+                                },
+                                { new: true }
                             );
 
+                            if (updatedClass.lvl4_count == 8) {
+                                const classBSchema =
+                                {
+                                    name: "B",
+                                    lvl1_count: 0,
+                                    lvl2_count: 0,
+                                    lvl3_count: 0,
+                                    lvl4_count: 0,
+                                };
+                                const ClassRAll = await classData.create(classBSchema);
+                                const ClassR = ClassRAll._id;
 
+                                const ClassLAll = await classData.create(classBSchema);
+                                const ClassL = ClassLAll._id;
+
+                                await processAndUpdateClusters(ObjectId, classLvl2Id, "lvl2_memberCount", ClassR, ClassL, 'B');
+
+                                const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl2Id }] }).sort({ 'updatedAt': 1 });
+
+                                let refDataClassDetails;
+                                let referDetails;
+
+                                try {
+                                    referDetails = await User.find(new ObjectId(topLVL[0].refkey));
+                                    console.log("🚀 ~ file: route.js:44 ~ PUT ~ referDetails:", referDetails)
+                                    refDataClassDetails = await classData.find(new ObjectId(referDetails[0].class_name));
+                                } catch {
+                                    refDataClassDetails = "";
+                                }
+
+                                if (topLVL[0].refkey == '' || refDataClassDetails[0].name != 'C') {
+                                    const lvl3 = await classData.find({ $and: [{ "name": "C" }, { "lvl4_count": { $ne: 8 } }] });
+                                    const classLvl3Id = lvl3[0]._id
+
+                                    if (lvl3[0].lvl4_count != 8) {
+
+                                        const updatedUser = await User.findOneAndUpdate(
+                                            { _id: topLVL[0]._id },
+                                            {
+                                                class_lvl: 4,
+                                                class_name: lvl3[0]._id,
+                                            },
+                                            { new: true }
+                                        );
+
+                                        const updatedClass = await classData.findOneAndUpdate(
+                                            { _id: lvl3[0]._id },
+                                            {
+                                                lvl4_count: lvl3[0].lvl4_count + 1,
+                                            },
+                                            { new: true }
+                                        );
+
+                                        if (updatedClass.lvl4_count == 8) {
+                                            const classCSchema =
+                                            {
+                                                name: "C",
+                                                lvl1_count: 0,
+                                                lvl2_count: 0,
+                                                lvl3_count: 0,
+                                                lvl4_count: 0,
+                                            };
+                                            const ClassRAll = await classData.create(classCSchema);
+                                            const ClassR = ClassRAll._id;
+
+                                            const ClassLAll = await classData.create(classCSchema);
+                                            const ClassL = ClassLAll._id;
+
+                                            await processAndUpdateClusters(ObjectId, classLvl3Id, "lvl3_memberCount", ClassR, ClassL, 'C');
+
+                                            const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl3Id }] }).sort({ 'updatedAt': 1 });
+
+                                            let refDataClassDetails;
+                                            let referDetails;
+
+                                            try {
+                                                referDetails = await User.find(new ObjectId(topLVL[0].refkey));
+                                                console.log("🚀 ~ file: route.js:44 ~ PUT ~ referDetails:", referDetails)
+                                                refDataClassDetails = await classData.find(new ObjectId(referDetails[0].class_name));
+                                            } catch {
+                                                refDataClassDetails = "";
+                                            }
+
+                                            if (topLVL[0].refkey == '' || refDataClassDetails[0].name != 'D') {
+                                                const lvl4 = await classData.find({ $and: [{ "name": "D" }, { "lvl4_count": { $ne: 8 } }] });
+                                                const classLvl4Id = lvl4[0]._id
+
+                                                if (lvl4[0].lvl4_count != 8) {
+
+                                                    const updatedUser = await User.findOneAndUpdate(
+                                                        { _id: topLVL[0]._id },
+                                                        {
+                                                            class_lvl: 4,
+                                                            class_name: lvl4[0]._id,
+                                                        },
+                                                        { new: true }
+                                                    );
+
+                                                    const updatedClass = await classData.findOneAndUpdate(
+                                                        { _id: lvl4[0]._id },
+                                                        {
+                                                            lvl4_count: lvl4[0].lvl4_count + 1,
+                                                        },
+                                                        { new: true }
+                                                    );
+                                                    // console.log("🚀 ~ file: route.js:1743 ~ PUT ~ updatedClass:", updatedClass)
+
+                                                    if (updatedClass.lvl4_count == 8) {
+                                                        const classDSchema =
+                                                        {
+                                                            name: "D",
+                                                            lvl1_count: 0,
+                                                            lvl2_count: 0,
+                                                            lvl3_count: 0,
+                                                            lvl4_count: 0,
+                                                        };
+                                                        const ClassRAll = await classData.create(classDSchema);
+                                                        const ClassR = ClassRAll._id;
+
+                                                        const ClassLAll = await classData.create(classDSchema);
+                                                        const ClassL = ClassLAll._id;
+
+                                                        await processAndUpdateClusters(ObjectId, classLvl4Id, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                                        const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl4Id }] }).sort({ 'updatedAt': 1 });
+                                                        const topLVLClassName = await classData.find(new ObjectId(topLVL[0].class_name));
+                                                    }
+                                                }
+
+                                            }
+                                            else {
+                                                const updatedRef = await User.findOneAndUpdate(
+                                                    { _id: referDetails[0]._id },
+                                                    {
+                                                        lvl4_memberCount: referDetails[0].lvl4_memberCount + 1,
+                                                    },
+                                                    { new: true }
+                                                );
+
+                                                const updatedUser = await User.findOneAndUpdate(
+                                                    { _id: topLVL[0]._id },
+                                                    {
+                                                        class_lvl: 4,
+                                                        class_name: refDataClassDetails[0]._id,
+                                                    },
+                                                    {
+                                                        new: true,
+                                                        timestamps: true
+                                                    }
+                                                );
+
+                                                // update ref class
+                                                const updatedRefCls = await classData.findOneAndUpdate(
+                                                    { _id: refDataClassDetails[0]._id },
+                                                    {
+                                                        lvl4_count: refDataClassDetails[0].lvl4_count + 1,
+                                                    },
+                                                    { new: true }
+                                                );
+
+                                                if (updatedRefCls.lvl4_count == 8) {
+                                                    const classDSchema =
+                                                    {
+                                                        name: "D",
+                                                        lvl1_count: 0,
+                                                        lvl2_count: 0,
+                                                        lvl3_count: 0,
+                                                        lvl4_count: 0,
+                                                    };
+
+                                                    const ClassRAll = await classData.create(classDSchema);
+                                                    const ClassR = ClassRAll._id;
+
+                                                    const ClassLAll = await classData.create(classDSchema);
+                                                    const ClassL = ClassLAll._id;
+
+                                                    await processAndUpdateClusters(ObjectId, topLVLClassData, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                                    // Do something to lvl4 Top user
+                                                    // const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": topLVLClassData }] }).sort({ 'updatedAt': 1 });
+                                                }
+
+                                            }
+
+                                        }
+                                    }
+
+                                }
+                                else {
+                                    const updatedRef = await User.findOneAndUpdate(
+                                        { _id: referDetails[0]._id },
+                                        {
+                                            lvl3_memberCount: referDetails[0].lvl3_memberCount + 1,
+                                        },
+                                        { new: true }
+                                    );
+
+                                    const updatedUser = await User.findOneAndUpdate(
+                                        { _id: topLVL[0]._id },
+                                        {
+                                            class_lvl: 4,
+                                            class_name: refDataClassDetails[0]._id,
+                                        },
+                                        {
+                                            new: true,
+                                            timestamps: true
+                                        }
+                                    );
+
+                                    const updatedRefCls = await classData.findOneAndUpdate(
+                                        { _id: refDataClassDetails[0]._id },
+                                        {
+                                            lvl4_count: refDataClassDetails[0].lvl4_count + 1,
+                                        },
+                                        { new: true }
+                                    );
+
+                                    if (updatedRefCls.lvl4_count == 8) {
+                                        const classCSchema =
+                                        {
+                                            name: "C",
+                                            lvl1_count: 0,
+                                            lvl2_count: 0,
+                                            lvl3_count: 0,
+                                            lvl4_count: 0,
+                                        };
+                                        const ClassRAll = await classData.create(classCSchema);
+                                        const ClassR = ClassRAll._id;
+
+                                        const ClassLAll = await classData.create(classCSchema);
+                                        const ClassL = ClassLAll._id;
+
+                                        await processAndUpdateClusters(ObjectId, classLvl3Id, "lvl3_memberCount", ClassR, ClassL, 'C');
+
+                                        const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl3Id }] }).sort({ 'updatedAt': 1 });
+
+                                        let refDataClassDetails;
+                                        let referDetails;
+
+                                        try {
+                                            referDetails = await User.find(new ObjectId(topLVL[0].refkey));
+                                            console.log("🚀 ~ file: route.js:44 ~ PUT ~ referDetails:", referDetails)
+                                            refDataClassDetails = await classData.find(new ObjectId(referDetails[0].class_name));
+                                        } catch {
+                                            refDataClassDetails = "";
+                                        }
+
+                                        if (topLVL[0].refkey == '' || refDataClassDetails[0].name != 'D') {
+                                            const lvl4 = await classData.find({ $and: [{ "name": "D" }, { "lvl4_count": { $ne: 8 } }] });
+                                            const classLvl4Id = lvl4[0]._id
+
+                                            if (lvl4[0].lvl4_count != 8) {
+
+                                                const updatedUser = await User.findOneAndUpdate(
+                                                    { _id: topLVL[0]._id },
+                                                    {
+                                                        class_lvl: 4,
+                                                        class_name: lvl4[0]._id,
+                                                    },
+                                                    { new: true }
+                                                );
+
+                                                const updatedClass = await classData.findOneAndUpdate(
+                                                    { _id: lvl4[0]._id },
+                                                    {
+                                                        lvl4_count: lvl4[0].lvl4_count + 1,
+                                                    },
+                                                    { new: true }
+                                                );
+                                                // console.log("🚀 ~ file: route.js:1743 ~ PUT ~ updatedClass:", updatedClass)
+
+                                                if (updatedClass.lvl4_count == 8) {
+                                                    const classDSchema =
+                                                    {
+                                                        name: "D",
+                                                        lvl1_count: 0,
+                                                        lvl2_count: 0,
+                                                        lvl3_count: 0,
+                                                        lvl4_count: 0,
+                                                    };
+                                                    const ClassRAll = await classData.create(classDSchema);
+                                                    const ClassR = ClassRAll._id;
+
+                                                    const ClassLAll = await classData.create(classDSchema);
+                                                    const ClassL = ClassLAll._id;
+
+                                                    await processAndUpdateClusters(ObjectId, classLvl4Id, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                                    const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl4Id }] }).sort({ 'updatedAt': 1 });
+                                                    const topLVLClassName = await classData.find(new ObjectId(topLVL[0].class_name));
+                                                }
+                                            }
+
+                                        }
+                                        else {
+                                            const updatedRef = await User.findOneAndUpdate(
+                                                { _id: referDetails[0]._id },
+                                                {
+                                                    lvl4_memberCount: referDetails[0].lvl4_memberCount + 1,
+                                                },
+                                                { new: true }
+                                            );
+
+                                            const updatedUser = await User.findOneAndUpdate(
+                                                { _id: topLVL[0]._id },
+                                                {
+                                                    class_lvl: 4,
+                                                    class_name: refDataClassDetails[0]._id,
+                                                },
+                                                {
+                                                    new: true,
+                                                    timestamps: true
+                                                }
+                                            );
+
+                                            // update ref class
+                                            const updatedRefCls = await classData.findOneAndUpdate(
+                                                { _id: refDataClassDetails[0]._id },
+                                                {
+                                                    lvl4_count: refDataClassDetails[0].lvl4_count + 1,
+                                                },
+                                                { new: true }
+                                            );
+
+                                            if (updatedRefCls.lvl4_count == 8) {
+                                                const classDSchema =
+                                                {
+                                                    name: "D",
+                                                    lvl1_count: 0,
+                                                    lvl2_count: 0,
+                                                    lvl3_count: 0,
+                                                    lvl4_count: 0,
+                                                };
+
+                                                const ClassRAll = await classData.create(classDSchema);
+                                                const ClassR = ClassRAll._id;
+
+                                                const ClassLAll = await classData.create(classDSchema);
+                                                const ClassL = ClassLAll._id;
+
+                                                await processAndUpdateClusters(ObjectId, topLVLClassData, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                                // Do something to lvl4 Top user
+                                                // const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": topLVLClassData }] }).sort({ 'updatedAt': 1 });
+                                            }
+
+                                        }
+
+                                    }
+                                }
+                            }
                         }
-                    } 
 
+                    }
+                    else{
+                        const updatedRef = await User.findOneAndUpdate(
+                            { _id: referDetails[0]._id },
+                            {
+                                lvl2_memberCount: referDetails[0].lvl2_memberCount + 1,
+                            },
+                            { new: true }
+                        );
+
+                        const updatedUser = await User.findOneAndUpdate(
+                            { _id: topLVL[0]._id },
+                            {
+                                class_lvl: 4,
+                                class_name: refDataClassDetails[0]._id,
+                            },
+                            {
+                                new: true,
+                                timestamps: true
+                            }
+                        );
+
+                        const updatedRefCls = await classData.findOneAndUpdate(
+                            { _id: refDataClassDetails[0]._id },
+                            {
+                                lvl4_count: refDataClassDetails[0].lvl4_count + 1,
+                            },
+                            { new: true }
+                        );
+
+                        if (updatedRefCls.lvl4_count == 8) {
+                            const classBSchema =
+                            {
+                                name: "B",
+                                lvl1_count: 0,
+                                lvl2_count: 0,
+                                lvl3_count: 0,
+                                lvl4_count: 0,
+                            };
+                            const ClassRAll = await classData.create(classBSchema);
+                            const ClassR = ClassRAll._id;
+
+                            const ClassLAll = await classData.create(classBSchema);
+                            const ClassL = ClassLAll._id;
+
+                            await processAndUpdateClusters(ObjectId, classLvl2Id, "lvl2_memberCount", ClassR, ClassL, 'B');
+
+                            const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl2Id }] }).sort({ 'updatedAt': 1 });
+
+                            let refDataClassDetails;
+                            let referDetails;
+
+                            try {
+                                referDetails = await User.find(new ObjectId(topLVL[0].refkey));
+                                console.log("🚀 ~ file: route.js:44 ~ PUT ~ referDetails:", referDetails)
+                                refDataClassDetails = await classData.find(new ObjectId(referDetails[0].class_name));
+                            } catch {
+                                refDataClassDetails = "";
+                            }
+
+                            if (topLVL[0].refkey == '' || refDataClassDetails[0].name != 'C') {
+                                const lvl3 = await classData.find({ $and: [{ "name": "C" }, { "lvl4_count": { $ne: 8 } }] });
+                                const classLvl3Id = lvl3[0]._id
+
+                                if (lvl3[0].lvl4_count != 8) {
+
+                                    const updatedUser = await User.findOneAndUpdate(
+                                        { _id: topLVL[0]._id },
+                                        {
+                                            class_lvl: 4,
+                                            class_name: lvl3[0]._id,
+                                        },
+                                        { new: true }
+                                    );
+
+                                    const updatedClass = await classData.findOneAndUpdate(
+                                        { _id: lvl3[0]._id },
+                                        {
+                                            lvl4_count: lvl3[0].lvl4_count + 1,
+                                        },
+                                        { new: true }
+                                    );
+
+                                    if (updatedClass.lvl4_count == 8) {
+                                        const classCSchema =
+                                        {
+                                            name: "C",
+                                            lvl1_count: 0,
+                                            lvl2_count: 0,
+                                            lvl3_count: 0,
+                                            lvl4_count: 0,
+                                        };
+                                        const ClassRAll = await classData.create(classCSchema);
+                                        const ClassR = ClassRAll._id;
+
+                                        const ClassLAll = await classData.create(classCSchema);
+                                        const ClassL = ClassLAll._id;
+
+                                        await processAndUpdateClusters(ObjectId, classLvl3Id, "lvl3_memberCount", ClassR, ClassL, 'C');
+
+                                        const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl3Id }] }).sort({ 'updatedAt': 1 });
+
+                                        let refDataClassDetails;
+                                        let referDetails;
+
+                                        try {
+                                            referDetails = await User.find(new ObjectId(topLVL[0].refkey));
+                                            console.log("🚀 ~ file: route.js:44 ~ PUT ~ referDetails:", referDetails)
+                                            refDataClassDetails = await classData.find(new ObjectId(referDetails[0].class_name));
+                                        } catch {
+                                            refDataClassDetails = "";
+                                        }
+
+                                        if (topLVL[0].refkey == '' || refDataClassDetails[0].name != 'D') {
+                                            const lvl4 = await classData.find({ $and: [{ "name": "D" }, { "lvl4_count": { $ne: 8 } }] });
+                                            const classLvl4Id = lvl4[0]._id
+
+                                            if (lvl4[0].lvl4_count != 8) {
+
+                                                const updatedUser = await User.findOneAndUpdate(
+                                                    { _id: topLVL[0]._id },
+                                                    {
+                                                        class_lvl: 4,
+                                                        class_name: lvl4[0]._id,
+                                                    },
+                                                    { new: true }
+                                                );
+
+                                                const updatedClass = await classData.findOneAndUpdate(
+                                                    { _id: lvl4[0]._id },
+                                                    {
+                                                        lvl4_count: lvl4[0].lvl4_count + 1,
+                                                    },
+                                                    { new: true }
+                                                );
+                                                // console.log("🚀 ~ file: route.js:1743 ~ PUT ~ updatedClass:", updatedClass)
+
+                                                if (updatedClass.lvl4_count == 8) {
+                                                    const classDSchema =
+                                                    {
+                                                        name: "D",
+                                                        lvl1_count: 0,
+                                                        lvl2_count: 0,
+                                                        lvl3_count: 0,
+                                                        lvl4_count: 0,
+                                                    };
+                                                    const ClassRAll = await classData.create(classDSchema);
+                                                    const ClassR = ClassRAll._id;
+
+                                                    const ClassLAll = await classData.create(classDSchema);
+                                                    const ClassL = ClassLAll._id;
+
+                                                    await processAndUpdateClusters(ObjectId, classLvl4Id, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                                    const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl4Id }] }).sort({ 'updatedAt': 1 });
+                                                    const topLVLClassName = await classData.find(new ObjectId(topLVL[0].class_name));
+                                                }
+                                            }
+
+                                        }
+                                        else {
+                                            const updatedRef = await User.findOneAndUpdate(
+                                                { _id: referDetails[0]._id },
+                                                {
+                                                    lvl4_memberCount: referDetails[0].lvl4_memberCount + 1,
+                                                },
+                                                { new: true }
+                                            );
+
+                                            const updatedUser = await User.findOneAndUpdate(
+                                                { _id: topLVL[0]._id },
+                                                {
+                                                    class_lvl: 4,
+                                                    class_name: refDataClassDetails[0]._id,
+                                                },
+                                                {
+                                                    new: true,
+                                                    timestamps: true
+                                                }
+                                            );
+
+                                            // update ref class
+                                            const updatedRefCls = await classData.findOneAndUpdate(
+                                                { _id: refDataClassDetails[0]._id },
+                                                {
+                                                    lvl4_count: refDataClassDetails[0].lvl4_count + 1,
+                                                },
+                                                { new: true }
+                                            );
+
+                                            if (updatedRefCls.lvl4_count == 8) {
+                                                const classDSchema =
+                                                {
+                                                    name: "D",
+                                                    lvl1_count: 0,
+                                                    lvl2_count: 0,
+                                                    lvl3_count: 0,
+                                                    lvl4_count: 0,
+                                                };
+
+                                                const ClassRAll = await classData.create(classDSchema);
+                                                const ClassR = ClassRAll._id;
+
+                                                const ClassLAll = await classData.create(classDSchema);
+                                                const ClassL = ClassLAll._id;
+
+                                                await processAndUpdateClusters(ObjectId, topLVLClassData, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                                // Do something to lvl4 Top user
+                                                // const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": topLVLClassData }] }).sort({ 'updatedAt': 1 });
+                                            }
+
+                                        }
+
+                                    }
+                                }
+
+                            }
+                            else {
+                                const updatedRef = await User.findOneAndUpdate(
+                                    { _id: referDetails[0]._id },
+                                    {
+                                        lvl3_memberCount: referDetails[0].lvl3_memberCount + 1,
+                                    },
+                                    { new: true }
+                                );
+
+                                const updatedUser = await User.findOneAndUpdate(
+                                    { _id: topLVL[0]._id },
+                                    {
+                                        class_lvl: 4,
+                                        class_name: refDataClassDetails[0]._id,
+                                    },
+                                    {
+                                        new: true,
+                                        timestamps: true
+                                    }
+                                );
+
+                                const updatedRefCls = await classData.findOneAndUpdate(
+                                    { _id: refDataClassDetails[0]._id },
+                                    {
+                                        lvl4_count: refDataClassDetails[0].lvl4_count + 1,
+                                    },
+                                    { new: true }
+                                );
+
+                                if (updatedRefCls.lvl4_count == 8) {
+                                    const classCSchema =
+                                    {
+                                        name: "C",
+                                        lvl1_count: 0,
+                                        lvl2_count: 0,
+                                        lvl3_count: 0,
+                                        lvl4_count: 0,
+                                    };
+                                    const ClassRAll = await classData.create(classCSchema);
+                                    const ClassR = ClassRAll._id;
+
+                                    const ClassLAll = await classData.create(classCSchema);
+                                    const ClassL = ClassLAll._id;
+
+                                    await processAndUpdateClusters(ObjectId, classLvl3Id, "lvl3_memberCount", ClassR, ClassL, 'C');
+
+                                    const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl3Id }] }).sort({ 'updatedAt': 1 });
+
+                                    let refDataClassDetails;
+                                    let referDetails;
+
+                                    try {
+                                        referDetails = await User.find(new ObjectId(topLVL[0].refkey));
+                                        console.log("🚀 ~ file: route.js:44 ~ PUT ~ referDetails:", referDetails)
+                                        refDataClassDetails = await classData.find(new ObjectId(referDetails[0].class_name));
+                                    } catch {
+                                        refDataClassDetails = "";
+                                    }
+
+                                    if (topLVL[0].refkey == '' || refDataClassDetails[0].name != 'D') {
+                                        const lvl4 = await classData.find({ $and: [{ "name": "D" }, { "lvl4_count": { $ne: 8 } }] });
+                                        const classLvl4Id = lvl4[0]._id
+
+                                        if (lvl4[0].lvl4_count != 8) {
+
+                                            const updatedUser = await User.findOneAndUpdate(
+                                                { _id: topLVL[0]._id },
+                                                {
+                                                    class_lvl: 4,
+                                                    class_name: lvl4[0]._id,
+                                                },
+                                                { new: true }
+                                            );
+
+                                            const updatedClass = await classData.findOneAndUpdate(
+                                                { _id: lvl4[0]._id },
+                                                {
+                                                    lvl4_count: lvl4[0].lvl4_count + 1,
+                                                },
+                                                { new: true }
+                                            );
+                                            // console.log("🚀 ~ file: route.js:1743 ~ PUT ~ updatedClass:", updatedClass)
+
+                                            if (updatedClass.lvl4_count == 8) {
+                                                const classDSchema =
+                                                {
+                                                    name: "D",
+                                                    lvl1_count: 0,
+                                                    lvl2_count: 0,
+                                                    lvl3_count: 0,
+                                                    lvl4_count: 0,
+                                                };
+                                                const ClassRAll = await classData.create(classDSchema);
+                                                const ClassR = ClassRAll._id;
+
+                                                const ClassLAll = await classData.create(classDSchema);
+                                                const ClassL = ClassLAll._id;
+
+                                                await processAndUpdateClusters(ObjectId, classLvl4Id, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                                const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl4Id }] }).sort({ 'updatedAt': 1 });
+                                                const topLVLClassName = await classData.find(new ObjectId(topLVL[0].class_name));
+                                            }
+                                        }
+
+                                    }
+                                    else {
+                                        const updatedRef = await User.findOneAndUpdate(
+                                            { _id: referDetails[0]._id },
+                                            {
+                                                lvl4_memberCount: referDetails[0].lvl4_memberCount + 1,
+                                            },
+                                            { new: true }
+                                        );
+
+                                        const updatedUser = await User.findOneAndUpdate(
+                                            { _id: topLVL[0]._id },
+                                            {
+                                                class_lvl: 4,
+                                                class_name: refDataClassDetails[0]._id,
+                                            },
+                                            {
+                                                new: true,
+                                                timestamps: true
+                                            }
+                                        );
+
+                                        // update ref class
+                                        const updatedRefCls = await classData.findOneAndUpdate(
+                                            { _id: refDataClassDetails[0]._id },
+                                            {
+                                                lvl4_count: refDataClassDetails[0].lvl4_count + 1,
+                                            },
+                                            { new: true }
+                                        );
+
+                                        if (updatedRefCls.lvl4_count == 8) {
+                                            const classDSchema =
+                                            {
+                                                name: "D",
+                                                lvl1_count: 0,
+                                                lvl2_count: 0,
+                                                lvl3_count: 0,
+                                                lvl4_count: 0,
+                                            };
+
+                                            const ClassRAll = await classData.create(classDSchema);
+                                            const ClassR = ClassRAll._id;
+
+                                            const ClassLAll = await classData.create(classDSchema);
+                                            const ClassL = ClassLAll._id;
+
+                                            await processAndUpdateClusters(ObjectId, topLVLClassData, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                            // Do something to lvl4 Top user
+                                            // const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": topLVLClassData }] }).sort({ 'updatedAt': 1 });
+                                        }
+
+                                    }
+
+                                }
+                            }
+                        }
+                    }
                 }
             }
-        } else if (UserData[0].class_name == '') {
+        }else if (refGetId == '' || classDataInfo_byID[0].name != 'A' && UserData[0].refkey == '') {
             console.log("no ref", "no ref");
-            const DataClass = await classData.find({ lvl4_count: { $ne: 7 } });
-        } else {
-            console.log("user in cls", "user in cls");
-        }
+            const lvl2 = await classData.find({ $and: [{ "name": "A" }, { "lvl4_count": { $ne: 8 } }] });
+            const classLvl2Id = lvl2[0]._id
 
-        const classID2_eq = await User.find({ class_name: classDataId }).sort({'updatedAt':1});
-        console.log(classID2_eq.length, "classID2_eq")
+            const updatedUser = await User.findOneAndUpdate(
+                { _id: getUId },
+                {
+                    role: "member",
+                    class_lvl: 4,
+                    class_name: classLvl2Id
+                },
+                {
+                    new: true,
+                    timestamps: true
+                }
+            );
+
+            // update ref class
+            const updatedRefCls = await classData.findOneAndUpdate(
+                { _id: classLvl2Id },
+                {
+                    lvl4_count: classLvl2Id[0].lvl4_count + 1,
+                },
+                { new: true }
+            );
+
+            if (updatedRefCls.lvl4_count == 8) {
+
+                const ClassRAll = await classData.create(classDataSchema);
+                const ClassR = ClassRAll._id;
+
+                const ClassLAll = await classData.create(classDataSchema);
+                const ClassL = ClassLAll._id;
+
+                await processAndUpdateClusters(ObjectId, classDataId, "memberCount", ClassR, ClassL, 'A');
+
+                const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classDataId }] }).sort({ 'updatedAt': 1 });
+                let refDataClassDetails;
+                let referDetails;
+
+                try {
+                    referDetails = await User.find(new ObjectId(topLVL[0].refkey));
+                    console.log("🚀 ~ file: route.js:44 ~ PUT ~ referDetails:", referDetails)
+                    refDataClassDetails = await classData.find(new ObjectId(referDetails[0].class_name));
+                } catch {
+                    refDataClassDetails = "";
+                }
+
+                if (topLVL[0].refkey == '' || refDataClassDetails[0].name != 'B') {
+                    const lvl2 = await classData.find({ $and: [{ "name": "B" }, { "lvl4_count": { $ne: 8 } }] });
+                    const classLvl2Id = lvl2[0]._id
+
+                    if (lvl2[0].lvl4_count != 8) {
+
+                        const updatedUser = await User.findOneAndUpdate(
+                            { _id: topLVL[0]._id },
+                            {
+                                class_lvl: 4,
+                                class_name: lvl2[0]._id,
+                            },
+                            { new: true }
+                        );
+
+                        const updatedClass = await classData.findOneAndUpdate(
+                            { _id: lvl2[0]._id },
+                            {
+                                lvl4_count: lvl2[0].lvl4_count + 1,
+                            },
+                            { new: true }
+                        );
+
+                        if (updatedClass.lvl4_count == 8) {
+                            const classBSchema =
+                            {
+                                name: "B",
+                                lvl1_count: 0,
+                                lvl2_count: 0,
+                                lvl3_count: 0,
+                                lvl4_count: 0,
+                            };
+                            const ClassRAll = await classData.create(classBSchema);
+                            const ClassR = ClassRAll._id;
+
+                            const ClassLAll = await classData.create(classBSchema);
+                            const ClassL = ClassLAll._id;
+
+                            await processAndUpdateClusters(ObjectId, classLvl2Id, "lvl2_memberCount", ClassR, ClassL, 'B');
+
+                            const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl2Id }] }).sort({ 'updatedAt': 1 });
+
+                            let refDataClassDetails;
+                            let referDetails;
+
+                            try {
+                                referDetails = await User.find(new ObjectId(topLVL[0].refkey));
+                                console.log("🚀 ~ file: route.js:44 ~ PUT ~ referDetails:", referDetails)
+                                refDataClassDetails = await classData.find(new ObjectId(referDetails[0].class_name));
+                            } catch {
+                                refDataClassDetails = "";
+                            }
+
+                            if (topLVL[0].refkey == '' || refDataClassDetails[0].name != 'C') {
+                                const lvl3 = await classData.find({ $and: [{ "name": "C" }, { "lvl4_count": { $ne: 8 } }] });
+                                const classLvl3Id = lvl3[0]._id
+
+                                if (lvl3[0].lvl4_count != 8) {
+
+                                    const updatedUser = await User.findOneAndUpdate(
+                                        { _id: topLVL[0]._id },
+                                        {
+                                            class_lvl: 4,
+                                            class_name: lvl3[0]._id,
+                                        },
+                                        { new: true }
+                                    );
+
+                                    const updatedClass = await classData.findOneAndUpdate(
+                                        { _id: lvl3[0]._id },
+                                        {
+                                            lvl4_count: lvl3[0].lvl4_count + 1,
+                                        },
+                                        { new: true }
+                                    );
+
+                                    if (updatedClass.lvl4_count == 8) {
+                                        const classCSchema =
+                                        {
+                                            name: "C",
+                                            lvl1_count: 0,
+                                            lvl2_count: 0,
+                                            lvl3_count: 0,
+                                            lvl4_count: 0,
+                                        };
+                                        const ClassRAll = await classData.create(classCSchema);
+                                        const ClassR = ClassRAll._id;
+
+                                        const ClassLAll = await classData.create(classCSchema);
+                                        const ClassL = ClassLAll._id;
+
+                                        await processAndUpdateClusters(ObjectId, classLvl3Id, "lvl3_memberCount", ClassR, ClassL, 'C');
+
+                                        const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl3Id }] }).sort({ 'updatedAt': 1 });
+
+                                        let refDataClassDetails;
+                                        let referDetails;
+
+                                        try {
+                                            referDetails = await User.find(new ObjectId(topLVL[0].refkey));
+                                            console.log("🚀 ~ file: route.js:44 ~ PUT ~ referDetails:", referDetails)
+                                            refDataClassDetails = await classData.find(new ObjectId(referDetails[0].class_name));
+                                        } catch {
+                                            refDataClassDetails = "";
+                                        }
+
+                                        if (topLVL[0].refkey == '' || refDataClassDetails[0].name != 'D') {
+                                            const lvl4 = await classData.find({ $and: [{ "name": "D" }, { "lvl4_count": { $ne: 8 } }] });
+                                            const classLvl4Id = lvl4[0]._id
+
+                                            if (lvl4[0].lvl4_count != 8) {
+
+                                                const updatedUser = await User.findOneAndUpdate(
+                                                    { _id: topLVL[0]._id },
+                                                    {
+                                                        class_lvl: 4,
+                                                        class_name: lvl4[0]._id,
+                                                    },
+                                                    { new: true }
+                                                );
+
+                                                const updatedClass = await classData.findOneAndUpdate(
+                                                    { _id: lvl4[0]._id },
+                                                    {
+                                                        lvl4_count: lvl4[0].lvl4_count + 1,
+                                                    },
+                                                    { new: true }
+                                                );
+                                                // console.log("🚀 ~ file: route.js:1743 ~ PUT ~ updatedClass:", updatedClass)
+
+                                                if (updatedClass.lvl4_count == 8) {
+                                                    const classDSchema =
+                                                    {
+                                                        name: "D",
+                                                        lvl1_count: 0,
+                                                        lvl2_count: 0,
+                                                        lvl3_count: 0,
+                                                        lvl4_count: 0,
+                                                    };
+                                                    const ClassRAll = await classData.create(classDSchema);
+                                                    const ClassR = ClassRAll._id;
+
+                                                    const ClassLAll = await classData.create(classDSchema);
+                                                    const ClassL = ClassLAll._id;
+
+                                                    await processAndUpdateClusters(ObjectId, classLvl4Id, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                                    const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl4Id }] }).sort({ 'updatedAt': 1 });
+                                                    const topLVLClassName = await classData.find(new ObjectId(topLVL[0].class_name));
+                                                }
+                                            }
+
+                                        }
+                                        else {
+                                            const updatedRef = await User.findOneAndUpdate(
+                                                { _id: referDetails[0]._id },
+                                                {
+                                                    lvl4_memberCount: referDetails[0].lvl4_memberCount + 1,
+                                                },
+                                                { new: true }
+                                            );
+
+                                            const updatedUser = await User.findOneAndUpdate(
+                                                { _id: topLVL[0]._id },
+                                                {
+                                                    class_lvl: 4,
+                                                    class_name: refDataClassDetails[0]._id,
+                                                },
+                                                {
+                                                    new: true,
+                                                    timestamps: true
+                                                }
+                                            );
+
+                                            // update ref class
+                                            const updatedRefCls = await classData.findOneAndUpdate(
+                                                { _id: refDataClassDetails[0]._id },
+                                                {
+                                                    lvl4_count: refDataClassDetails[0].lvl4_count + 1,
+                                                },
+                                                { new: true }
+                                            );
+
+                                            if (updatedRefCls.lvl4_count == 8) {
+                                                const classDSchema =
+                                                {
+                                                    name: "D",
+                                                    lvl1_count: 0,
+                                                    lvl2_count: 0,
+                                                    lvl3_count: 0,
+                                                    lvl4_count: 0,
+                                                };
+
+                                                const ClassRAll = await classData.create(classDSchema);
+                                                const ClassR = ClassRAll._id;
+
+                                                const ClassLAll = await classData.create(classDSchema);
+                                                const ClassL = ClassLAll._id;
+
+                                                await processAndUpdateClusters(ObjectId, topLVLClassData, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                                // Do something to lvl4 Top user
+                                                // const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": topLVLClassData }] }).sort({ 'updatedAt': 1 });
+                                            }
+
+                                        }
+
+                                    }
+                                }
+
+                            }
+                            else {
+                                const updatedRef = await User.findOneAndUpdate(
+                                    { _id: referDetails[0]._id },
+                                    {
+                                        lvl3_memberCount: referDetails[0].lvl3_memberCount + 1,
+                                    },
+                                    { new: true }
+                                );
+
+                                const updatedUser = await User.findOneAndUpdate(
+                                    { _id: topLVL[0]._id },
+                                    {
+                                        class_lvl: 4,
+                                        class_name: refDataClassDetails[0]._id,
+                                    },
+                                    {
+                                        new: true,
+                                        timestamps: true
+                                    }
+                                );
+
+                                const updatedRefCls = await classData.findOneAndUpdate(
+                                    { _id: refDataClassDetails[0]._id },
+                                    {
+                                        lvl4_count: refDataClassDetails[0].lvl4_count + 1,
+                                    },
+                                    { new: true }
+                                );
+
+                                if (updatedRefCls.lvl4_count == 8) {
+                                    const classCSchema =
+                                    {
+                                        name: "C",
+                                        lvl1_count: 0,
+                                        lvl2_count: 0,
+                                        lvl3_count: 0,
+                                        lvl4_count: 0,
+                                    };
+                                    const ClassRAll = await classData.create(classCSchema);
+                                    const ClassR = ClassRAll._id;
+
+                                    const ClassLAll = await classData.create(classCSchema);
+                                    const ClassL = ClassLAll._id;
+
+                                    await processAndUpdateClusters(ObjectId, classLvl3Id, "lvl3_memberCount", ClassR, ClassL, 'C');
+
+                                    const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl3Id }] }).sort({ 'updatedAt': 1 });
+
+                                    let refDataClassDetails;
+                                    let referDetails;
+
+                                    try {
+                                        referDetails = await User.find(new ObjectId(topLVL[0].refkey));
+                                        console.log("🚀 ~ file: route.js:44 ~ PUT ~ referDetails:", referDetails)
+                                        refDataClassDetails = await classData.find(new ObjectId(referDetails[0].class_name));
+                                    } catch {
+                                        refDataClassDetails = "";
+                                    }
+
+                                    if (topLVL[0].refkey == '' || refDataClassDetails[0].name != 'D') {
+                                        const lvl4 = await classData.find({ $and: [{ "name": "D" }, { "lvl4_count": { $ne: 8 } }] });
+                                        const classLvl4Id = lvl4[0]._id
+
+                                        if (lvl4[0].lvl4_count != 8) {
+
+                                            const updatedUser = await User.findOneAndUpdate(
+                                                { _id: topLVL[0]._id },
+                                                {
+                                                    class_lvl: 4,
+                                                    class_name: lvl4[0]._id,
+                                                },
+                                                { new: true }
+                                            );
+
+                                            const updatedClass = await classData.findOneAndUpdate(
+                                                { _id: lvl4[0]._id },
+                                                {
+                                                    lvl4_count: lvl4[0].lvl4_count + 1,
+                                                },
+                                                { new: true }
+                                            );
+                                            // console.log("🚀 ~ file: route.js:1743 ~ PUT ~ updatedClass:", updatedClass)
+
+                                            if (updatedClass.lvl4_count == 8) {
+                                                const classDSchema =
+                                                {
+                                                    name: "D",
+                                                    lvl1_count: 0,
+                                                    lvl2_count: 0,
+                                                    lvl3_count: 0,
+                                                    lvl4_count: 0,
+                                                };
+                                                const ClassRAll = await classData.create(classDSchema);
+                                                const ClassR = ClassRAll._id;
+
+                                                const ClassLAll = await classData.create(classDSchema);
+                                                const ClassL = ClassLAll._id;
+
+                                                await processAndUpdateClusters(ObjectId, classLvl4Id, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                                const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl4Id }] }).sort({ 'updatedAt': 1 });
+                                                const topLVLClassName = await classData.find(new ObjectId(topLVL[0].class_name));
+                                            }
+                                        }
+
+                                    }
+                                    else {
+                                        const updatedRef = await User.findOneAndUpdate(
+                                            { _id: referDetails[0]._id },
+                                            {
+                                                lvl4_memberCount: referDetails[0].lvl4_memberCount + 1,
+                                            },
+                                            { new: true }
+                                        );
+
+                                        const updatedUser = await User.findOneAndUpdate(
+                                            { _id: topLVL[0]._id },
+                                            {
+                                                class_lvl: 4,
+                                                class_name: refDataClassDetails[0]._id,
+                                            },
+                                            {
+                                                new: true,
+                                                timestamps: true
+                                            }
+                                        );
+
+                                        // update ref class
+                                        const updatedRefCls = await classData.findOneAndUpdate(
+                                            { _id: refDataClassDetails[0]._id },
+                                            {
+                                                lvl4_count: refDataClassDetails[0].lvl4_count + 1,
+                                            },
+                                            { new: true }
+                                        );
+
+                                        if (updatedRefCls.lvl4_count == 8) {
+                                            const classDSchema =
+                                            {
+                                                name: "D",
+                                                lvl1_count: 0,
+                                                lvl2_count: 0,
+                                                lvl3_count: 0,
+                                                lvl4_count: 0,
+                                            };
+
+                                            const ClassRAll = await classData.create(classDSchema);
+                                            const ClassR = ClassRAll._id;
+
+                                            const ClassLAll = await classData.create(classDSchema);
+                                            const ClassL = ClassLAll._id;
+
+                                            await processAndUpdateClusters(ObjectId, topLVLClassData, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                            // Do something to lvl4 Top user
+                                            // const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": topLVLClassData }] }).sort({ 'updatedAt': 1 });
+                                        }
+
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+
+                }
+                else{
+                    const updatedRef = await User.findOneAndUpdate(
+                        { _id: referDetails[0]._id },
+                        {
+                            lvl2_memberCount: referDetails[0].lvl2_memberCount + 1,
+                        },
+                        { new: true }
+                    );
+
+                    const updatedUser = await User.findOneAndUpdate(
+                        { _id: topLVL[0]._id },
+                        {
+                            class_lvl: 4,
+                            class_name: refDataClassDetails[0]._id,
+                        },
+                        {
+                            new: true,
+                            timestamps: true
+                        }
+                    );
+
+                    const updatedRefCls = await classData.findOneAndUpdate(
+                        { _id: refDataClassDetails[0]._id },
+                        {
+                            lvl4_count: refDataClassDetails[0].lvl4_count + 1,
+                        },
+                        { new: true }
+                    );
+
+                    if (updatedRefCls.lvl4_count == 8) {
+                        const classBSchema =
+                        {
+                            name: "B",
+                            lvl1_count: 0,
+                            lvl2_count: 0,
+                            lvl3_count: 0,
+                            lvl4_count: 0,
+                        };
+                        const ClassRAll = await classData.create(classBSchema);
+                        const ClassR = ClassRAll._id;
+
+                        const ClassLAll = await classData.create(classBSchema);
+                        const ClassL = ClassLAll._id;
+
+                        await processAndUpdateClusters(ObjectId, classLvl2Id, "lvl2_memberCount", ClassR, ClassL, 'B');
+
+                        const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl2Id }] }).sort({ 'updatedAt': 1 });
+
+                        let refDataClassDetails;
+                        let referDetails;
+
+                        try {
+                            referDetails = await User.find(new ObjectId(topLVL[0].refkey));
+                            console.log("🚀 ~ file: route.js:44 ~ PUT ~ referDetails:", referDetails)
+                            refDataClassDetails = await classData.find(new ObjectId(referDetails[0].class_name));
+                        } catch {
+                            refDataClassDetails = "";
+                        }
+
+                        if (topLVL[0].refkey == '' || refDataClassDetails[0].name != 'C') {
+                            const lvl3 = await classData.find({ $and: [{ "name": "C" }, { "lvl4_count": { $ne: 8 } }] });
+                            const classLvl3Id = lvl3[0]._id
+
+                            if (lvl3[0].lvl4_count != 8) {
+
+                                const updatedUser = await User.findOneAndUpdate(
+                                    { _id: topLVL[0]._id },
+                                    {
+                                        class_lvl: 4,
+                                        class_name: lvl3[0]._id,
+                                    },
+                                    { new: true }
+                                );
+
+                                const updatedClass = await classData.findOneAndUpdate(
+                                    { _id: lvl3[0]._id },
+                                    {
+                                        lvl4_count: lvl3[0].lvl4_count + 1,
+                                    },
+                                    { new: true }
+                                );
+
+                                if (updatedClass.lvl4_count == 8) {
+                                    const classCSchema =
+                                    {
+                                        name: "C",
+                                        lvl1_count: 0,
+                                        lvl2_count: 0,
+                                        lvl3_count: 0,
+                                        lvl4_count: 0,
+                                    };
+                                    const ClassRAll = await classData.create(classCSchema);
+                                    const ClassR = ClassRAll._id;
+
+                                    const ClassLAll = await classData.create(classCSchema);
+                                    const ClassL = ClassLAll._id;
+
+                                    await processAndUpdateClusters(ObjectId, classLvl3Id, "lvl3_memberCount", ClassR, ClassL, 'C');
+
+                                    const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl3Id }] }).sort({ 'updatedAt': 1 });
+
+                                    let refDataClassDetails;
+                                    let referDetails;
+
+                                    try {
+                                        referDetails = await User.find(new ObjectId(topLVL[0].refkey));
+                                        console.log("🚀 ~ file: route.js:44 ~ PUT ~ referDetails:", referDetails)
+                                        refDataClassDetails = await classData.find(new ObjectId(referDetails[0].class_name));
+                                    } catch {
+                                        refDataClassDetails = "";
+                                    }
+
+                                    if (topLVL[0].refkey == '' || refDataClassDetails[0].name != 'D') {
+                                        const lvl4 = await classData.find({ $and: [{ "name": "D" }, { "lvl4_count": { $ne: 8 } }] });
+                                        const classLvl4Id = lvl4[0]._id
+
+                                        if (lvl4[0].lvl4_count != 8) {
+
+                                            const updatedUser = await User.findOneAndUpdate(
+                                                { _id: topLVL[0]._id },
+                                                {
+                                                    class_lvl: 4,
+                                                    class_name: lvl4[0]._id,
+                                                },
+                                                { new: true }
+                                            );
+
+                                            const updatedClass = await classData.findOneAndUpdate(
+                                                { _id: lvl4[0]._id },
+                                                {
+                                                    lvl4_count: lvl4[0].lvl4_count + 1,
+                                                },
+                                                { new: true }
+                                            );
+                                            // console.log("🚀 ~ file: route.js:1743 ~ PUT ~ updatedClass:", updatedClass)
+
+                                            if (updatedClass.lvl4_count == 8) {
+                                                const classDSchema =
+                                                {
+                                                    name: "D",
+                                                    lvl1_count: 0,
+                                                    lvl2_count: 0,
+                                                    lvl3_count: 0,
+                                                    lvl4_count: 0,
+                                                };
+                                                const ClassRAll = await classData.create(classDSchema);
+                                                const ClassR = ClassRAll._id;
+
+                                                const ClassLAll = await classData.create(classDSchema);
+                                                const ClassL = ClassLAll._id;
+
+                                                await processAndUpdateClusters(ObjectId, classLvl4Id, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                                const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl4Id }] }).sort({ 'updatedAt': 1 });
+                                                const topLVLClassName = await classData.find(new ObjectId(topLVL[0].class_name));
+                                            }
+                                        }
+
+                                    }
+                                    else {
+                                        const updatedRef = await User.findOneAndUpdate(
+                                            { _id: referDetails[0]._id },
+                                            {
+                                                lvl4_memberCount: referDetails[0].lvl4_memberCount + 1,
+                                            },
+                                            { new: true }
+                                        );
+
+                                        const updatedUser = await User.findOneAndUpdate(
+                                            { _id: topLVL[0]._id },
+                                            {
+                                                class_lvl: 4,
+                                                class_name: refDataClassDetails[0]._id,
+                                            },
+                                            {
+                                                new: true,
+                                                timestamps: true
+                                            }
+                                        );
+
+                                        // update ref class
+                                        const updatedRefCls = await classData.findOneAndUpdate(
+                                            { _id: refDataClassDetails[0]._id },
+                                            {
+                                                lvl4_count: refDataClassDetails[0].lvl4_count + 1,
+                                            },
+                                            { new: true }
+                                        );
+
+                                        if (updatedRefCls.lvl4_count == 8) {
+                                            const classDSchema =
+                                            {
+                                                name: "D",
+                                                lvl1_count: 0,
+                                                lvl2_count: 0,
+                                                lvl3_count: 0,
+                                                lvl4_count: 0,
+                                            };
+
+                                            const ClassRAll = await classData.create(classDSchema);
+                                            const ClassR = ClassRAll._id;
+
+                                            const ClassLAll = await classData.create(classDSchema);
+                                            const ClassL = ClassLAll._id;
+
+                                            await processAndUpdateClusters(ObjectId, topLVLClassData, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                            // Do something to lvl4 Top user
+                                            // const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": topLVLClassData }] }).sort({ 'updatedAt': 1 });
+                                        }
+
+                                    }
+
+                                }
+                            }
+
+                        }
+                        else {
+                            const updatedRef = await User.findOneAndUpdate(
+                                { _id: referDetails[0]._id },
+                                {
+                                    lvl3_memberCount: referDetails[0].lvl3_memberCount + 1,
+                                },
+                                { new: true }
+                            );
+
+                            const updatedUser = await User.findOneAndUpdate(
+                                { _id: topLVL[0]._id },
+                                {
+                                    class_lvl: 4,
+                                    class_name: refDataClassDetails[0]._id,
+                                },
+                                {
+                                    new: true,
+                                    timestamps: true
+                                }
+                            );
+
+                            const updatedRefCls = await classData.findOneAndUpdate(
+                                { _id: refDataClassDetails[0]._id },
+                                {
+                                    lvl4_count: refDataClassDetails[0].lvl4_count + 1,
+                                },
+                                { new: true }
+                            );
+
+                            if (updatedRefCls.lvl4_count == 8) {
+                                const classCSchema =
+                                {
+                                    name: "C",
+                                    lvl1_count: 0,
+                                    lvl2_count: 0,
+                                    lvl3_count: 0,
+                                    lvl4_count: 0,
+                                };
+                                const ClassRAll = await classData.create(classCSchema);
+                                const ClassR = ClassRAll._id;
+
+                                const ClassLAll = await classData.create(classCSchema);
+                                const ClassL = ClassLAll._id;
+
+                                await processAndUpdateClusters(ObjectId, classLvl3Id, "lvl3_memberCount", ClassR, ClassL, 'C');
+
+                                const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl3Id }] }).sort({ 'updatedAt': 1 });
+
+                                let refDataClassDetails;
+                                let referDetails;
+
+                                try {
+                                    referDetails = await User.find(new ObjectId(topLVL[0].refkey));
+                                    console.log("🚀 ~ file: route.js:44 ~ PUT ~ referDetails:", referDetails)
+                                    refDataClassDetails = await classData.find(new ObjectId(referDetails[0].class_name));
+                                } catch {
+                                    refDataClassDetails = "";
+                                }
+
+                                if (topLVL[0].refkey == '' || refDataClassDetails[0].name != 'D') {
+                                    const lvl4 = await classData.find({ $and: [{ "name": "D" }, { "lvl4_count": { $ne: 8 } }] });
+                                    const classLvl4Id = lvl4[0]._id
+
+                                    if (lvl4[0].lvl4_count != 8) {
+
+                                        const updatedUser = await User.findOneAndUpdate(
+                                            { _id: topLVL[0]._id },
+                                            {
+                                                class_lvl: 4,
+                                                class_name: lvl4[0]._id,
+                                            },
+                                            { new: true }
+                                        );
+
+                                        const updatedClass = await classData.findOneAndUpdate(
+                                            { _id: lvl4[0]._id },
+                                            {
+                                                lvl4_count: lvl4[0].lvl4_count + 1,
+                                            },
+                                            { new: true }
+                                        );
+                                        // console.log("🚀 ~ file: route.js:1743 ~ PUT ~ updatedClass:", updatedClass)
+
+                                        if (updatedClass.lvl4_count == 8) {
+                                            const classDSchema =
+                                            {
+                                                name: "D",
+                                                lvl1_count: 0,
+                                                lvl2_count: 0,
+                                                lvl3_count: 0,
+                                                lvl4_count: 0,
+                                            };
+                                            const ClassRAll = await classData.create(classDSchema);
+                                            const ClassR = ClassRAll._id;
+
+                                            const ClassLAll = await classData.create(classDSchema);
+                                            const ClassL = ClassLAll._id;
+
+                                            await processAndUpdateClusters(ObjectId, classLvl4Id, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                            const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": classLvl4Id }] }).sort({ 'updatedAt': 1 });
+                                            const topLVLClassName = await classData.find(new ObjectId(topLVL[0].class_name));
+                                        }
+                                    }
+
+                                }
+                                else {
+                                    const updatedRef = await User.findOneAndUpdate(
+                                        { _id: referDetails[0]._id },
+                                        {
+                                            lvl4_memberCount: referDetails[0].lvl4_memberCount + 1,
+                                        },
+                                        { new: true }
+                                    );
+
+                                    const updatedUser = await User.findOneAndUpdate(
+                                        { _id: topLVL[0]._id },
+                                        {
+                                            class_lvl: 4,
+                                            class_name: refDataClassDetails[0]._id,
+                                        },
+                                        {
+                                            new: true,
+                                            timestamps: true
+                                        }
+                                    );
+
+                                    // update ref class
+                                    const updatedRefCls = await classData.findOneAndUpdate(
+                                        { _id: refDataClassDetails[0]._id },
+                                        {
+                                            lvl4_count: refDataClassDetails[0].lvl4_count + 1,
+                                        },
+                                        { new: true }
+                                    );
+
+                                    if (updatedRefCls.lvl4_count == 8) {
+                                        const classDSchema =
+                                        {
+                                            name: "D",
+                                            lvl1_count: 0,
+                                            lvl2_count: 0,
+                                            lvl3_count: 0,
+                                            lvl4_count: 0,
+                                        };
+
+                                        const ClassRAll = await classData.create(classDSchema);
+                                        const ClassR = ClassRAll._id;
+
+                                        const ClassLAll = await classData.create(classDSchema);
+                                        const ClassL = ClassLAll._id;
+
+                                        await processAndUpdateClusters(ObjectId, topLVLClassData, "lvl4_memberCount", ClassR, ClassL, 'D');
+
+                                        // Do something to lvl4 Top user
+                                        // const topLVL = await User.find({ $and: [{ "class_lvl": 1 }, { "class_name": topLVLClassData }] }).sort({ 'updatedAt': 1 });
+                                    }
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+            
+        } 
+        // else if(UserData[0].class_name == '' ){
+        //     console.log("not a ref", "not a ref");
+        // }
+        else {
+            console.log("user in cls", "user in cls");
+            return NextResponse.json({
+                success: false,
+                message: "Something went wrong! Maybe User Alredy In a Class! Please Contact HR",
+            });
+        }
+        console.log("All done MyBoy");
+
         return NextResponse.json({
             success: true,
             message: "Updated",
