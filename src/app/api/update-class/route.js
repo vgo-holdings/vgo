@@ -409,6 +409,119 @@ async function processAndUpdateClusters(ObjectId, classDataId, witchCount, Class
 }
 
 
+async function UpdateRole(ObjectId, refGetId) {
+    const refDataNew = await User.find(new ObjectId(refGetId));
+
+    if (refDataNew[0].memberCount >= 4 && refDataNew[0].role == "member") {
+        const updatedRefRocky = await User.findOneAndUpdate(
+            { _id: refGetId },
+            {
+                role: "Rocky",
+                // role_status:"pending"
+            },
+            { new: true }
+        );
+        // veteran
+
+        if (refDataNew[0].refkey != "") {
+            // todo : check other accut ref key also
+            console.log(refDataNew[0].refkey, "refDataNew[0].refkey");
+            const veteranId = refDataNew[0].refkey;
+
+            const veteranData = await User.find(new ObjectId(veteranId));
+
+            const updatedPerantUser = await User.findOneAndUpdate(
+                { _id: veteranId },
+                {
+                    rookieCount: veteranData[0].rookieCount + 1,
+                },
+                { new: true }
+            );
+
+            const veteranDataNew = await User.find(new ObjectId(veteranId));
+
+            if (veteranDataNew[0].rookieCount >= 4) {
+
+                const updatedRefveteran = await User.findOneAndUpdate(
+                    { _id: veteranId },
+                    {
+                        role: "veteran",
+                        // role_status:"pending"
+                    },
+                    { new: true }
+                );
+
+                // Eliate
+
+                if (veteranDataNew[0].refkey != "") {
+
+                    console.log(veteranDataNew[0].refkey, "PerantDataNew[0].refkey");
+                    const EliateId = veteranDataNew[0].refkey;
+
+                    const EliateData = await User.find(new ObjectId(EliateId));
+
+                    const updatedPerantUser = await User.findOneAndUpdate(
+                        { _id: EliateId },
+                        {
+                            veteranCount: EliateData[0].veteranCount + 1,
+                        },
+                        { new: true }
+                    );
+
+                    const EliateDataNew = await User.find(new ObjectId(EliateId));
+
+                    if (EliateDataNew[0].veteranCount >= 4) {
+
+                        const updatedRefEliate = await User.findOneAndUpdate(
+                            { _id: EliateId },
+                            {
+                                role: "Eliate", //master for now
+                                // role_status:"pending"
+                            },
+                            { new: true }
+                        );
+
+                        // Master
+                        if (EliateDataNew[0].refkey != "") {
+
+                            console.log(EliateDataNew[0].refkey, "EliateDataNew[0].refkey");
+                            const MasterId = EliateDataNew[0].refkey;
+
+                            const MasterData = await User.find(new ObjectId(MasterId));
+
+                            const updatedMasterUser = await User.findOneAndUpdate(
+                                { _id: MasterId },
+                                {
+                                    masterCount: MasterData[0].masterCount + 1,
+                                },
+                                { new: true }
+                            );
+
+                            const MasterDataNew = await User.find(new ObjectId(MasterId));
+
+                            if (MasterDataNew[0].masterCount >= 4) {
+
+                                const updatedRefEliate = await User.findOneAndUpdate(
+                                    { _id: MasterId },
+                                    {
+                                        role: "Master",
+                                        // role_status:"pending"
+                                    },
+                                    { new: true }
+                                );
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
+
+        }
+    }
+}
+
 export async function PUT(req1) {
     console.log("test1");
     try {
@@ -457,6 +570,9 @@ export async function PUT(req1) {
                 },
                 { new: true }
             );
+
+            await UpdateRole(ObjectId, refGetId);
+
             if (classDataInfo_byID[0].lvl4_count != 8) {
                 // update user 
                 const updatedUser = await User.findOneAndUpdate(
@@ -881,7 +997,7 @@ export async function PUT(req1) {
                         }
 
                     }
-                    else{
+                    else {
                         const updatedRef = await User.findOneAndUpdate(
                             { _id: referDetails[0]._id },
                             {
@@ -1264,7 +1380,7 @@ export async function PUT(req1) {
                     }
                 }
             }
-        }else if (refGetId == '' || classDataInfo_byID[0].name != 'A' && UserData[0].refkey == '') {
+        } else if (refGetId == '' || classDataInfo_byID[0].name != 'A' && UserData[0].refkey == '') {
             console.log("no ref", "no ref");
             const lvl2 = await classData.find({ $and: [{ "name": "A" }, { "lvl4_count": { $ne: 8 } }] });
             const classLvl2Id = lvl2[0]._id
@@ -1690,7 +1806,7 @@ export async function PUT(req1) {
                     }
 
                 }
-                else{
+                else {
                     const updatedRef = await User.findOneAndUpdate(
                         { _id: referDetails[0]._id },
                         {
@@ -2072,8 +2188,8 @@ export async function PUT(req1) {
                     }
                 }
             }
-            
-        } 
+
+        }
         // else if(UserData[0].class_name == '' ){
         //     console.log("not a ref", "not a ref");
         // }
