@@ -137,11 +137,19 @@ export default function Register() {
         profit: 0,
         holdProfit: 0,
       });
-      setDepositFormData({
-        imageUrl:"",
-        name:user.name,
-        user_id:user._id
-      })
+      if(user.role == "member"){
+        setDepositFormData({
+          imageUrl:"",
+          name:user.name,
+          refkey:user._id
+        })
+      }else{
+        setDepositFormData({
+          imageUrl:"",
+          name:user.name,
+          user_id:user._id
+        })
+      }
     }
   }, [user]);
 
