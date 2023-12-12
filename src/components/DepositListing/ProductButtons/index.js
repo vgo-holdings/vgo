@@ -53,7 +53,7 @@ export default function ProductButton({ item }) {
   
   async function handleApprove(getItem) {
     setComponentLevelLoader({ loading: true, id: getItem._id });
-    await handleUpdateUserAndClass(item.user_id,item.refkey);
+    await handleUpdateUserAndClass(getItem.user_id,getItem.refkey);
     const res = await approveDeposit({ _id: getItem._id});
 
     if (res.success) {
