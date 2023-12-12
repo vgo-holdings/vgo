@@ -387,6 +387,7 @@ export const freelanceBankDepoRegistrationFormControls = [
     placeholder: "Enter your name",
     label: "Name",
     componentType: "input",
+    disabled: true,
   },
   {
     id: "user_id",
