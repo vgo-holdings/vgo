@@ -404,7 +404,6 @@ async function processAndUpdateClusters(ObjectId, classDataId, witchCount, Class
         await processClusters(ObjectId, userDataMemCount2.clusters_lvl3, ClassR, ClassL);
         await processClusters(ObjectId, userDataMemCount2.clusters_lvl4, ClassR, ClassL);
         console.log(`Logic ${i} Done`);
-        await new Promise(resolve => setTimeout(resolve, 60000));
     }
 
 }
