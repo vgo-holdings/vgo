@@ -134,12 +134,40 @@ export default function Home() {
       clearInterval(timer);
     };
   }, []); */
+  const [highlightedButton, setHighlightedButton] = useState(0);
+
+  const buttons = [
+    {
+      label: 'Shop Now',
+      onClick: () => router.push("/product/listing/all-products"),
+      className: "mt-1 inline-block border border-black text-black rounded-lg px-3 py-4 text-xm mb-2 font-medium uppercase tracking-wide",
+    },
+    {
+      label: 'Learn Now',
+      onClick: () => router.push("/product/listing/all-products"),
+      className: "mt-1 inline-block border border-black text-black rounded-lg px-3 py-4 text-xm mb-2 font-medium uppercase tracking-wide",
+      backgroundColor: "#e84118",
+    },
+    {
+      label: 'Packages',
+      onClick: scrollToPackages,
+      className: "mt-1 inline-block border border-black text-black rounded-lg px-3 py-4 text-xm mb-2 font-medium uppercase tracking-wide",
+    },
+  ];
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setHighlightedButton((prev) => (prev + 1) % buttons.length);
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
 
     getListOfProducts();
   }, []);
- 
+
 
   return (
     <main className="home-container">
@@ -166,29 +194,18 @@ export default function Home() {
               shoping expericence!
             </p>
             <div>
-              <div className="home-heroButtonRow">
-                <button
-                  type="button"
-                  onClick={() => router.push("/product/listing/all-products")}
-                  className="mt-1 inline-block rounded-lg px-3 py-4 text-xm font-medium uppercase tracking-wide text-white"
-                  style={{ backgroundColor: "#e84118" }}
-                >
-                  Shop Now
-                </button>
-                <button
-                  type="button"
-                  onClick={() => router.push("/product/listing/all-products")}
-                  className="mt-1 inline-block border border-black text-black rounded-lg px-3 py-4 text-xm mb-2 font-medium uppercase tracking-wide"
-                >
-                  Learn Now
-                </button>
-                <button
-                  type="button"
-                  onClick={scrollToPackages}
-                  className="mt-1 inline-block border border-black text-black rounded-lg px-3 py-4 text-xm mb-2 font-medium uppercase tracking-wide"
-                >
-                  Packages
-                </button>
+            <div className="home-heroButtonRow">
+                {buttons.map((button, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={button.onClick}
+                    className={`${button.className} ${index === highlightedButton ? 'transition duration-500 ease-in-out' : ''}`}
+                    style={{ backgroundColor: index === highlightedButton ? "#e84118" : undefined }}
+                  >
+                    {button.label}
+                  </button>
+                ))}
               </div>
               <div className="flex flex-row mt-4 mb-8">
                 <div className="flex space-x-[-15px] ml-0">
