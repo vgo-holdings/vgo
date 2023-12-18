@@ -686,6 +686,17 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+              <div className="content-center grid"> 
+                  <button
+                    type="button"
+                    className="mt-1 inline-block border border-black text-black rounded-lg px-3 py-4 text-xm mb-2 ml-2 mr-2 font-medium uppercase tracking-wide"
+                    style={{ backgroundColor: "#e84118",borderRadius:'8px 8px 8px 8px' }}
+                  >
+                    <div className="uppercase tracking-wide text-1xl text-white font-bold">
+                    Subscribe now
+                    </div>
+                  </button>
+                </div>
             </div>
 
             <div
@@ -736,6 +747,17 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+                <div className="content-center grid"> 
+                  <button
+                    type="button"
+                    className="mt-1 inline-block border border-black text-black rounded-lg px-3 py-4 text-xm mb-2 ml-2 mr-2 font-medium uppercase tracking-wide"
+                    style={{ backgroundColor: "#e84118",borderRadius:'8px 8px 8px 8px' }}
+                  >
+                    <div className="uppercase tracking-wide text-1xl text-white font-bold">
+                    Join VGO 
+                    </div>
+                  </button>
+                </div>
             </div>
             
  
