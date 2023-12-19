@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
 export async function POST(req) {
   await connectToDB();
   console.log(req, "hi")
-  const { imageURL, name, nic, email, password, phone, whatsapp,district,city} = await req.json();
+  const { imageURL, name,first_name,last_name, nic, email, password, phone, whatsapp,district,city} = await req.json();
   //validate the schema
 
   const lowercasedEmail = email.toLowerCase();
@@ -47,6 +47,8 @@ export async function POST(req) {
       const newlyCreatedUser = await User.create({
         imageURL,
         name,
+        first_name,
+        last_name,
         nic,
         email,
         password: hashPassword,
