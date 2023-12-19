@@ -1,7 +1,7 @@
 "use client";
 
 import InputComponent from "@/components/FormElements/InputComponent";
-import SelectComponent from "@/components/FormElements/SelectComponent";
+import SelectComponentAdmin from "@/components/FormElements/SelectComponentAdmin";
 import ComponentLevelLoader from "@/components/Loader/componentlevel";
 import Notification from "@/components/Notification";
 import { GlobalContext } from "@/context";
@@ -150,7 +150,7 @@ export default function AdminAddNewShop() {
                 }}
               />
             ) : controlItem.componentType === "select" ? (
-              <SelectComponent
+              <SelectComponentAdmin
                 key={key}
                 label={controlItem.label}
                 options={controlItem.options}

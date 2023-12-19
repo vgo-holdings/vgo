@@ -1,7 +1,7 @@
 "use client";
 
 import InputComponent from "@/components/FormElements/InputComponent";
-import SelectComponent from "@/components/FormElements/SelectComponent";
+import SelectComponentAdmin from "@/components/FormElements/SelectComponentAdmin";
 import TileComponent from "@/components/FormElements/TileComponent";
 import ComponentLevelLoader from "@/components/Loader/componentlevel";
 import Notification from "@/components/Notification";
@@ -187,7 +187,7 @@ export default function SellerAddNewProduct() {
                 }}
               />
             ) : controlItem.componentType === "select" ? (
-              <SelectComponent
+              <SelectComponentAdmin
                 key={key}
                 label={controlItem.label}
                 options={controlItem.options}
