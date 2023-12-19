@@ -104,6 +104,7 @@ export default function Register() {
   const [selectedImage, setSelectedImage] = useState();
   const [isRegistered, setIsRegistered] = useState(false);
   const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { pageLevelLoader, setPageLevelLoader, isAuthUser, user } =
     useContext(GlobalContext);
 
@@ -204,10 +205,9 @@ export default function Register() {
 
   async function handleDeposit() {
     try {
+      setLoading(true);
       const imageUploadResult = await handleChooseImage();
 
-      const sesyjitsu = depositFormData;
-      console.log(sesyjitsu, "sesyjitsu")
 
       const res = await updateDeposit(depositFormData, imageUploadResult);
 
@@ -216,6 +216,8 @@ export default function Register() {
         position: toast.POSITION.TOP_RIGHT,
       });
       console.error("Error in handleDeposit:", error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -344,7 +346,7 @@ export default function Register() {
                     className=" disabled:opacity-50 inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg 
                    text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide
                    "
-                    disabled={!isDepositFormValid()}
+                    disabled={!isDepositFormValid() || loading}
                     onClick={handleDeposit}
                   >
                     {!pageLevelLoader ? (
