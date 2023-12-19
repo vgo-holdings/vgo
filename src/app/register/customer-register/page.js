@@ -10,7 +10,7 @@ import imagePlaceholder from "../../../assets/images/propic.png";
 import "./page-style.css";
 
 import {
-  registrationFormControls,
+  // registrationFormControls,
   firebaseConfig,
   firebaseStroageURL,
 } from "@/utils";
@@ -112,57 +112,172 @@ export default function Register() {
   }
 
   async function handleChooseImage() {
-    if(file){
-    const extractImageUrl = await helperForUPloadingImageToFirebase(file);
-    
-    if (extractImageUrl !== "") {
-      setFormData({
-        ...formData,
-        imageURL: extractImageUrl,
-      });
+    if (file) {
+      const extractImageUrl = await helperForUPloadingImageToFirebase(file);
+      console.log(extractImageUrl, "extractImageUrl in reg");
+  
+      if (extractImageUrl) {
+        console.log("Setting formData with imageURL:", extractImageUrl);
+        toast.success("File Uploaded.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        console.log(formData,"formData in handleChooseImage 4");
+        return extractImageUrl;
+      } else {
+        console.error("Error uploading file. Image URL is empty.");
+        toast.error("Error uploading file.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+      console.log(formData,"formData in handleChooseImage 3");
+      setFile(null);
     }
-    toast.success("File Uploaded.", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
   }
-    setFile(null);
-  }
+
 
   async function handleRegisterOnSubmit() {
-    console.log(formData,"formData in reg");
-    setPageLevelLoader(true);
-    const uploadPhoto = await handleChooseImage();
-    const data = await registerNewUser(formData);
 
-    if (uploadPhoto && data.success) {
-      toast.success(data.message, {
-        position: toast.POSITION.BOTTOM_CENTER,
-      });
-      setIsRegistered(true);
-      setPageLevelLoader(false);
-      setFormData(initialFormData);
-      setSelectedImage(null);
-    } else if(data.success){
-      toast.success(data.message, {
-        position: toast.POSITION.BOTTOM_CENTER,
-      });
-      setIsRegistered(true);
-      setPageLevelLoader(false);
-      setFormData(initialFormData);
-      setSelectedImage(null);
-    } else {
-      toast.error(data.message, {
-        position: toast.POSITION.BOTTOM_CENTER,
-      });
+    setPageLevelLoader(true);
+
+    try {
+      const uploadedImageUrl = await handleChooseImage();
+      const data = await registerNewUser(formData,uploadedImageUrl);
+
+      if (uploadedImageUrl && data.success) {
+            toast.success(data.message, {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+            setIsRegistered(true);
+            setPageLevelLoader(false);
+            setFormData(initialFormData);
+            setSelectedImage(null);
+          } else if(data.success){
+            toast.success(data.message, {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+            setIsRegistered(true);
+            setPageLevelLoader(false);
+            setFormData(initialFormData);
+            setSelectedImage(null);
+          } else {
+            toast.error(data.message, {
+              position: toast.POSITION.BOTTOM_CENTER,
+            });
+            setPageLevelLoader(false);
+          }
+          setPageLevelLoader(false);
+          console.log(data);
+    }catch (error) {
+      console.error("Error during form submission:", error);
       setPageLevelLoader(false);
     }
-
-    console.log(data);
   }
 
   useEffect(() => {
     if (isAuthUser) router.push("/");
   }, [isAuthUser]);
+
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+
+  const registrationFormControls = [
+    {
+      id: "name",
+      type: "text",
+      placeholder: "Enter your Display name",
+      label: "Display Name",
+      componentType: "input",
+    },
+    {
+      id: "first_name",
+      type: "text",
+      placeholder: "Enter your first name",
+      label: "First name",
+      componentType: "input",
+    },
+    {
+      id: "last_name",
+      type: "text",
+      placeholder: "Enter your Last name",
+      label: "Last name",
+      componentType: "input",
+    },
+    {
+      id: "nic",
+      type: "text",
+      placeholder: "Enter your NIC",
+      label: "NIC",
+      componentType: "input",
+    },
+    {
+      id: "email",
+      type: "email",
+      placeholder: "Enter your email",
+      label: "Email",
+      componentType: "input",
+    },
+    {
+      id: "password",
+      type: "password",
+      placeholder: "Enter your password",
+      label: "Password",
+      componentType: "input",
+    },
+    {
+      id: "phone",
+      type: "text",
+      placeholder: "Enter your phone number",
+      label: "Contact No",
+      componentType: "input",
+    },
+    {
+      id: "whatsapp",
+      type: "text",
+      placeholder: "Enter your whatsapp number",
+      label: "Whatsapp No",
+      componentType: "input",
+    },
+    {
+      id: "district",
+      type: "text",
+      placeholder: "Select your district",
+      label: "District",
+      componentType: "select",
+      options: [
+        "Colombo",
+        "Gampaha",
+        "Kandy",
+        // Add more districts as needed
+      ],
+      onChange: (event) => {
+        setSelectedDistrict(event.target.value);
+        setFormData({
+          ...formData,
+          district: event.target.value,
+        });
+      },
+      value: selectedDistrict,
+    },
+    {
+      id: "city",
+      type: "text",
+      placeholder: "Select your city",
+      label: "City",
+      componentType: "select",
+      options: selectedDistrict === "Colombo" ? ["Colombo 1", "Colombo 2", "Colombo 3"] :
+               selectedDistrict === "Gampaha" ? ["Gampaha City", "Negombo", "Ja-Ela"] :
+               selectedDistrict === "Kandy" ? ["Kandy City", "Peradeniya", "Matale"] :
+               [], // Add city options based on the district
+      onChange: (event) => {
+        setSelectedCity(event.target.value);
+        setFormData({
+          ...formData,
+          city: event.target.value,
+        });
+      },
+      value: selectedCity,
+    }
+  ];
 
   return (
     <div className="bg-white w-full  relative register-container">
@@ -225,7 +340,7 @@ export default function Register() {
                 </div>
               </div>
             </div>
-            {registrationFormControls.map((controlItem, key) =>
+            {registrationFormControls.map((controlItem, key) => 
               controlItem.componentType === "input" ? (
                 <InputComponent
                   key={key}
@@ -242,15 +357,11 @@ export default function Register() {
                 />
               ) : controlItem.componentType === "select" ? (
                 <SelectComponent
+                  key={key}
                   options={controlItem.options}
                   label={controlItem.label}
-                  onChange={(event) => {
-                    setFormData({
-                      ...formData,
-                      [controlItem.id]: event.target.value,
-                    });
-                  }}
-                  value={formData[controlItem.id]}
+                  onChange={controlItem.onChange}
+                  value={controlItem.value}
                 />
               ) : null
             )}

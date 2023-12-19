@@ -191,64 +191,96 @@ export const updateSellerProfileFormControls = [
   },
 ];
 
-export const registrationFormControls = [
-  {
-    id: "name",
-    type: "text",
-    placeholder: "Enter your name",
-    label: "Name",
-    componentType: "input",
-  },
-  {
-    id: "nic",
-    type: "text",
-    placeholder: "Enter your NIC",
-    label: "NIC",
-    componentType: "input",
-  },
-  {
-    id: "email",
-    type: "email",
-    placeholder: "Enter your email",
-    label: "Email",
-    componentType: "input",
-  },
-  {
-    id: "password",
-    type: "password",
-    placeholder: "Enter your password",
-    label: "Password",
-    componentType: "input",
-  },
-  {
-    id: "phone",
-    type: "text",
-    placeholder: "Enter your phone number",
-    label: "Contact No",
-    componentType: "input",
-  },
-  {
-    id: "whatsapp",
-    type: "text",
-    placeholder: "Enter your whatsapp number",
-    label: "Whatsapp No",
-    componentType: "input",
-  },
-  {
-    id: "district",
-    type: "text",
-    placeholder: "Enter your district",
-    label: "District",
-    componentType: "input",
-  },
-  {
-    id: "city",
-    type: "text",
-    placeholder: "Enter your city",
-    label: "City",
-    componentType: "input",
-  },
-];
+// export const registrationFormControls = [
+//   {
+//     id: "Display_Name",
+//     type: "text",
+//     placeholder: "Enter your Display name",
+//     label: "Display Name",
+//     componentType: "input",
+//   },
+//   {
+//     id: "First_name",
+//     type: "text",
+//     placeholder: "Enter your first name",
+//     label: "First name",
+//     componentType: "input",
+//   },
+//   {
+//     id: "Last_name",
+//     type: "text",
+//     placeholder: "Enter your Last name",
+//     label: "Last name",
+//     componentType: "input",
+//   },
+//   {
+//     id: "nic",
+//     type: "text",
+//     placeholder: "Enter your NIC",
+//     label: "NIC",
+//     componentType: "input",
+//   },
+//   {
+//     id: "email",
+//     type: "email",
+//     placeholder: "Enter your email",
+//     label: "Email",
+//     componentType: "input",
+//   },
+//   {
+//     id: "password",
+//     type: "password",
+//     placeholder: "Enter your password",
+//     label: "Password",
+//     componentType: "input",
+//   },
+//   {
+//     id: "phone",
+//     type: "text",
+//     placeholder: "Enter your phone number",
+//     label: "Contact No",
+//     componentType: "input",
+//   },
+//   {
+//     id: "whatsapp",
+//     type: "text",
+//     placeholder: "Enter your whatsapp number",
+//     label: "Whatsapp No",
+//     componentType: "input",
+//   },
+//   {
+//     id: "district",
+//     type: "text",
+//     placeholder: "Select your district",
+//     label: "District",
+//     componentType: "select",
+//     options: [
+//       "Colombo",
+//       "Gampaha",
+//       "Kandy",
+//       // Add more districts as needed
+//     ],
+//     onChange: (event) => {
+//       setSelectedDistrict(event.target.value);
+//     },
+//     value: selectedDistrict,
+//   },
+//   {
+//     id: "city",
+//     type: "text",
+//     placeholder: "Select your city",
+//     label: "City",
+//     componentType: "select",
+//     options: selectedDistrict === "Colombo" ? ["Colombo 1", "Colombo 2", "Colombo 3"] :
+//              selectedDistrict === "Gampaha" ? ["Gampaha City", "Negombo", "Ja-Ela"] :
+//              selectedDistrict === "Kandy" ? ["Kandy City", "Peradeniya", "Matale"] :
+//              [], // Add city options based on the district
+//     onChange: (event) => {
+//       setSelectedCity(event.target.value);
+//     },
+//     value: selectedCity,
+//   }
+// ];
 
 export const adminRegistrationFormControls = [
   {

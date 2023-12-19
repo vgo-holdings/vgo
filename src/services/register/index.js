@@ -1,8 +1,8 @@
 import Cookies from "js-cookie";
 
-export const registerNewUser = async (formData) => {
+export const registerNewUser = async (formData,UpdatedimageURL) => {
   try {
-    
+    formData.imageURL = UpdatedimageURL;
     const response = await fetch("/api/register/customer-register", {
       method: "POST",
       headers: {
@@ -13,7 +13,7 @@ export const registerNewUser = async (formData) => {
     });
 
     const finalData = await response.json();
-
+    
     return finalData;
   } catch (e) {
     console.log("error", e);
