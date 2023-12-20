@@ -14,6 +14,11 @@ export const navOptions = [
     label: "Contact Us",
     path: "/contact-us",
   },
+  {
+    id: "contact",
+    label: "About Us",
+    path: "/contact-us",
+  },
 ];
 
 export const adminNavOptions = [

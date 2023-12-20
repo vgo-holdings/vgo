@@ -68,6 +68,14 @@ export async function POST(req) {
           imageURL: checkUser.imageURL,
           createdAt: checkUser.createdAt,
           class_name: extractAllClasses[0]?.name,
+          first_name: checkUser.first_name,
+          last_name: checkUser.last_name,
+          phone: checkUser.phone,
+          whatsapp: checkUser.whatsapp,
+          district:checkUser.district,
+          city:checkUser.city,
+          facebookURL:checkUser.facebookURL,
+          youtubeURL:checkUser.youtubeURL,
         },
       };
     } else {
@@ -80,6 +88,14 @@ export async function POST(req) {
           role: checkUser.role,
           imageURL: checkUser.imageURL,
           createdAt: checkUser.createdAt,
+          first_name: checkUser.first_name,
+          last_name: checkUser.last_name,
+          phone: checkUser.phone,
+          whatsapp: checkUser.whatsapp,
+          district:checkUser.district,
+          city:checkUser.city,
+          facebookURL:checkUser.facebookURL,
+          youtubeURL:checkUser.youtubeURL,
         },
       };
     }
