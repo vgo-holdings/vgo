@@ -50,7 +50,7 @@ async function helperForUPloadingImageToFirebase(file) {
   return new Promise((resolve, reject) => {
     uploadImage.on(
       "state_changed",
-      (snapshot) => {},
+      (snapshot) => { },
       (error) => {
         console.log(error);
         reject(error);
@@ -93,7 +93,17 @@ export default function Register() {
       formData.phone &&
       formData.phone.trim() !== "" &&
       formData.password &&
-      formData.password.trim() !== ""
+      formData.password.trim() !== "" &&
+      formData.first_name &&
+      formData.first_name.trim() !== "" &&
+      formData.last_name &&
+      formData.last_name.trim() !== "" &&
+      formData.district &&
+      formData.district.trim() !== "" &&
+      formData.city &&
+      formData.city.trim() !== "" &&
+      formData.whatsapp &&
+      formData.whatsapp.trim() !== ""
       ? true
       : false;
   }
@@ -115,13 +125,13 @@ export default function Register() {
     if (file) {
       const extractImageUrl = await helperForUPloadingImageToFirebase(file);
       console.log(extractImageUrl, "extractImageUrl in reg");
-  
+
       if (extractImageUrl) {
         console.log("Setting formData with imageURL:", extractImageUrl);
         toast.success("File Uploaded.", {
           position: toast.POSITION.TOP_RIGHT,
         });
-        console.log(formData,"formData in handleChooseImage 4");
+        console.log(formData, "formData in handleChooseImage 4");
         return extractImageUrl;
       } else {
         console.error("Error uploading file. Image URL is empty.");
@@ -129,48 +139,55 @@ export default function Register() {
           position: toast.POSITION.TOP_RIGHT,
         });
       }
-      console.log(formData,"formData in handleChooseImage 3");
+      console.log(formData, "formData in handleChooseImage 3");
       setFile(null);
     }
   }
 
+  const [loading, setLoading] = useState(false);
 
   async function handleRegisterOnSubmit() {
-
+    setLoading(true);
     setPageLevelLoader(true);
 
     try {
+      setLoading(true);
       const uploadedImageUrl = await handleChooseImage();
-      const data = await registerNewUser(formData,uploadedImageUrl);
-
+      const data = await registerNewUser(formData, uploadedImageUrl);
       if (uploadedImageUrl && data.success) {
-            toast.success(data.message, {
-              position: toast.POSITION.BOTTOM_CENTER,
-            });
-            setIsRegistered(true);
-            setPageLevelLoader(false);
-            setFormData(initialFormData);
-            setSelectedImage(null);
-          } else if(data.success){
-            toast.success(data.message, {
-              position: toast.POSITION.BOTTOM_CENTER,
-            });
-            setIsRegistered(true);
-            setPageLevelLoader(false);
-            setFormData(initialFormData);
-            setSelectedImage(null);
-          } else {
-            toast.error(data.message, {
-              position: toast.POSITION.BOTTOM_CENTER,
-            });
-            setPageLevelLoader(false);
-          }
-          setPageLevelLoader(false);
-          console.log(data);
-    }catch (error) {
+        toast.success(data.message, {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+        setIsRegistered(true);
+        setPageLevelLoader(false);
+        setFormData(initialFormData);
+        setSelectedImage(null);
+        setLoading(false);
+        router.push("/login")
+      } else if (data.success) {
+        toast.success(data.message, {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+        setIsRegistered(true);
+        setPageLevelLoader(false);
+        setFormData(initialFormData);
+        setSelectedImage(null);
+      } else {
+        toast.error(data.message, {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+        setPageLevelLoader(false);
+      }
+      setPageLevelLoader(false);
+      console.log(data);
+      setLoading(false);
+    } catch (error) {
       console.error("Error during form submission:", error);
       setPageLevelLoader(false);
+    } finally {
+      setLoading(false);
     }
+    setPageLevelLoader(false);
   }
 
   useEffect(() => {
@@ -266,7 +283,7 @@ export default function Register() {
         'Nuwara Eliya',
         'Polonnaruwa',
         'Puttalam',
-        'Ratnapura', 
+        'Ratnapura',
         'Trincomalee',
         'Vavuniya',
         // Add more districts as needed
@@ -286,57 +303,57 @@ export default function Register() {
       placeholder: "Select your city",
       label: "City",
       componentType: "select",
-      options: 
-      selectedDistrict === "Ampara" ? ["Addalaichchenai", "Akkarepattu", "Alayadivembu", "Ampara", "Damana", "Dehiattakandiya", "Irakkamam", "Kalmunai", "Karaitivu", "Lahugala", "Maha Oya", "Navithanveli", "Nintavur", "Padiyathalawa", "Pottuvil", "Sainthamaruthu", "Sammanthurai", "Uhana"] :
-      selectedDistrict === "Batticaloa" ? ["Araiyampathy", "Batticaloa", "Chenkalady", "Eravur", "Kaluvanchikudy", "Kattankudy", "Kiran", "Kokkadichcholai", "Oddamavadi", "Pasikudah", "Vakarai", "Valaichchenai", "Vavunathivu", "Vellavely"] :
+      options:
+        selectedDistrict === "Ampara" ? ["Addalaichchenai", "Akkarepattu", "Alayadivembu", "Ampara", "Damana", "Dehiattakandiya", "Irakkamam", "Kalmunai", "Karaitivu", "Lahugala", "Maha Oya", "Navithanveli", "Nintavur", "Padiyathalawa", "Pottuvil", "Sainthamaruthu", "Sammanthurai", "Uhana"] :
+          selectedDistrict === "Batticaloa" ? ["Araiyampathy", "Batticaloa", "Chenkalady", "Eravur", "Kaluvanchikudy", "Kattankudy", "Kiran", "Kokkadichcholai", "Oddamavadi", "Pasikudah", "Vakarai", "Valaichchenai", "Vavunathivu", "Vellavely"] :
 
-      selectedDistrict === "Trincomalee" ? ["Gomarankadawala", "Kantalai", "Kinniya", "Kuchchaveli", "Morawewa", "Muttur", "Seruvila", "Siripura", "Thampalakamam", "Trincomalee", "Verugal"] :
+            selectedDistrict === "Trincomalee" ? ["Gomarankadawala", "Kantalai", "Kinniya", "Kuchchaveli", "Morawewa", "Muttur", "Seruvila", "Siripura", "Thampalakamam", "Trincomalee", "Verugal"] :
 
-      selectedDistrict === "Anuradhapura" ? ["Anuradhapura", "Bulnewa", "Eppawala", "Galenbindunuwewa", "Galnewa", "Ganewalpola", "Habarana", "Horowupotana", "Ipalogama", "Kahatagasdigiliya", "Kebithigollewa", "Kebitigollawa", "Kekirawa", "Konapathirawa", "Konwewa", "Madatugama", "Mahailuppallama", "Mahavilachchiya", "Maradankadawala", "Medawachchiya", "Mihintale", "Nochchiyagama", "Padaviya", "Palagala", "Palugaswewa", "Rajanganaya", "Rambewa", "Seeppukulama", "Talawa", "Tambuttegama", "Thambuttegama", "Thirappane", "Yakalla"] :
+              selectedDistrict === "Anuradhapura" ? ["Anuradhapura", "Bulnewa", "Eppawala", "Galenbindunuwewa", "Galnewa", "Ganewalpola", "Habarana", "Horowupotana", "Ipalogama", "Kahatagasdigiliya", "Kebithigollewa", "Kebitigollawa", "Kekirawa", "Konapathirawa", "Konwewa", "Madatugama", "Mahailuppallama", "Mahavilachchiya", "Maradankadawala", "Medawachchiya", "Mihintale", "Nochchiyagama", "Padaviya", "Palagala", "Palugaswewa", "Rajanganaya", "Rambewa", "Seeppukulama", "Talawa", "Tambuttegama", "Thambuttegama", "Thirappane", "Yakalla"] :
 
-      selectedDistrict === "Polonnaruwa" ? ["Aralaganwila", "Bakamuna", "Dimbulagala", "Elahera", "Galamuna", "Giritale", "Hingurakgoda", "Jayantipura", "Kaduruwela", "Lankapura", "Manampitiya", "Medirigiriya", "Minneriya", "Polonnaruwa", "Sungawila", "Welikanda"] :
+                selectedDistrict === "Polonnaruwa" ? ["Aralaganwila", "Bakamuna", "Dimbulagala", "Elahera", "Galamuna", "Giritale", "Hingurakgoda", "Jayantipura", "Kaduruwela", "Lankapura", "Manampitiya", "Medirigiriya", "Minneriya", "Polonnaruwa", "Sungawila", "Welikanda"] :
 
-      selectedDistrict === "Badulla" ? ["Badulla", "Bandarawela", "Beragala", "Diyatalawa", "Ella", "Haldummulla", "Hali Ela", "Haputale", "Kandaketiya", "Lunugala", "Mahiyanganaya", "Meegahakivula", "Passara", "tennapanguwa", "Uva-Paranagama", "Welimada", "Wiyaluwa"] :
+                  selectedDistrict === "Badulla" ? ["Badulla", "Bandarawela", "Beragala", "Diyatalawa", "Ella", "Haldummulla", "Hali Ela", "Haputale", "Kandaketiya", "Lunugala", "Mahiyanganaya", "Meegahakivula", "Passara", "tennapanguwa", "Uva-Paranagama", "Welimada", "Wiyaluwa"] :
 
-      selectedDistrict === "Moneragala" ? ["Badalkumbura", "Bibile", "Buttala", "Kataragama", "Madulla", "Medagama", "Moneragala", "Okkampitiya", "Sevanagala", "Siyambalanduwa", "Tanamalwila", "Wellawaya"] :
+                    selectedDistrict === "Moneragala" ? ["Badalkumbura", "Bibile", "Buttala", "Kataragama", "Madulla", "Medagama", "Moneragala", "Okkampitiya", "Sevanagala", "Siyambalanduwa", "Tanamalwila", "Wellawaya"] :
 
-      selectedDistrict === "Colombo" ? ["Angoda", "Athurugiriya", "Avissawella", "Battaramulla", "Boralesgamuwa", "Colombo 01", "Colombo 02", "Colombo 03", "Colombo 04", "Colombo 05", "Colombo 06", "Colombo 07", "Colombo 08", "Colombo 09", "Colombo 10", "Colombo 11", "Colombo 12", "Colombo 13", "Colombo 14", "Colombo 15", "Dehiwala", "Hanwella", "Homagama", "Kaduwela", "Kesbewa", "Kohuwala", "Kolonnawa", "Kosgama", "Kottawa", "Kotte", "Maharagama", "Malabe", "Mount Lavinia", "Nawala", "Nugegoda", "Paddukka", "Pannipitiya", "Piliyandala", "Rajagiriya", "Ranala", "Ratmalana", "Talawathugoda", "Wellampitiya"] :
+                      selectedDistrict === "Colombo" ? ["Angoda", "Athurugiriya", "Avissawella", "Battaramulla", "Boralesgamuwa", "Colombo 01", "Colombo 02", "Colombo 03", "Colombo 04", "Colombo 05", "Colombo 06", "Colombo 07", "Colombo 08", "Colombo 09", "Colombo 10", "Colombo 11", "Colombo 12", "Colombo 13", "Colombo 14", "Colombo 15", "Dehiwala", "Hanwella", "Homagama", "Kaduwela", "Kesbewa", "Kohuwala", "Kolonnawa", "Kosgama", "Kottawa", "Kotte", "Maharagama", "Malabe", "Mount Lavinia", "Nawala", "Nugegoda", "Paddukka", "Pannipitiya", "Piliyandala", "Rajagiriya", "Ranala", "Ratmalana", "Talawathugoda", "Wellampitiya"] :
 
-      selectedDistrict === "Gampaha" ? ["Attanagalla", "Biyagama", "Delgoda", "Divlapitiya", "Dompe", "Gampaha", "Ganemulla", "Ja-Ela", "Kadawatha", "Kandana", "Katana", "Katunayake", "Kelaniya", "Kiribathgoda", "Mahara", "Minuwangoda", "Mirigama", "Negombo", "Nittambuwa", "Ragama", "Veyangoda", "Wattala"] :
+                        selectedDistrict === "Gampaha" ? ["Attanagalla", "Biyagama", "Delgoda", "Divlapitiya", "Dompe", "Gampaha", "Ganemulla", "Ja-Ela", "Kadawatha", "Kandana", "Katana", "Katunayake", "Kelaniya", "Kiribathgoda", "Mahara", "Minuwangoda", "Mirigama", "Negombo", "Nittambuwa", "Ragama", "Veyangoda", "Wattala"] :
 
-      selectedDistrict === "Kalutara" ? ["Agalawatta", "Aluthgama", "Baduraliya", "Bandaragama", "Beruwala", "Bulathsinhala", "Dodangoda", "Horana", "Ingiriya", "Kalutara", "Madurawela", "Matugama", "Millaniya", "Panadura", "Wadduwa", "Walallavita"] :
+                          selectedDistrict === "Kalutara" ? ["Agalawatta", "Aluthgama", "Baduraliya", "Bandaragama", "Beruwala", "Bulathsinhala", "Dodangoda", "Horana", "Ingiriya", "Kalutara", "Madurawela", "Matugama", "Millaniya", "Panadura", "Wadduwa", "Walallavita"] :
 
-      selectedDistrict === "Galle" ? ["Ahangama", "Ahungalla", "Ambalangoda", "Baddegama", "Balapitiya", "Batapola", "Bentota", "Boossa", "Elpitiya", "Galle", "Habaraduwa", "Hikkaduwa", "Hiniduma", "Imaduwa", "Karandeniya", "Karapitiya", "Koggala", "Kosgoda", "Mapalagama", "Nagoda", "Neluwa", "Pitigala", "Rathgama", "Thawalama", "Udugama", "Uragasmanhandiya", "Wanduramba", "Yakkalamulla"] :
+                            selectedDistrict === "Galle" ? ["Ahangama", "Ahungalla", "Ambalangoda", "Baddegama", "Balapitiya", "Batapola", "Bentota", "Boossa", "Elpitiya", "Galle", "Habaraduwa", "Hikkaduwa", "Hiniduma", "Imaduwa", "Karandeniya", "Karapitiya", "Koggala", "Kosgoda", "Mapalagama", "Nagoda", "Neluwa", "Pitigala", "Rathgama", "Thawalama", "Udugama", "Uragasmanhandiya", "Wanduramba", "Yakkalamulla"] :
 
-      selectedDistrict === "Hambantota" ? ["Ambalantota", "Angunukolapelessa", "Beliatta", "Hambantota", "Middeniya", "Tangalla", "Tissamaharama", "Walasmulla", "Weeraketiya"] :
+                              selectedDistrict === "Hambantota" ? ["Ambalantota", "Angunukolapelessa", "Beliatta", "Hambantota", "Middeniya", "Tangalla", "Tissamaharama", "Walasmulla", "Weeraketiya"] :
 
-      selectedDistrict === "Matara" ? ["Athuraliya", "Akuressa", "Aparekka", "Denipitiya", "Deniyaya", "Devinuwara", "Dikwella", "Gandara", "Hakmana", "Kamburugamuwa", "Kamburupitiya", "Karaputugala", "Kekanadura", "Kirinda", "Kotapola", "Malimbada", "Matara", "Mirissa", "Morawaka", "Mulatiyana", "Pasgoda", "Pitabeddara", "Puhuwella", "Thelijjawila", "Thihagoda", "Tihagoda", "Weligama", "Welihinda", "Welipitiya"] :
+                                selectedDistrict === "Matara" ? ["Athuraliya", "Akuressa", "Aparekka", "Denipitiya", "Deniyaya", "Devinuwara", "Dikwella", "Gandara", "Hakmana", "Kamburugamuwa", "Kamburupitiya", "Karaputugala", "Kekanadura", "Kirinda", "Kotapola", "Malimbada", "Matara", "Mirissa", "Morawaka", "Mulatiyana", "Pasgoda", "Pitabeddara", "Puhuwella", "Thelijjawila", "Thihagoda", "Tihagoda", "Weligama", "Welihinda", "Welipitiya"] :
 
-      selectedDistrict === "Jaffna" ? ["Chankanai", "Chavakachcheri", "Jaffna", "Karainagar", "Karaveddy", "Kayts", "Kopay", "Maruthankerney", "Nallur", "Point Pedro", "Sandilipay", "Tellippalai", "Uduvil", "Velanai"] :
+                                  selectedDistrict === "Jaffna" ? ["Chankanai", "Chavakachcheri", "Jaffna", "Karainagar", "Karaveddy", "Kayts", "Kopay", "Maruthankerney", "Nallur", "Point Pedro", "Sandilipay", "Tellippalai", "Uduvil", "Velanai"] :
 
-      selectedDistrict === "Kilinochchi" ? ["Iranamadu", "Kandavalai", "Kilinochchi", "Pallai", "Paranthan", "Poonakary", "Velikkandal"] :
+                                    selectedDistrict === "Kilinochchi" ? ["Iranamadu", "Kandavalai", "Kilinochchi", "Pallai", "Paranthan", "Poonakary", "Velikkandal"] :
 
-      selectedDistrict === "Mannar" ? ["Adampan", "Chilawathurai", "Madhu", "Mannar", "Nanaddan"] :
+                                      selectedDistrict === "Mannar" ? ["Adampan", "Chilawathurai", "Madhu", "Mannar", "Nanaddan"] :
 
-      selectedDistrict === "Mullativu" ? ["Ehatugaswewa", "Mullativu", "Oddusuddan", "Pandiyankulam", "Puthukkudiyiruppu", "Thunukkai"] :
+                                        selectedDistrict === "Mullativu" ? ["Ehatugaswewa", "Mullativu", "Oddusuddan", "Pandiyankulam", "Puthukkudiyiruppu", "Thunukkai"] :
 
-      selectedDistrict === "Vavuniya" ? ["Vavuniya", "Nedunkeni", "Cheddikulam"] :
+                                          selectedDistrict === "Vavuniya" ? ["Vavuniya", "Nedunkeni", "Cheddikulam"] :
 
-      selectedDistrict === "Kandy" ? ["Akurana", "Alawatugoda", "Ambatenna", "Ampitiya", "Daskara", "Daulagala", "Delthota", "Digana", "Galagedara", "Galhinna", "Gampola", "Gelioya", "Hanguranketa", "Hapugastalawa", "Harispattuwa", "Hatharaliyadda", "Kadugannawa", "Kadugannawa UC", "Kandy", "Katugastota", "Kundasale", "Madawala", "Madawala Bazaar", "Menikdiwela", "Minipe", "Nawalapitiya", "Pallekele", "Panvila", "Pathadumbara", "Pathahewaheta", "Peradeniya", "Pilimatalawa", "Poojapitiya", "Pussellawa", "Talatuoya", "Teldeniya", "Thumpane", "Udapalatha", "Ududumbara", "Udunuwara", "Ulapane", "Watadeniya", "Wattegama", "Welamboda", "Yatinuwara"] :
+                                            selectedDistrict === "Kandy" ? ["Akurana", "Alawatugoda", "Ambatenna", "Ampitiya", "Daskara", "Daulagala", "Delthota", "Digana", "Galagedara", "Galhinna", "Gampola", "Gelioya", "Hanguranketa", "Hapugastalawa", "Harispattuwa", "Hatharaliyadda", "Kadugannawa", "Kadugannawa UC", "Kandy", "Katugastota", "Kundasale", "Madawala", "Madawala Bazaar", "Menikdiwela", "Minipe", "Nawalapitiya", "Pallekele", "Panvila", "Pathadumbara", "Pathahewaheta", "Peradeniya", "Pilimatalawa", "Poojapitiya", "Pussellawa", "Talatuoya", "Teldeniya", "Thumpane", "Udapalatha", "Ududumbara", "Udunuwara", "Ulapane", "Watadeniya", "Wattegama", "Welamboda", "Yatinuwara"] :
 
-      selectedDistrict === "Matale" ? ["Dambulla", "Elkaduwa", "Galewela", "Gammaduwa", "Inamaluwa", "Kaikawala", "Kibissa", "Laggala Pallegama", "Madawala Ulpotha", "Matale", "Nalanda", "Naula", "Palapathwela", "Pallepola", "Rattota", "Sigiriya", "Ukuwela", "Wahacotte", "Yatawatta"] :
+                                              selectedDistrict === "Matale" ? ["Dambulla", "Elkaduwa", "Galewela", "Gammaduwa", "Inamaluwa", "Kaikawala", "Kibissa", "Laggala Pallegama", "Madawala Ulpotha", "Matale", "Nalanda", "Naula", "Palapathwela", "Pallepola", "Rattota", "Sigiriya", "Ukuwela", "Wahacotte", "Yatawatta"] :
 
-      selectedDistrict === "Nuwara Eliya" ? ["Agrapatana", "Ambewela", "Bogawantalawa", "Bopattalawa", "Dayagama", "Ginigathena", "Haggala", "Hapugastalawa", "Hatton", "Kotagala", "Kotmale", "Labukele", "Laxapana", "Madulla", "Maskeliya", "Nanuoya", "Nuwara Eliya", "Padiyapelella", "Ragala", "Ramboda", "Rozella", "Talawakele", "Udapussallawa", "Walapane", "Watawala"] :
+                                                selectedDistrict === "Nuwara Eliya" ? ["Agrapatana", "Ambewela", "Bogawantalawa", "Bopattalawa", "Dayagama", "Ginigathena", "Haggala", "Hapugastalawa", "Hatton", "Kotagala", "Kotmale", "Labukele", "Laxapana", "Madulla", "Maskeliya", "Nanuoya", "Nuwara Eliya", "Padiyapelella", "Ragala", "Ramboda", "Rozella", "Talawakele", "Udapussallawa", "Walapane", "Watawala"] :
 
-      selectedDistrict === "Kegalle" ? ["Ambepussa", "Amitirigala", "Aranayaka", "Bulathkohupitiya", "Dehiovita", "Deraniyagala", "Galigamuwa", "Hemmathagama", "Karawanella", "Kegalle", "Kitulgala", "Kotiyakumbura", "Mawanella", "Rambukkana", "Ruwanwella", "Thalgaspitiya", "Warakapola", "Yatiyantota"] :
+                                                  selectedDistrict === "Kegalle" ? ["Ambepussa", "Amitirigala", "Aranayaka", "Bulathkohupitiya", "Dehiovita", "Deraniyagala", "Galigamuwa", "Hemmathagama", "Karawanella", "Kegalle", "Kitulgala", "Kotiyakumbura", "Mawanella", "Rambukkana", "Ruwanwella", "Thalgaspitiya", "Warakapola", "Yatiyantota"] :
 
-      selectedDistrict === "Ratnapura" ? ["Ayagama", "Balangoda", "Eheliyagoda", "Elapatha", "Embilipitiya", "Godakawela", "Imbulpe", "Kahawatta", "Kalawana", "Kiriella", "Kolonne", "Kuruwita", "Nivitigala", "Opanayaka", "Panamure", "Pelmadulla", "Pelmadulla", "Pohorabawa", "Rakwana", "Ratnapura", "Weligepola"] :
+                                                    selectedDistrict === "Ratnapura" ? ["Ayagama", "Balangoda", "Eheliyagoda", "Elapatha", "Embilipitiya", "Godakawela", "Imbulpe", "Kahawatta", "Kalawana", "Kiriella", "Kolonne", "Kuruwita", "Nivitigala", "Opanayaka", "Panamure", "Pelmadulla", "Pelmadulla", "Pohorabawa", "Rakwana", "Ratnapura", "Weligepola"] :
 
-      selectedDistrict === "Kurunegala" ? ["Alawwa", "Bingiriya", "Dambadeniya", "Dandagamuwa", "Galgamuwa", "Giriulla", "Hettipola", "Hiripitiya", "Ibbagamuwa", "Katupotha", "Kuliyapitiya", "Kurunegala", "Maho", "Mawathagama", "Melsiripura", "Narammala", "Nikaweratiya", "pahamune", "Panagamuwa", "Pannala", "Pannawa", "Polgahawela", "Potuhera", "Ridigama", "Wariyapola", "Wawathagama", "Yapahuwa"] :
+                                                      selectedDistrict === "Kurunegala" ? ["Alawwa", "Bingiriya", "Dambadeniya", "Dandagamuwa", "Galgamuwa", "Giriulla", "Hettipola", "Hiripitiya", "Ibbagamuwa", "Katupotha", "Kuliyapitiya", "Kurunegala", "Maho", "Mawathagama", "Melsiripura", "Narammala", "Nikaweratiya", "pahamune", "Panagamuwa", "Pannala", "Pannawa", "Polgahawela", "Potuhera", "Ridigama", "Wariyapola", "Wawathagama", "Yapahuwa"] :
 
-      selectedDistrict === "Puttalam" ? ["Anamaduwa", "Battuluoya", "Chilaw", "Dankotuwa", "Eluvankulam", "Kalpitiya", "Madampe", "Mahawewa", "Marawila", "Mundel", "Nattandiya", "Nuraicholai", "Palavi", "Puttalam", "Thillaiyadi", "Wennappuwa"] :
+                                                        selectedDistrict === "Puttalam" ? ["Anamaduwa", "Battuluoya", "Chilaw", "Dankotuwa", "Eluvankulam", "Kalpitiya", "Madampe", "Mahawewa", "Marawila", "Mundel", "Nattandiya", "Nuraicholai", "Palavi", "Puttalam", "Thillaiyadi", "Wennappuwa"] :
 
-      [], // Add city options based on the district
+                                                          [], // Add city options based on the district
       onChange: (event) => {
         setSelectedCity(event.target.value);
         setFormData({
@@ -349,124 +366,260 @@ export default function Register() {
   ];
 
   return (
-    <div className="bg-white w-full  relative register-container">
-      <div className="register-formContainer">
-        <p className="w-full text-4xl font-medium text-center text-black font-arial">
-          {isRegistered ? "Registration Successfull !" : "Sign Up"}
-        </p>
-        {isRegistered ? (
-          <button
-            className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg 
-                text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide
-                "
-            onClick={() => router.push("/login")}
-          >
-            Login
-          </button>
-        ) : (
-          <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
-            <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8    flex flex-col items-center justify-center">
-              <div
-                className="relative  border rounded-full  flex flex-col items-center  shadow-2xl justify-center h-48 w-48 max-h-48 max-w-48  "
-                style={{ border: "1px solid #e8411e" }}
-              >
-                <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                  <img
-                    src={selectedImage ? selectedImage : imagePlaceholder}
-                    className={
-                      !selectedImage
-                        ? "w-full h-full object-cover rounded-full m-0 "
-                        : "w-full h-full object-cover rounded-full m-0  register-formImage"
-                    }
-                    style={{ borderColor: "#e8411e" }}
-                  />
-                  {/* <button
-                            onClick={handleChooseImage}
-                            className={`text-white px-4 py-2 mt-2 rounded mr-2 ${
-                              isButtonDisabled
-                                ? "opacity-50 cursor-not-allowed"
-                                : ""
-                            }`}
-                            style={{backgroundColor: "#e8411e"}}
-                            disabled={isButtonDisabled}
-                          >
-                            Choose Photo
-                          </button> */}
-                  <div>
-                    <input
-                      accept="image/*"
-                      max="1000000"
-                      type="file"
-                      name="file-image"
-                      id="file-image"
-                      className="register-formFileinput"
-                      onChange={handleImage}
-                    />
-                    <label for="file-image" className="register-formFileinput">
-                      <i className="fa fa-camera"></i>
-                    </label>
+
+    <div className="bg-white w-full  relative py-10">
+      <div className=" min-h-screen bg-gray-100 py-6 flex flex-col justify-center w-full">
+        <div className="relative py-3 sm:max-w-10 mx-auto ">
+          <div className="absolute inset-0 bg-gradient-to-r from-orange-300 to-orange-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:rotate-6 sm:rounded-3xl rounded-2xl rounded border-2 border-white">
+          </div>
+          <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl rounded-2xl sm:p-20" >
+            <div className="max-w-md mx-auto">
+              <div>
+                <h1 className="text-4xl font-semibold text-black flex justify-center">Sign Up</h1>
+              </div>
+
+              <div class="relative flex justify-center mt-5">
+                <img src={selectedImage ? selectedImage : imagePlaceholder} class="w-40 h-40 border-4 border-white rounded-full" />
+                <input
+                  accept="image/*"
+                  max="1000000"
+                  type="file"
+                  name="file-image"
+                  id="file-image"
+                  className="hidden"
+                  onChange={handleImage}
+                  style={{ display: "none" }}
+                />
+                {/* <label htmlFor="file-image" className="w-12 h-12 border-4 border-red-500 bg-red-500 rounded-full flex items-center justify-center cursor-pointer"> */}
+                <label htmlFor="file-image"
+                  className="mr-20">
+                  <i className="fa fa-camera "></i>
+                </label>
+              </div>
+              <div className="divide-y divide-gray-200">
+                <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                  {registrationFormControls.map((controlItem, key) =>
+                    controlItem.componentType === "input" && controlItem.label == "Display Name" ? (
+                      <InputComponent
+                        key={key}
+                        type={controlItem.type}
+                        placeholder={controlItem.placeholder}
+                        label={controlItem.label}
+                        value={formData[controlItem.id]}
+                        onChange={(event) => {
+                          setFormData({
+                            ...formData,
+                            [controlItem.id]: event.target.value,
+                          });
+                        }}
+                      />
+                    ) : null)}
+                  <div class="flex -mx-3">
+                    <div class="w-1/2 px-3 ">
+                      <label for="" class="text-m font-semibold px-1">First name</label>
+                      <div class="flex">
+                        <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
+                        <input
+                          type="text"
+                          class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                          placeholder="John"
+                          onChange={(event) => {
+                            setFormData({
+                              ...formData,
+                              first_name: event.target.value,
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div class="w-1/2 px-3 ">
+                      <label for="" class="text-m font-semibold px-1">Last name</label>
+                      <div class="flex">
+                        <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
+                        <input
+                          type="text"
+                          class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                          placeholder="Smith"
+                          onChange={(event) => {
+                            setFormData({
+                              ...formData,
+                              last_name: event.target.value,
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  {registrationFormControls.map((controlItem, key) =>
+                    controlItem.componentType === "input" ? (
+                      controlItem.label != "Display Name" && controlItem.label != "First name" && controlItem.label != "Last name" ? (
+                        <InputComponent
+                          key={key}
+                          type={controlItem.type}
+                          placeholder={controlItem.placeholder}
+                          label={controlItem.label}
+                          value={formData[controlItem.id]}
+                          onChange={(event) => {
+                            setFormData({
+                              ...formData,
+                              [controlItem.id]: event.target.value,
+                            });
+                          }}
+                        />
+                      ) : null
+                    ) : controlItem.componentType === "select" ? (
+                      <SelectComponent
+                        key={key}
+                        options={controlItem.options}
+                        label={controlItem.label}
+                        onChange={controlItem.onChange}
+                        value={controlItem.value}
+                      />
+                    ) : null
+                  )}
+                  <div class="flex -mx-3">
+                    <div class="w-full px-3 mt-5">
+                      <button
+                        style={{ backgroundColor: "#e84118", borderColor: "#e84118" }}
+                        class="disabled:opacity-50 disabled:cursor-not-allowed block w-full max-w-xs mx-auto text-white rounded-lg px-3 py-3 font-semibold"
+                        disabled={!isFormValid() || loading}
+                        onClick={handleRegisterOnSubmit}
+                      >
+                        {loading? "REGISTERING" : "REGISTER NOW"}
+                      </button>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-sm">Already have an account? <a href="/login" class="text-cyan-600">Sign In</a></p>
                   </div>
                 </div>
               </div>
             </div>
-            {registrationFormControls.map((controlItem, key) => 
-              controlItem.componentType === "input" ? (
-                <InputComponent
-                  key={key}
-                  type={controlItem.type}
-                  placeholder={controlItem.placeholder}
-                  label={controlItem.label}
-                  onChange={(event) => {
-                    setFormData({
-                      ...formData,
-                      [controlItem.id]: event.target.value,
-                    });
-                  }}
-                  value={formData[controlItem.id]}
-                />
-              ) : controlItem.componentType === "select" ? (
-                <SelectComponent
-                  key={key}
-                  options={controlItem.options}
-                  label={controlItem.label}
-                  onChange={controlItem.onChange}
-                  value={controlItem.value}
-                />
-              ) : null
-            )}
-            <div className="w-full flex items-center justify-center pt-6">
-              <button
-                className=" disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center px-6 py-4 text-lg 
-                    text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide rounded-lg w-1/2 border mr-10 border-transparent shadow-sm hover:bg-white hover:text-white focus:outline-none
-                   "
-                style={{ backgroundColor: "#e84118" }}
-                disabled={!isFormValid()}
-                onClick={handleRegisterOnSubmit}
-              >
-                {!pageLevelLoader ? (
-                  <ComponentLevelLoader
-                    text={"Registering"}
-                    color={"#ffffff"}
-                    loading={pageLevelLoader}
-                  />
-                ) : (
-                  "Register"
-                )}
-              </button>
-              <button
-                className="inline-flex items-center justify-center bg-white px-6 py-4 text-lg  rounded-lg w-1/2 border
-                     text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide
-                     "
-                onClick={() => router.push("/login")}
-                style={{ color: "#e84118", borderColor: "#e84118" }}
-              >
-                Sign In
-              </button>
-            </div>
           </div>
-        )}
+        </div>
       </div>
       <Notification />
     </div>
+
+
+    // <div className="h-screen overflow-hidden flex items-center justify-center">
+    //   {/* <div className="register-formContainer">
+    //     <p className="w-full text-4xl font-medium text-center text-black font-arial">
+    //       {isRegistered ? "Registration Successfull !" : "Sign Up"}
+    //     </p>
+    //     {isRegistered ? (
+    //       <button
+    //         className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg 
+    //             text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide
+    //             "
+    //         onClick={() => router.push("/login")}
+    //       >
+    //         Login
+    //       </button>
+    //     ) : (
+    //       <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
+    //         <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8    flex flex-col items-center justify-center">
+    //           <div
+    //             className="relative  border rounded-full  flex flex-col items-center  shadow-2xl justify-center h-48 w-48 max-h-48 max-w-48  "
+    //             style={{ border: "1px solid #e8411e" }}
+    //           >
+    //             <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+    //               <img
+    //                 src={selectedImage ? selectedImage : imagePlaceholder}
+    //                 className={
+    //                   !selectedImage
+    //                     ? "w-full h-full object-cover rounded-full m-0 "
+    //                     : "w-full h-full object-cover rounded-full m-0  register-formImage"
+    //                 }
+    //                 style={{ borderColor: "#e8411e" }}
+    //               />
+    //               {/* <button
+    //                         onClick={handleChooseImage}
+    //                         className={`text-white px-4 py-2 mt-2 rounded mr-2 ${
+    //                           isButtonDisabled
+    //                             ? "opacity-50 cursor-not-allowed"
+    //                             : ""
+    //                         }`}
+    //                         style={{backgroundColor: "#e8411e"}}
+    //                         disabled={isButtonDisabled}
+    //                       >
+    //                         Choose Photo
+    //                       </button> */}
+    //               {/* <div>
+    //                 <input
+    //                   accept="image/*"
+    //                   max="1000000"
+    //                   type="file"
+    //                   name="file-image"
+    //                   id="file-image"
+    //                   className="register-formFileinput"
+    //                   onChange={handleImage}
+    //                 />
+    //                 <label for="file-image" className="register-formFileinput">
+    //                   <i className="fa fa-camera"></i>
+    //                 </label>
+    //               </div>
+    //             </div>
+    //           </div>
+    //         </div> */}
+    //         {/* {registrationFormControls.map((controlItem, key) => 
+    //           controlItem.componentType === "input" ? (
+    //             <InputComponent
+    //               key={key}
+    //               type={controlItem.type}
+    //               placeholder={controlItem.placeholder}
+    //               label={controlItem.label}
+    //               onChange={(event) => {
+    //                 setFormData({
+    //                   ...formData,
+    //                   [controlItem.id]: event.target.value,
+    //                 });
+    //               }}
+    //               value={formData[controlItem.id]}
+    //             />
+    //           ) : controlItem.componentType === "select" ? (
+    //             <SelectComponent
+    //               key={key}
+    //               options={controlItem.options}
+    //               label={controlItem.label}
+    //               onChange={controlItem.onChange}
+    //               value={controlItem.value}
+    //             />
+    //           ) : null
+    //         )}
+    //         <div className="w-full flex items-center justify-center pt-6">
+    //           <button
+    //             className=" disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center px-6 py-4 text-lg 
+    //                 text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide rounded-lg w-1/2 border mr-10 border-transparent shadow-sm hover:bg-white hover:text-white focus:outline-none
+    //                "
+    //             style={{ backgroundColor: "#e84118" }}
+    //             disabled={!isFormValid()}
+    //             onClick={handleRegisterOnSubmit}
+    //           >
+    //             {!pageLevelLoader ? (
+    //               <ComponentLevelLoader
+    //                 text={"Registering"}
+    //                 color={"#ffffff"}
+    //                 loading={pageLevelLoader}
+    //               />
+    //             ) : (
+    //               "Register"
+    //             )}
+    //           </button>
+    //           <button
+    //             className="inline-flex items-center justify-center bg-white px-6 py-4 text-lg  rounded-lg w-1/2 border
+    //                  text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide
+    //                  "
+    //             onClick={() => router.push("/login")}
+    //             style={{ color: "#e84118", borderColor: "#e84118" }}
+    //           >
+    //             Sign In
+    //           </button>
+    //         </div>
+    //       </div>
+    //     )}
+    //   </div> */}
+    //   <Notification />
+    // </div>
   );
 }

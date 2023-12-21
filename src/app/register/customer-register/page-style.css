@@ -30,7 +30,7 @@ input{
   width: 0;
 }
 .register-container{
-  background-image: url(../../../assets/orange-background-6921377_1280.webp);
+  /* background-image: url(../../../assets/orange-background-6921377_1280.webp); */
   padding-top: 3%;
 }
 [type=file] + label {

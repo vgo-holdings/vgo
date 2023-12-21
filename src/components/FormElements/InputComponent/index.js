@@ -11,31 +11,37 @@ export default function InputComponent({
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="relative">
-      <p className=" pt-0 pr-2 pb-1 pl-2  mt-3 mr-0 mb-0  text-lg text-gray-600  ">
+      <p className=" text-m font-semibold px-1">
         {label}
       </p>
       {type == 'password' ? (
-        <div className=" relative flex"> 
+        <div class="relative flex">
+          <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
+          {/* <div className=" relative flex"> */}
+            <input
+              placeholder={placeholder}
+              type={showPassword ? "text" : "password"}
+              value={value}
+              onChange={onChange}
+              className="w-full -ml-9 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+              style={{ borderRight: '0px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px' }}
+            />
+            <button className="px-4 bg-white transition duration-150 ease-in-out py-2 hover:bg-gray  " style={{ border: '1px solid #d1d5db', borderTopRightRadius: '8px', borderBottomRightRadius: '8px', color: "#2F3640" }} onClick={() => setShowPassword(!showPassword)}> <i className={showPassword ? "fa fa-eye-slash" : "fa fa-eye color"} ></i></button>
+          {/* </div> */}
+        </div>
+      ) : (
+        <div class="flex">
+          <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
           <input
             placeholder={placeholder}
-            type={showPassword? "text" : "password" }
+            type={type || "text"}
             value={value}
             onChange={onChange}
-            className="border transition duration-150 ease-in-out  placeholder-gray-400 focus:outline-none   w-full pt-4 pr-4 pb-4 pl-4 mr-0 mt-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
-            style={{borderRight:'0px',borderTopRightRadius:'0px',borderBottomRightRadius:'0px'}}
-         />
-          <button className="px-6 bg-white transition duration-150 ease-in-out py-2 hover:bg-gray  " style={{border:'1px solid #d1d5db',borderTopRightRadius:'8px',borderBottomRightRadius:'8px', color: "#2F3640" }} onClick={() => setShowPassword(!showPassword)}> <i className={showPassword ? "fa fa-eye-slash" : "fa fa-eye color"} ></i></button>
-      </div>
-      ):(
-        <input
-        placeholder={placeholder}
-        type={type || "text"}
-        value={value}
-        onChange={onChange}
-        disabled = {disabled}
-        className="border placeholder-gray-400 focus:outline-none   w-full pt-4 pr-4 pb-4 pl-4 mr-0 mt-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
-      />
-      ) }
+            disabled={disabled}
+            className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+          />
+        </div>
+      )}
     </div>
   );
 }
