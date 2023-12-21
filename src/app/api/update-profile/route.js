@@ -142,6 +142,7 @@ export async function PUT(req1) {
             city:checkUser.city,
             facebookURL:checkUser.facebookURL,
             youtubeURL:checkUser.youtubeURL,
+            aboutMe:checkUser.aboutMe,
           },
         };
       } else {
@@ -161,6 +162,7 @@ export async function PUT(req1) {
             city:checkUser.city,
             facebookURL:checkUser.facebookURL,
             youtubeURL:checkUser.youtubeURL,
+            aboutMe:checkUser.aboutMe,
           },
         };
       }

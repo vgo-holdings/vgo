@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 import { handleVerify } from "@/services/verifyAccount";
 import "./page-style.css";
 import Image from "next/image";
-import { updateImage, updateProfile } from "@/services/user";
+import { updateImage, updateProfile, updateAboutMe } from "@/services/user";
 import { initializeApp } from "firebase/app";
 import {
   getDownloadURL,
@@ -167,6 +167,26 @@ export default function Account() {
       });
       setComponentLevelLoader({ loading: false, id: "" });
     }
+  }
+
+  async function handleUpdateUserAbout() {
+    // updateAboutMe
+    // console.log(formData,"formdata in handleUpdateUserAbout")
+    setComponentLevelLoader({ loading: true, id: "" });
+    const res = await updateAboutMe(formData);
+    setUser(res?.finalData?.user);
+    if (res.success) {
+      setComponentLevelLoader({ loading: false, id: "" });
+      toast.success(res.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else {
+      toast.error(res.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setComponentLevelLoader({ loading: false, id: "" });
+    }
+    setAboutMe(false);
   }
 
   async function handleUpdateUser() {
@@ -334,6 +354,7 @@ export default function Account() {
     }
   }
   const [openSettings, setOpenSettings] = useState(false);
+  const [openAboutMe, setAboutMe] = useState(false);
 
   useEffect(() => {
     if (user !== null) extractAllAddresses();
@@ -504,21 +525,22 @@ export default function Account() {
             {user?.class_name &&
               <p class="text-gray-700">User Class: {user?.class_name}</p>
             } */}
-            <div class="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
-              <div class="flex items-center space-x-4 mt-2">
-                <button class="flex items-center bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
-                  {/* <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+
+          </div>
+          <div class="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
+            <div class="flex items-center space-x-4 mt-2">
+              <button class="flex items-center bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
+                {/* <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
                   </svg> */}
-                  <span>User Role: {user?.role}</span>
-                </button>
-                <button class="flex items-center bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
-                  {/* <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <span>User Role: {user?.role}</span>
+              </button>
+              <button class="flex items-center bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
+                {/* <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path>
                   </svg> */}
-                  <span>User Class: {user?.class_name}</span>
-                </button>
-              </div>
+                <span>User Class: {user?.class_name}</span>
+              </button>
             </div>
           </div>
         </div>
@@ -591,14 +613,57 @@ export default function Account() {
           <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
             <div class="flex items-center justify-between">
               <h4 class="text-xl text-gray-900 font-bold">About Me</h4>
-              <a
-                href="/your-edit-details-page" // Replace with the actual URL of your edit details page
-                className="text-xs bg-gray-200 hover:bg-gray-500 text-gray-500 hover:text-gray-200 px-2 py-1 rounded-lg transition duration-200 cursor-pointer"
-              >
-                Edit About
-              </a>
+              {openAboutMe ? (
+                <button
+                  onClick={() => {
+                    setHideButton(!hideButton);
+                    setAboutMe(false);
+                  }}
+                  className="text-xs bg-gray-200 hover:bg-gray-500 text-gray-500 hover:text-gray-200 px-2 py-1 rounded-lg transition duration-200 cursor-pointer"
+                >
+                  Cancel Edit About
+                </button>
+              ) :
+                <button
+                  onClick={() => {
+                    setHideButton(!hideButton);
+                    setAboutMe(true);
+                    setFormData({
+                      _id: user?._id,
+                      email: user?.email,
+                    });
+                  }}
+                  className="text-xs bg-gray-200 hover:bg-gray-500 text-gray-500 hover:text-gray-200 px-2 py-1 rounded-lg transition duration-200 cursor-pointer"
+                >
+                  Edit About
+                </button>
+              }
             </div>
-            <p class="mt-2 text-gray-700">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt voluptates obcaecati numquam error et ut fugiat asperiores. Sunt nulla ad incidunt laboriosam, laudantium est unde natus cum numquam, neque facere. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, magni odio magnam commodi sunt ipsum eum! Voluptas eveniet aperiam at maxime, iste id dicta autem odio laudantium eligendi commodi distinctio!</p>
+            {openAboutMe ? (
+              <div>
+                <textarea
+                  placeholder={user?.aboutMe}
+                  rows="5"
+                  onChange={(event) =>
+                    setFormData({
+                      ...formData,
+                      aboutMe: event.target.value,
+                    })
+                  }
+                  class="mt-2 bg-gray-200 border-1 border-purple-500 rounded py-1  px-4 w-full text-gray-700 "
+                  style={{ borderRight: '0px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px' }}
+                />
+                <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+                  <button onClick={handleUpdateUserAbout} class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                    Change About Me
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p class="mt-2 text-gray-700">{user?.aboutMe}</p>
+
+            )}
+            {/* <p class="mt-2 text-gray-700">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt voluptates obcaecati numquam error et ut fugiat asperiores. Sunt nulla ad incidunt laboriosam, laudantium est unde natus cum numquam, neque facere. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, magni odio magnam commodi sunt ipsum eum! Voluptas eveniet aperiam at maxime, iste id dicta autem odio laudantium eligendi commodi distinctio!</p> */}
           </div>
           <div />
         </div>
@@ -785,48 +850,48 @@ export default function Account() {
                 }
                 {showUpdateProfileForm ? (
                   <ul class="mt-2 text-gray-700">
-                  <li class="flex border-y py-2">
-                    <span class="font-bold w-40">Facebook URL:</span>
-                    <input
-                      placeholder={user?.facebookURL}
-                      onChange={(event) =>
-                        setFormData({
-                          ...formData,
-                          facebookURL: event.target.value,
-                        })
-                      }
-                      class="bg-gray-200 border-1 border-purple-500 rounded py-1  px-4 w-full text-gray-700 "
-                      style={{ borderRight: '0px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px' }}
-                    />
-                  </li>
-                  <li class="flex border-y py-2">
-                    <span class="font-bold w-36">Youtube URL:</span>
-                    <input
-                      placeholder={user?.youtubeURL}
-                      onChange={(event) =>
-                        setFormData({
-                          ...formData,
-                          youtubeURL: event.target.value,
-                        })
-                      }
-                      class="bg-gray-200 border-1 border-purple-500 rounded py-1  px-4 w-full text-gray-700 "
-                      style={{ borderRight: '0px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px' }}
-                    />
-                  </li>
-                  <li class="flex border-y py-2">
-                    <span class="font-bold w-36">Whatsapp:</span>
-                    <input
-                      placeholder={user?.whatsapp}
-                      onChange={(event) =>
-                        setFormData({
-                          ...formData,
-                          whatsapp: event.target.value,
-                        })
-                      }
-                      class="bg-gray-200 border-1 border-purple-500 rounded py-1  px-4 w-full text-gray-700 "
-                      style={{ borderRight: '0px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px' }}
-                    />
-                  </li>
+                    <li class="flex border-y py-2">
+                      <span class="font-bold w-40">Facebook URL:</span>
+                      <input
+                        placeholder={user?.facebookURL}
+                        onChange={(event) =>
+                          setFormData({
+                            ...formData,
+                            facebookURL: event.target.value,
+                          })
+                        }
+                        class="bg-gray-200 border-1 border-purple-500 rounded py-1  px-4 w-full text-gray-700 "
+                        style={{ borderRight: '0px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px' }}
+                      />
+                    </li>
+                    <li class="flex border-y py-2">
+                      <span class="font-bold w-36">Youtube URL:</span>
+                      <input
+                        placeholder={user?.youtubeURL}
+                        onChange={(event) =>
+                          setFormData({
+                            ...formData,
+                            youtubeURL: event.target.value,
+                          })
+                        }
+                        class="bg-gray-200 border-1 border-purple-500 rounded py-1  px-4 w-full text-gray-700 "
+                        style={{ borderRight: '0px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px' }}
+                      />
+                    </li>
+                    <li class="flex border-y py-2">
+                      <span class="font-bold w-36">Whatsapp:</span>
+                      <input
+                        placeholder={user?.whatsapp}
+                        onChange={(event) =>
+                          setFormData({
+                            ...formData,
+                            whatsapp: event.target.value,
+                          })
+                        }
+                        class="bg-gray-200 border-1 border-purple-500 rounded py-1  px-4 w-full text-gray-700 "
+                        style={{ borderRight: '0px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px' }}
+                      />
+                    </li>
                   </ul>
                 ) :
                   <li class="flex items-center border-b py-2 space-x-2">
