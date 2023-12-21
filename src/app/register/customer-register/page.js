@@ -7,7 +7,7 @@ import Notification from "@/components/Notification";
 import { GlobalContext } from "@/context";
 import { registerNewUser } from "@/services/register";
 import imagePlaceholder from "../../../assets/images/propic.png";
-import "./page-style.css";
+// import "./page-style.css";
 
 import {
   // registrationFormControls,
@@ -367,9 +367,9 @@ export default function Register() {
 
   return (
 
-    <div className="bg-white w-full  relative py-10">
-      <div className=" min-h-screen bg-gray-100 py-6 flex flex-col justify-center w-full">
-        <div className="relative py-3 sm:max-w-10 mx-auto ">
+    <div className="bg-gray-100 w-full relative py-10">
+      <div className=" min-h-screen sm:bg-gray-100 py-6 flex flex-col justify-center w-full">
+        <div className="relative py-3 sm:max-w-10 md:mx-auto ml-3 mr-3" >
           <div className="absolute inset-0 bg-gradient-to-r from-orange-300 to-orange-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:rotate-6 sm:rounded-3xl rounded-2xl rounded border-2 border-white">
           </div>
           <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl rounded-2xl sm:p-20" >
@@ -378,23 +378,26 @@ export default function Register() {
                 <h1 className="text-4xl font-semibold text-black flex justify-center">Sign Up</h1>
               </div>
 
-              <div class="relative flex justify-center mt-5">
-                <img src={selectedImage ? selectedImage : imagePlaceholder} class="w-40 h-40 border-4 border-white rounded-full" />
-                <input
-                  accept="image/*"
-                  max="1000000"
-                  type="file"
-                  name="file-image"
-                  id="file-image"
-                  className="hidden"
-                  onChange={handleImage}
-                  style={{ display: "none" }}
-                />
-                {/* <label htmlFor="file-image" className="w-12 h-12 border-4 border-red-500 bg-red-500 rounded-full flex items-center justify-center cursor-pointer"> */}
-                <label htmlFor="file-image"
-                  className="mr-20">
-                  <i className="fa fa-camera "></i>
-                </label>
+              <div class="flex justify-center mt-5">
+                <div class="relative">
+                  <img class="w-40 h-40 border-4 border-orange-400 rounded-full bg-hero bg-cover bg-no-repeat" src={selectedImage ? selectedImage : imagePlaceholder} alt="" />
+                  <input
+                    accept="image/*"
+                    max="1000000"
+                    type="file"
+                    name="file-image"
+                    id="file-image"
+                    className="hidden"
+                    onChange={handleImage}
+                    style={{ display: "none" }}
+                  />
+                  <label htmlFor="file-image"
+                    className="bottom-0 absolute right-5 transform translate-y-1/4 w-12 h-12 border-4 border-orange-600 bg-orange-600 rounded-full flex items-center justify-center cursor-pointer"
+                  // className="bg-orange-600 rounded-full flex justify-center items-center w-12 h-12 "
+                  >
+                    <i className="fa fa-camera "></i>
+                  </label>
+                </div>
               </div>
               <div className="divide-y divide-gray-200">
                 <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
@@ -421,7 +424,7 @@ export default function Register() {
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
                         <input
                           type="text"
-                          class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                          class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-orange-400"
                           placeholder="John"
                           onChange={(event) => {
                             setFormData({
@@ -438,7 +441,7 @@ export default function Register() {
                         <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
                         <input
                           type="text"
-                          class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                          class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-orange-400"
                           placeholder="Smith"
                           onChange={(event) => {
                             setFormData({
@@ -485,7 +488,7 @@ export default function Register() {
                         disabled={!isFormValid() || loading}
                         onClick={handleRegisterOnSubmit}
                       >
-                        {loading? "REGISTERING" : "REGISTER NOW"}
+                        {loading ? "REGISTERING" : "REGISTER NOW"}
                       </button>
                     </div>
                   </div>
@@ -500,126 +503,5 @@ export default function Register() {
       </div>
       <Notification />
     </div>
-
-
-    // <div className="h-screen overflow-hidden flex items-center justify-center">
-    //   {/* <div className="register-formContainer">
-    //     <p className="w-full text-4xl font-medium text-center text-black font-arial">
-    //       {isRegistered ? "Registration Successfull !" : "Sign Up"}
-    //     </p>
-    //     {isRegistered ? (
-    //       <button
-    //         className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg 
-    //             text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide
-    //             "
-    //         onClick={() => router.push("/login")}
-    //       >
-    //         Login
-    //       </button>
-    //     ) : (
-    //       <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
-    //         <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8    flex flex-col items-center justify-center">
-    //           <div
-    //             className="relative  border rounded-full  flex flex-col items-center  shadow-2xl justify-center h-48 w-48 max-h-48 max-w-48  "
-    //             style={{ border: "1px solid #e8411e" }}
-    //           >
-    //             <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-    //               <img
-    //                 src={selectedImage ? selectedImage : imagePlaceholder}
-    //                 className={
-    //                   !selectedImage
-    //                     ? "w-full h-full object-cover rounded-full m-0 "
-    //                     : "w-full h-full object-cover rounded-full m-0  register-formImage"
-    //                 }
-    //                 style={{ borderColor: "#e8411e" }}
-    //               />
-    //               {/* <button
-    //                         onClick={handleChooseImage}
-    //                         className={`text-white px-4 py-2 mt-2 rounded mr-2 ${
-    //                           isButtonDisabled
-    //                             ? "opacity-50 cursor-not-allowed"
-    //                             : ""
-    //                         }`}
-    //                         style={{backgroundColor: "#e8411e"}}
-    //                         disabled={isButtonDisabled}
-    //                       >
-    //                         Choose Photo
-    //                       </button> */}
-    //               {/* <div>
-    //                 <input
-    //                   accept="image/*"
-    //                   max="1000000"
-    //                   type="file"
-    //                   name="file-image"
-    //                   id="file-image"
-    //                   className="register-formFileinput"
-    //                   onChange={handleImage}
-    //                 />
-    //                 <label for="file-image" className="register-formFileinput">
-    //                   <i className="fa fa-camera"></i>
-    //                 </label>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </div> */}
-    //         {/* {registrationFormControls.map((controlItem, key) => 
-    //           controlItem.componentType === "input" ? (
-    //             <InputComponent
-    //               key={key}
-    //               type={controlItem.type}
-    //               placeholder={controlItem.placeholder}
-    //               label={controlItem.label}
-    //               onChange={(event) => {
-    //                 setFormData({
-    //                   ...formData,
-    //                   [controlItem.id]: event.target.value,
-    //                 });
-    //               }}
-    //               value={formData[controlItem.id]}
-    //             />
-    //           ) : controlItem.componentType === "select" ? (
-    //             <SelectComponent
-    //               key={key}
-    //               options={controlItem.options}
-    //               label={controlItem.label}
-    //               onChange={controlItem.onChange}
-    //               value={controlItem.value}
-    //             />
-    //           ) : null
-    //         )}
-    //         <div className="w-full flex items-center justify-center pt-6">
-    //           <button
-    //             className=" disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center px-6 py-4 text-lg 
-    //                 text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide rounded-lg w-1/2 border mr-10 border-transparent shadow-sm hover:bg-white hover:text-white focus:outline-none
-    //                "
-    //             style={{ backgroundColor: "#e84118" }}
-    //             disabled={!isFormValid()}
-    //             onClick={handleRegisterOnSubmit}
-    //           >
-    //             {!pageLevelLoader ? (
-    //               <ComponentLevelLoader
-    //                 text={"Registering"}
-    //                 color={"#ffffff"}
-    //                 loading={pageLevelLoader}
-    //               />
-    //             ) : (
-    //               "Register"
-    //             )}
-    //           </button>
-    //           <button
-    //             className="inline-flex items-center justify-center bg-white px-6 py-4 text-lg  rounded-lg w-1/2 border
-    //                  text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide
-    //                  "
-    //             onClick={() => router.push("/login")}
-    //             style={{ color: "#e84118", borderColor: "#e84118" }}
-    //           >
-    //             Sign In
-    //           </button>
-    //         </div>
-    //       </div>
-    //     )}
-    //   </div> */}
-    //   <Notification />
-    // </div>
   );
 }

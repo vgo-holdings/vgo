@@ -23,7 +23,7 @@ export default function InputComponent({
               type={showPassword ? "text" : "password"}
               value={value}
               onChange={onChange}
-              className="w-full -ml-9 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+              className="w-full -ml-9 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-orange-400"
               style={{ borderRight: '0px', borderTopRightRadius: '0px', borderBottomRightRadius: '0px' }}
             />
             <button className="px-4 bg-white transition duration-150 ease-in-out py-2 hover:bg-gray  " style={{ border: '1px solid #d1d5db', borderTopRightRadius: '8px', borderBottomRightRadius: '8px', color: "#2F3640" }} onClick={() => setShowPassword(!showPassword)}> <i className={showPassword ? "fa fa-eye-slash" : "fa fa-eye color"} ></i></button>
@@ -38,7 +38,7 @@ export default function InputComponent({
             value={value}
             onChange={onChange}
             disabled={disabled}
-            className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+            className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-orange-400"
           />
         </div>
       )}
