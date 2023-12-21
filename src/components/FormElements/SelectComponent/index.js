@@ -5,14 +5,16 @@ export default function SelectComponent({
   options = [],
 }) {
   return (
-    <div className="flex border-b py-2">
-      <p className=" pt-0 pr-2 pb-1 pl-2  mt-3 mr-0 mb-0  text-lg text-gray-600  ">
+    <div className="relative">
+      <p className=" text-m font-semibold px-1">
         {label}
       </p>
+      <div class="flex">
+          <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
       <select
         value={value}
         onChange={onChange}
-        className="border placeholder-gray-400 focus:outline-none focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mr-0 mt-0 ml-0 text-base block bg-white border-gray-300 rounded-md"
+        className="w-full -ml-9 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
       >
         <option value="" disabled>
           Select {label}
@@ -23,6 +25,7 @@ export default function SelectComponent({
           </option>
         ))}
       </select>
+      </div>
     </div>
   );
 }

@@ -16,6 +16,14 @@
   }
 }
 
+.my-custom-bg-class{
+  background-image: url(../assets/orange-background-6921377_1280.webp);
+}
+
+.my-custom-bg-account-img{
+  background-image: url(../assets/orange-background-6921377_1280.webp);
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   min-height: 100vh;
