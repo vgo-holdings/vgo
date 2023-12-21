@@ -76,6 +76,26 @@ export const updateProfile = async (formData) => {
   }
 };
 
+export const updateAboutMe = async (formData) => {
+  try {
+    const res = await fetch("/api/update-user-about", {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+      cache: "no-store",
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const deleteAUser = async (id) => {
   try {
     const res = await fetch(`/api/admin/delete-user?id=${id}`, {

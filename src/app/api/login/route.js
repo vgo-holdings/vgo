@@ -76,6 +76,7 @@ export async function POST(req) {
           city:checkUser.city,
           facebookURL:checkUser.facebookURL,
           youtubeURL:checkUser.youtubeURL,
+          aboutMe:checkUser.aboutMe,
         },
       };
     } else {
@@ -96,6 +97,7 @@ export async function POST(req) {
           city:checkUser.city,
           facebookURL:checkUser.facebookURL,
           youtubeURL:checkUser.youtubeURL,
+          aboutMe:checkUser.aboutMe,
         },
       };
     }

@@ -41,6 +41,7 @@ const UserSchema = new mongoose.Schema(
   class_loaction:Number,
   district: String,
   city: String,
+  aboutMe: String,
   lvl2_memberCount:Number,
   lvl3_memberCount:Number,
   lvl4_memberCount:Number,
