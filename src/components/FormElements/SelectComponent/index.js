@@ -5,7 +5,7 @@ export default function SelectComponent({
   options = [],
 }) {
   return (
-    <div className="relative">
+    <div className="flex border-b py-2">
       <p className=" pt-0 pr-2 pb-1 pl-2  mt-3 mr-0 mb-0  text-lg text-gray-600  ">
         {label}
       </p>
