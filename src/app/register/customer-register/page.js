@@ -105,7 +105,7 @@ export default function Register() {
       formData.whatsapp &&
       formData.whatsapp.trim() !== ""
       ? true
-      : true;
+      : false;
   }
 
   async function handleImage(event) {
