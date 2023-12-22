@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        myOrange: '#e84118',
+      },
       backgroundImage: {
         'hero': "url('../assets/images/propic.png')",
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
