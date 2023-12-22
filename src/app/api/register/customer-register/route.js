@@ -35,13 +35,28 @@ export async function POST(req) {
     //check if the user is exists or not
 
     const isUserAlreadyExists = await User.findOne({ email: lowercasedEmail });
+    const isNicAlreadyExists = await User.findOne({ nic: nic });
+    const isPhonereadyExists = await User.findOne({ phone: phone });
 
     if (isUserAlreadyExists) {
       return NextResponse.json({
         success: false,
-        message: "User is already exists. Please try with different email.",
+        message: "User is already exists with this Email. Please try with different email.",
       });
-    } else {
+    }
+    else if(isNicAlreadyExists){
+      return NextResponse.json({
+        success: false,
+        message: "User is already exists with this Nic. Please try with different Nic.",
+      });
+    }
+    else if(isPhonereadyExists){
+      return NextResponse.json({
+        success: false,
+        message: "User is already exists with this Phone Number. Please try with different Phone Number.",
+      });
+    }
+    else {
       const hashPassword = await hash(password, 12);
 
       const newlyCreatedUser = await User.create({
