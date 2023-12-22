@@ -77,6 +77,8 @@ export async function POST(req) {
           facebookURL:checkUser.facebookURL,
           youtubeURL:checkUser.youtubeURL,
           aboutMe:checkUser.aboutMe,
+          profit:checkUser.profit,
+          memberCount:checkUser.memberCount,
         },
       };
     } else {
@@ -98,6 +100,8 @@ export async function POST(req) {
           facebookURL:checkUser.facebookURL,
           youtubeURL:checkUser.youtubeURL,
           aboutMe:checkUser.aboutMe,
+          profit:checkUser.profit,
+          memberCount:checkUser.memberCount,
         },
       };
     }

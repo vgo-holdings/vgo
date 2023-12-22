@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 import { handleVerify } from "@/services/verifyAccount";
 // import "./page-style.css";
 import Image from "next/image";
-import { updateImage, updateProfile, updateAboutMe } from "@/services/user";
+import { updateImage, updateProfile, updateAboutMe, userConnection } from "@/services/user";
 import { initializeApp } from "firebase/app";
 import {
   getDownloadURL,
@@ -75,6 +75,16 @@ async function helperForUPloadingImageToFirebase(file) {
   });
 }
 
+function mapUserDataToReactElement(userConnectionData) {
+  return (
+    <a key={userConnectionData._id} href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
+      <img src={userConnectionData.imageURL || 'https://placeholder.com/16x16'} className="w-16 rounded-full" />
+      <p className="text-center font-bold text-sm mt-1">{userConnectionData.name}</p>
+      <p className="text-xs text-gray-500 text-center">{userConnectionData.role}</p>
+    </a>
+  );
+}
+
 export default function Account() {
   const {
     user,
@@ -89,6 +99,7 @@ export default function Account() {
     setPageLevelLoader,
   } = useContext(GlobalContext);
 
+  const [userData, setUserData] = useState([]);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [hideButton, setHideButton] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
@@ -109,7 +120,31 @@ export default function Account() {
     minutes: 0,
     seconds: 0,
   });
-  console.log(formData, "account FormDatas")
+  // console.log(formData, "account FormDatas")
+
+  async function handleUserConnection() {
+    console.log(user?._id, "user?._id");
+    const testVal = await userConnection(user?._id);
+    // if (Array.isArray(testVal.checkUser)) {
+    //   setUserData(testVal.checkUser);
+    // } else {
+    //   console.error("Data is not an array:", testVal.checkUser);
+    // }
+    // // setUserData(testVal);
+    // console.log("🚀 ~ file: page.js:115 ~ Account ~ testVal:", testVal.checkUser)
+    return testVal.checkUser
+  }
+
+  useEffect(() => {
+    
+    const fetchData = async () => {
+      const data = await handleUserConnection();
+      setUserData(data);
+    };
+
+    fetchData();
+  }, []);
+
 
   const calculateTimeLeft = () => {
     const createdAt = new Date(user?.createdAt);
@@ -483,9 +518,9 @@ export default function Account() {
             <img src="https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg" class="w-full h-full rounded-tl-lg rounded-tr-lg " />
           </div>
           <div class="flex flex-col items-center -mt-20">
-  
+
             <div class="relative">
-              <img src={user?.imageURL? user?.imageURL : imagePlaceholder} class="w-40 h-40 border-4 border-orange-600 rounded-full bg-hero bg-cover bg-no-repeat"  />
+              <img src={user?.imageURL ? user?.imageURL : imagePlaceholder} class="w-40 h-40 border-4 border-orange-600 rounded-full bg-hero bg-cover bg-no-repeat" />
               <input
                 accept="image/*"
                 max="1000000"
@@ -510,6 +545,7 @@ export default function Account() {
               </span>
             </div>
           </div>
+          {/* user role and class */}
           <div class="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
             <div class="flex items-center space-x-4 mt-2">
               <button class="flex items-center bg-orange-600  text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
@@ -526,10 +562,12 @@ export default function Account() {
               </button>
             </div>
           </div>
+          {/* end of user role and class */}
         </div>
 
         <div class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-x-4 h-full">
           <div />
+          {/* Statistics */}
           <div class="flex-1 bg-white rounded-lg shadow-xl p-8  ">
             <div class="flex items-center justify-between">
               <h4 class="text-xl text-gray-900 font-bold">Statistics</h4>
@@ -538,6 +576,7 @@ export default function Account() {
               <div class="px-6 py-6 bg-gray-100 border border-gray-300 rounded-lg shadow-xl">
                 <div class="flex items-center justify-between">
                   <span class="font-bold text-sm text-indigo-600">Total Points</span>
+                  <span class="text-xs bg-gray-200 hover:bg-gray-500 text-gray-500 hover:text-gray-200 px-2 py-1 rounded-lg transition duration-200 cursor-default">Total:{user?.memberCount * 1500}</span>
                 </div>
                 <div class="flex items-center justify-between mt-6">
                   <div>
@@ -545,7 +584,8 @@ export default function Account() {
                   </div>
                   <div class="flex flex-col">
                     <div class="flex items-end">
-                      <span class="text-2xl 2xl:text-3xl text-black font-bold">8,141</span>
+                      {/* <span class="text-2xl 2xl:text-3xl text-black font-bold">{user?.profit}</span> */}
+                      <span class="text-2xl 2xl:text-3xl text-black font-bold">{user?.memberCount * 1500}</span>
                       <div class="flex items-center ml-2 mb-1">
                         <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                         {/* <span class="font-bold text-sm text-gray-500 ml-0.5">3%</span> */}
@@ -565,7 +605,7 @@ export default function Account() {
                   </div>
                   <div class="flex flex-col">
                     <div class="flex items-end">
-                      <span class="text-2xl 2xl:text-3xl font-bold text-black">217</span>
+                      <span class="text-2xl 2xl:text-3xl font-bold text-black">0</span>
                       <div class="flex items-center ml-2 mb-1">
                         <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                         {/* <span class="font-bold text-sm text-gray-500 ml-0.5">5%</span> */}
@@ -574,7 +614,7 @@ export default function Account() {
                   </div>
                 </div>
               </div>
-              <div class="px-6 py-6 bg-gray-100 border border-gray-300 rounded-lg shadow-xl">
+              <div class="px-6 py-6 bg-gray-100 border border-gray-300 rounded-lg shadow-xl" onClick={handleUserConnection}>
                 <div class="flex items-center justify-between">
                   <span class="font-bold text-sm text-blue-600">Connections</span>
                   {/* <span class="text-xs bg-gray-200 hover:bg-gray-500 text-gray-500 hover:text-gray-200 px-2 py-1 rounded-lg transition duration-200 cursor-default">7 days</span> */}
@@ -585,13 +625,14 @@ export default function Account() {
                   </div>
                   <div class="flex flex-col">
                     <div class="flex items-end">
-                      <span class="text-2xl 2xl:text-3xl font-bold text-black">54</span>
+                      <span class="text-2xl 2xl:text-3xl font-bold text-black">{user?.memberCount}</span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          {/* End of Statistics */}
           <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
             <div class="flex items-center justify-between">
               <h4 class="text-xl text-gray-900 font-bold">About Me</h4>
@@ -1110,7 +1151,7 @@ export default function Account() {
         </div>
         <div class="bg-white rounded-lg shadow-xl p-8">
           <div class="flex items-center justify-between">
-            <h4 class="text-xl text-gray-900 font-bold">Connections (54)</h4>
+            <h4 class="text-xl text-gray-900 font-bold">Connections ({user?.memberCount})</h4>
             <a href="#" title="View All">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
@@ -1118,7 +1159,8 @@ export default function Account() {
             </a>
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-8 mt-8">
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
+            {userData.map(mapUserDataToReactElement)}
+            {/* <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
               <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection1.jpg" class="w-16 rounded-full" />
               <p class="text-center font-bold text-sm mt-1">Diane Aguilar</p>
               <p class="text-xs text-gray-500 text-center">Member</p>
@@ -1182,7 +1224,7 @@ export default function Account() {
             <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
               <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection16.jpg" class="w-16 rounded-full" />
               <p class="text-center font-bold text-sm mt-1">Joseph Marlatt</p>
-            </a>
+            </a> */}
           </div>
         </div>
       </div >
