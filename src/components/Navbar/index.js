@@ -136,7 +136,7 @@ export default function Navbar() {
                   onClick={() => router.push("/account")}
                 >
                     <Image
-                      src={user.imageURL === undefined ? imagePlaceHolder : user.imageURL}
+                      src={user?.imageURL === undefined ? imagePlaceHolder : user?.imageURL}
                       alt="User 1"
                       height={isMobileView ? 50 : isTabletView ? 35 : 50}
                       width={isMobileView ? 50 : isTabletView ? 35 : 50}
@@ -146,7 +146,7 @@ export default function Navbar() {
                         border: "1px solid #e84118",
                       }}
                     />
-                  <span className="hidden md:inline font-bold text-black p-4">{user.name}</span>
+                  <span className="hidden md:inline font-bold text-black p-4">{user?.name}</span>
                 </button>
                 <button
                   className={
