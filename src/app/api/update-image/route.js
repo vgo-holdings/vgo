@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export async function PUT(req1) {
   let finalData;
-  
+
   try {
     await connectToDB();
     const extractData = await req1.json();
@@ -16,19 +16,23 @@ export async function PUT(req1) {
       user_id,
       imageURL,
     } = extractData;
+    console.log("🚀 ~ file: route.js:19 ~ PUT ~ imageURL:", imageURL)
 
-     const updatedUser = await User.findOneAndUpdate(
-        { _id: user_id },
-        {
-          imageURL,
-        },
-        { 
-            new: false,
-            timestamps:false
-        }
-      );
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: user_id },
+      {
+        imageURL,
+      },
+      {
+        new: false,
+        timestamps: false
+      }
+    );
 
-    console.log(updatedUser, "why this");
+    console.log(updatedUser.imageURL, "why this");
+    const checkUser = await User.findOne({ _id:user_id });
+    console.log("🚀 ~ file: route.js:34 ~ PUT ~ checkUser:", checkUser)
+    // console.log(checkUser.imageURL, "why this");
 
     if (updatedUser) {
       if (updatedUser.class_name !== "") {
@@ -39,9 +43,20 @@ export async function PUT(req1) {
             name: updatedUser.name,
             _id: updatedUser._id,
             role: updatedUser.role,
-            imageURL: updatedUser.imageURL,
+            imageURL: checkUser.imageURL,
             createdAt: updatedUser.createdAt,
             class_name: extractAllClasses[0]?.name,
+            first_name: updatedUser.first_name,
+            last_name: updatedUser.last_name,
+            phone: updatedUser.phone,
+            whatsapp: updatedUser.whatsapp,
+            district: updatedUser.district,
+            city: updatedUser.city,
+            facebookURL: updatedUser.facebookURL,
+            youtubeURL: updatedUser.youtubeURL,
+            aboutMe: updatedUser.aboutMe,
+            profit: updatedUser.profit,
+            memberCount: updatedUser.memberCount,
           },
         };
       } else {
@@ -49,10 +64,21 @@ export async function PUT(req1) {
           user: {
             email: updatedUser.email,
             name: updatedUser.name,
-            _id: updatedUser._id, 
+            _id: updatedUser._id,
             role: updatedUser.role,
-            imageURL: updatedUser.imageURL,
+            imageURL: checkUser.imageURL,
             createdAt: updatedUser.createdAt,
+            first_name: updatedUser.first_name,
+            last_name: updatedUser.last_name,
+            phone: updatedUser.phone,
+            whatsapp: updatedUser.whatsapp,
+            district: updatedUser.district,
+            city: updatedUser.city,
+            facebookURL: updatedUser.facebookURL,
+            youtubeURL: updatedUser.youtubeURL,
+            aboutMe: updatedUser.aboutMe,
+            profit: updatedUser.profit,
+            memberCount: updatedUser.memberCount,
           },
         };
       }

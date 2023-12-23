@@ -380,14 +380,20 @@ export default function Account() {
         currentFile
       );
       console.log(extractImageUrl, "extractImageUrl user");
+
       if (extractImageUrl !== "") {
         const res = await updateImage(user._id, extractImageUrl);
         setUser(res?.finalData?.user);
         console.log(res, "Image");
+        toast.success("File Uploaded.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }else{
+        toast.success("File Not Uploaded.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       }
-      toast.success("File Uploaded.", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+      
     }
   }
   const [openSettings, setOpenSettings] = useState(false);
@@ -478,9 +484,9 @@ export default function Account() {
                                                       [],
   ]
 
-  // shareProfileToUser(){
-
-  // }
+  async function shareProfileToUser(){
+    router.push("/login")
+  }
   return (
     <>
       <div class="h-full bg-gray-200 p-8">
@@ -499,15 +505,20 @@ export default function Account() {
             <div x-show="openSettings" class={`bg-white absolute right-0 w-40 py-2 mt-1 border border-gray-200 shadow-2xl ${openSettings ? 'block' : 'hidden'}`}>
               <div class="py-2 border-b">
                 <p class="text-gray-400 text-xs px-6 uppercase mb-1">Settings</p>
-                <button class="w-full flex items-center px-6 py-1.5 space-x-2 hover:bg-gray-200">
+                <button class="w-full flex items-center px-6 py-1.5 space-x-2 hover:bg-gray-200" onClick={handleCopyUserId}>
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
                   </svg>
                   <span class="text-sm text-gray-700">Share Profile</span>
-                  <p class="text-sm"><a href={`/user-profile/${user?._id}`} class="text-cyan-600">Share Profile</a></p>
+                  {copySuccess && (
+                    <span className="text-white-600 text-xs">
+                      (Copied to clipboard)
+                    </span>
+                  )}
+                  {/* <p class="text-sm"><a href={`/user-profile/${user?._id}`} class="text-cyan-600">Share Profile</a></p> */}
 
                 </button>
-                <p className="propile-userId">
+                {/* <p className="propile-userId">
                   Ref id :
                   <span onClick={handleCopyUserId} style={{ cursor: "pointer" }}>
                     {user?._id}{" "}
@@ -521,7 +532,7 @@ export default function Account() {
                       (Copied to clipboard)
                     </span>
                   )}
-                </p>
+                </p> */}
               </div>
               {/* <div class="py-2">
                 <p class="text-gray-400 text-xs px-6 uppercase mb-1">Feedback</p>
@@ -1248,6 +1259,7 @@ export default function Account() {
             </a> */}
           </div>
         </div>
+        <Notification />
       </div >
     </>
   );

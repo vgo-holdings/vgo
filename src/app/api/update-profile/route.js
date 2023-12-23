@@ -143,6 +143,8 @@ export async function PUT(req1) {
             facebookURL:checkUser.facebookURL,
             youtubeURL:checkUser.youtubeURL,
             aboutMe:checkUser.aboutMe,
+            profit: checkUser.profit,
+            memberCount: checkUser.memberCount,
           },
         };
       } else {
@@ -163,6 +165,8 @@ export async function PUT(req1) {
             facebookURL:checkUser.facebookURL,
             youtubeURL:checkUser.youtubeURL,
             aboutMe:checkUser.aboutMe,
+            profit: checkUser.profit,
+            memberCount: checkUser.memberCount,
           },
         };
       }
