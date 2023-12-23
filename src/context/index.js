@@ -97,6 +97,7 @@ export default function GlobalState({ children }) {
   useEffect(() => {
     if (
       pathName !== "/new-page" &&
+      !pathName.includes("/user-profile") &&
       pathName !== "/register/customer-register" &&
       pathName !== "/contact-us" &&
       !pathName.includes("register") &&
