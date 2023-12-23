@@ -208,30 +208,175 @@ export default function Navbar() {
               </li>
             </ul> */}
             <NavItems router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} />
+            <div class=" flex items-center justify-around ">
+              {!isAdminView && !isSellerView && isAuthUser ? (
+                <div class=" flex items-center justify-around ">
 
-            {!isAdminView && !isSellerView && isAuthUser ? (
-              <div class=" flex items-center justify-around ">
+                  <div class="flex -space-x-2 rtl:space-x-reverse items-center cursor-pointer" onClick={() => router.push("/account")}>
+                    <img class="w-12 h-12 lg:w-16 lg:h-16 border-2 border-myOrange rounded-full dark:border-myOrange" src={user?.imageURL === undefined ? imagePlaceHolder : user?.imageURL} alt="" />
+                    <a onClick={() => router.push("/account")} class="px-3 font-bold rounded-full flex items-center justify-center w-auto h-8 text-sm lg:h-10 lg:text-lg   text-white bg-myOrange border-2 border-white  hover:bg-gray-600" href="#">{user?.name}</a>
+                  </div>
 
-                <div class="flex -space-x-2 rtl:space-x-reverse items-center cursor-pointer" onClick={() => router.push("/account")}>
-                  <img class="w-12 h-12 lg:w-16 lg:h-16 border-2 border-myOrange rounded-full dark:border-myOrange" src={user?.imageURL === undefined ? imagePlaceHolder : user?.imageURL} alt="" />
-                  <a onClick={() => router.push("/account")} class="px-3 font-bold rounded-full flex items-center justify-center w-auto h-8 text-sm lg:h-10 lg:text-lg   text-white bg-myOrange border-2 border-white  hover:bg-gray-600" href="#">{user?.name}</a>
+                  <button
+                    className={
+                      " border-orange-600 px-3 md:px-5 py-2 text-xl font-medium upprcase tracking-wide text-myOrange"
+                    }
+                    style={{
+                      // backgroundColor: "#e84118",
+                      borderRadius: "8px",
+                      borderColor: "#e84118",
+                    }}
+                    onClick={() => setShowCartModal(true)}
+                  >
+                    <i className="fa fa-shopping-cart"></i>
+                  </button>
+
+                  <div class="lg:hidden">
+
+                    <button
+                      onClick={onNavBar}
+                      class="flex items-center px-3 py-2 text-myOrange border border-myOrange rounded dark:text-myOrange navbar-burger hover:text-orange-200 hover:orange-200 lg:hidden"
+
+                    >
+
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+
+                        class="bi bi-list" viewBox="0 0 16 16">
+
+                        <path fill-rule="evenodd"
+
+                          d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+
+                      </svg>
+
+                    </button>
+
+                  </div>
                 </div>
+              ) :
+                <>
 
-                <button
-                  className={
-                    " border-orange-600 px-3 md:px-5 py-2 text-xl font-medium upprcase tracking-wide text-myOrange"
-                  }
-                  style={{
-                    // backgroundColor: "#e84118",
-                    borderRadius: "8px",
-                    borderColor: "#e84118",
-                  }}
-                  onClick={() => setShowCartModal(true)}
-                >
-                  <i className="fa fa-shopping-cart"></i>
-                </button>
+                  <div class="lg:hidden">
+
+                    <button
+                      onClick={onNavBar}
+                      class="flex items-center px-3 py-2 text-myOrange border border-myOrange rounded dark:text-myOrange navbar-burger hover:text-orange-200 hover:orange-200 lg:hidden"
+
+                    >
+
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+
+                        class="bi bi-list" viewBox="0 0 16 16">
+
+                        <path fill-rule="evenodd"
+
+                          d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+
+                      </svg>
+
+                    </button>
+
+                  </div>
+                </>
+              }
 
 
+              {/* check this im here */}
+              {user?.role === "admin" ? (
+                isAdminView ? (
+                  <button
+                    className={
+                      "inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700"
+                    }
+                    style={{
+                      backgroundColor: "#000000",
+                      borderRadius: "8px",
+                      borderColor: "#e84118",
+                    }}
+                    onClick={() => router.push("/")}
+                  >
+                    Client View
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => router.push("/admin-view")}
+                    className={
+                      "inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700"
+                    }
+                    style={{
+                      backgroundColor: "#000000",
+                      borderRadius: "8px",
+                      borderColor: "#e84118",
+                    }}
+                  >
+                    <i className="fa fa-user-secret"></i>
+                    <span className="hidden md:inline">Admin View</span>
+                  </button>
+                )
+              ) : user?.role === "hr" ? (
+                isSellerView ? (
+                  <button
+                    className={
+                      "inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700"
+                    }
+                    style={{
+                      backgroundColor: "#000000",
+                      borderRadius: "8px",
+                      borderColor: "#e84118",
+                    }}
+                    onClick={() => router.push("/")}
+                  >
+                    Client View
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => router.push("/hr-view")}
+                    className={
+                      "inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700"
+                    }
+                    style={{
+                      backgroundColor: "#000000",
+                      borderRadius: "8px",
+                      borderColor: "#e84118",
+                    }}
+                  >
+                    <i className="fa fa-user-secret"></i>
+                    <span className="hidden md:inline">Hr View</span>
+                  </button>
+                )
+              ) : user?.role === "freelancer" || user?.role === "member" || user?.role === "rookie" ? (
+                isSellerView ? (
+                  <button
+                    className={
+                      "hidden lg:block px-4 py-3 mr-2 text-xs font-semibold leading-none text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700"
+                    }
+                    style={{
+                      // backgroundColor: "#000000",
+                      borderRadius: "8px",
+                      borderColor: "#e84118",
+                    }}
+                    onClick={() => router.push("/")}
+                  >
+                    Client View
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => router.push("/seller-view")}
+                    className={
+                      "hidden lg:block px-4 py-3 mr-2 text-xs font-semibold leading-none text-center text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700"
+                    }
+                    style={{
+                      // backgroundColor: "#000000",
+                      borderRadius: "8px",
+                      borderColor: "#e84118",
+                    }}
+                  >
+                    <i className="fa fa-user-secret"></i>
+                    <span className="hidden md:inline">Seller View</span>
+                  </button>
+                )
+              ) : null}
+              {isAuthUser ? (
                 <a onClick={handleLogout}
 
                   class="hidden lg:inline-block px-1 py-2 lg:px-4 lg:py-3  mr-2 text-xs font-semibold leading-none text-orange-200 bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
@@ -239,169 +384,30 @@ export default function Navbar() {
                   Out
 
                 </a>
+              ) :
+                <>
+                  <div class="hidden lg:block">
 
-                <div class="lg:hidden">
+                    <a href="/login"
 
-                  <button
-                    onClick={onNavBar}
-                    class="flex items-center px-3 py-2 text-myOrange border border-myOrange rounded dark:text-myOrange navbar-burger hover:text-orange-200 hover:orange-200 lg:hidden"
+                      class="inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-white border border-blue-200 rounded dark:hover:border-orange-300 dark:hover:text-orange-700 dark:text-myOrange dark:border-myOrange hover:text-orange-700 hover:border-orange-300">Log
 
-                  >
+                      In</a>
 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    <a href="/register/customer-register"
 
-                      class="bi bi-list" viewBox="0 0 16 16">
+                      class="inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
 
-                      <path fill-rule="evenodd"
+                      Up
 
-                        d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+                    </a>
 
-                    </svg>
+                  </div>
+                </>
+              }
 
-                  </button>
-
-                </div>
-              </div>
-            ) :
-              <>
-                <div class="hidden lg:block">
-
-                  <a href="/login"
-
-                    class="inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-blue-600 border border-blue-200 rounded dark:hover:border-orange-300 dark:hover:text-orange-700 dark:text-myOrange dark:border-myOrange hover:text-orange-700 hover:border-orange-300">Log
-
-                    In</a>
-
-                  <a href="/register/customer-register"
-
-                    class="inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-orange-200 bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
-
-                    Up
-
-                  </a>
-
-                </div>
-                <div class="lg:hidden">
-
-                  <button
-                    onClick={onNavBar}
-                    class="flex items-center px-3 py-2 text-myOrange border border-myOrange rounded dark:text-myOrange navbar-burger hover:text-orange-200 hover:orange-200 lg:hidden"
-
-                  >
-
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-
-                      class="bi bi-list" viewBox="0 0 16 16">
-
-                      <path fill-rule="evenodd"
-
-                        d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
-
-                    </svg>
-
-                  </button>
-
-                </div>
-              </>
-            }
-
-
-            {/* check this im here */}
-            {user?.role === "admin" ? (
-              isAdminView ? (
-                <button
-                  className={
-                    "mt-1.5 inline-block  border-orange-600 px-3 md:px-5 py-2 text-xl font-medium upprcase tracking-wide text-white"
-                  }
-                  style={{
-                    backgroundColor: "#000000",
-                    borderRadius: "8px",
-                    borderColor: "#e84118",
-                  }}
-                  onClick={() => router.push("/")}
-                >
-                  Client View
-                </button>
-              ) : (
-                <button
-                  onClick={() => router.push("/admin-view")}
-                  className={
-                    "mt-1.5 inline-block  border-orange-600 px-3 md:px-5  py-2 text-xl font-medium upprcase tracking-wide text-white"
-                  }
-                  style={{
-                    backgroundColor: "#000000",
-                    borderRadius: "8px",
-                    borderColor: "#e84118",
-                  }}
-                >
-                  <i className="fa fa-user-secret"></i>
-                  <span className="hidden md:inline">Admin View</span>
-                </button>
-              )
-            ) : user?.role === "hr" ? (
-              isSellerView ? (
-                <button
-                  className={
-                    "mt-1.5 inline-block  border-orange-600 px-3 md:px-5 py-2 text-xl font-medium upprcase tracking-wide text-white"
-                  }
-                  style={{
-                    backgroundColor: "#000000",
-                    borderRadius: "8px",
-                    borderColor: "#e84118",
-                  }}
-                  onClick={() => router.push("/")}
-                >
-                  Client View
-                </button>
-              ) : (
-                <button
-                  onClick={() => router.push("/hr-view")}
-                  className={
-                    "mt-1.5 inline-block  border-orange-600 px-3 md:px-5 py-2 text-xl font-medium upprcase tracking-wide text-white"
-                  }
-                  style={{
-                    backgroundColor: "#000000",
-                    borderRadius: "8px",
-                    borderColor: "#e84118",
-                  }}
-                >
-                  <i className="fa fa-user-secret"></i>
-                  <span className="hidden md:inline">Hr View</span>
-                </button>
-              )
-            ) : user?.role === "freelancer" || user?.role === "member" || user?.role === "rookie" ? (
-              isSellerView ? (
-                <button
-                  className={
-                    "mt-1.5 inline-block  border-orange-600 px-3 md:px-5 py-2 text-xl font-medium upprcase tracking-wide text-white"
-                  }
-                  style={{
-                    backgroundColor: "#000000",
-                    borderRadius: "8px",
-                    borderColor: "#e84118",
-                  }}
-                  onClick={() => router.push("/")}
-                >
-                  Client View
-                </button>
-              ) : (
-                <button
-                  onClick={() => router.push("/seller-view")}
-                  className={
-                    "mt-1.5 inline-block  border-orange-600 px-3 md:px-5 py-2 text-xl font-medium upprcase tracking-wide text-white"
-                  }
-                  style={{
-                    backgroundColor: "#000000",
-                    borderRadius: "8px",
-                    borderColor: "#e84118",
-                  }}
-                >
-                  <i className="fa fa-user-secret"></i>
-                  <span className="hidden md:inline">Seller View</span>
-                </button>
-              )
-            ) : null}
-            {/* check this end */}
+              {/* check this end */}
+            </div>
 
           </div>
 
@@ -485,7 +491,71 @@ export default function Navbar() {
               </ul> */}
 
               <NavItemsSide router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} />
+              {/* { user?.role === "freelancer" || user?.role === "member" || user?.role === "rookie" ? (
+                isSellerView ? (
+                  <button
+                    className={
+                      "hidden lg:block px-4 py-3 mr-2 text-xs font-semibold leading-none text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700"
+                    }
+                    style={{
+                      backgroundColor: "#000000",
+                      borderRadius: "8px",
+                      borderColor: "#e84118",
+                    }}
+                    onClick={() => router.push("/")}
+                  >
+                    Client View
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => router.push("/seller-view")}
+                    className={
+                      "hidden lg:block px-4 py-3 mr-2 text-xs font-semibold leading-none text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700"
+                    }
+                    style={{
+                      backgroundColor: "#000000",
+                      borderRadius: "8px",
+                      borderColor: "#e84118",
+                    }}
+                  >
+                    <i className="fa fa-user-secret"></i>
+                    <span className="hidden md:inline">Seller View</span>
+                  </button>
+                )} */}
 
+              {user?.role === "freelancer" || user?.role === "member" || user?.role === "rookie" ? (
+                isSellerView ? (
+                  <button
+                    className={
+                      "inline-block w-full px-4 py-3 mr-2 text-xs font-semibold leading-none text-center text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700"
+                    }
+                    style={{
+                      // backgroundColor: "#000000",
+                      borderRadius: "8px",
+                      borderColor: "#e84118",
+                    }}
+                    onClick={() => router.push("/")}
+                  >
+                    Client View
+                  </button>
+                ) :
+                  <button
+                    onClick={() => router.push("/seller-view")}
+                    className={
+                      "inline-block w-full px-4 py-3 mr-2 text-xs font-semibold leading-none text-center text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700"
+                    }
+                    style={{
+                      // backgroundColor: "#000000",
+                      borderRadius: "8px",
+                      borderColor: "#e84118",
+                    }}
+                  >
+                    <i className="fa fa-user-secret"></i>
+                    <span className="pl-3 md:inline text-white">Seller View</span>
+                  </button>
+              ) :
+                null
+              }
               {isAuthUser ? (
                 <div class="block mt-5 lg:hidden">
 
