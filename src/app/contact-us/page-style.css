@@ -103,11 +103,11 @@
   }
 
   .socialIconFont{
-    font-size: 40px;
-    color:#e84118;
+    font-size: 30px;
+    color:#fb923c;
   }
 
-  @media only screen and (min-width:760px) and (max-width: 922px){
+  /* @media only screen and (min-width:760px) and (max-width: 922px){
     .contact-mailBtn{
         width: 100%;
     }
@@ -175,99 +175,6 @@
     
     }
     
-}
+} */
 
-@media screen and (max-width: 480px){
-    .contact-mailBtn{
-        width: 100%;
-    }
-    .contact-detailsContainer{
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center; 
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-shadow: 0 0 10px #ccc; 
-        width: 100%;
-        height: 100%;
-    }
-    .contact-dataContainer{
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;  
-        width: 100%;
-        height: 100%;
-    }
-    .contact-mapContainer{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;  
-        width: 100%;
-        height: 100%;
-    }
-    .contact-contactDataContainer{
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;  
-        width: 100%;
-        height: 100%;  
-        margin-top: 5%;
-    }
-    .contact-contactDataGride{
-        display: grid;
-        align-items: flex-start;
-        justify-content: flex-start;
-        grid-template-columns: 1fr 1fr; 
-        width: 100%;
-        height: 100%;
-        grid-gap: 2%;
-        text-align: start;
-    
-    }
-    .contact-socialContainer{
-        display: grid;
-        align-items: flex-start;
-        justify-content: flex-start;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-gap: 1%;
-        width: 60%;
-        margin-left: 0px;
-        height: 16%;
-        text-align: start;
-        margin-bottom: 5%;
-    }
 
-    .socialIcon {
-        --g: 8px;     /* the gap */
-        --b: 2px;    /* border thickness*/
-        --c: #ffffff; /* the color */
-        
-        padding: calc(var(--g) + var(--b));
-        --_c: #0000 0 5%, var(--c) 0 30%;
-        --_g1: repeating-linear-gradient(10deg ,var(--_c)) repeat-x;
-        --_g2: repeating-linear-gradient(180deg,var(--_c)) repeat-y;
-        background:
-          var(--_g1) var(--_p, 25%) 0   ,var(--_g2) 0    var(--_p,125%),
-          var(--_g1) var(--_p,125%) 100%,var(--_g2) 100% var(--_p, 25%);
-        background-size: 200% var(--b),var(--b) 200%;
-        cursor: pointer; 
-        transition:all .3s ease-in-out;
-        display: flex;
-        border-radius: 5px;
-        width: 55px;
-        height: 55%;
-        justify-content: center;
-        margin-right: 10px;
-        background-color: #ffffff;
-      }
-
-    .socialIconFont{
-        font-size: 20px;
-        color:#e84118;
-    }
-}
