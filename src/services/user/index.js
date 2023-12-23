@@ -149,6 +149,36 @@ export const userById = async (id) => {
   }
 };
 
+export const userProfileShare = async (id) => {
+  console.log("🚀 ~ file: index.js:153 ~ userConnection ~ id:", id)
+
+  const newFormData = {
+    "user_id": id,
+  }
+
+  try {
+    const res = await fetch(
+      "/api/user-profile-share",
+      {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+        cache: "no-store",
+        body: JSON.stringify(newFormData),
+      }
+    );
+
+    const data = await res.json();
+
+    return data;
+  } catch (e) {
+    console.log("kkk");
+    console.log(e);
+  }
+};
+
 export const userConnection = async (id) => {
   console.log("🚀 ~ file: index.js:153 ~ userConnection ~ id:", id)
 
