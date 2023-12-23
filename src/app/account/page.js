@@ -987,7 +987,7 @@ export default function Account() {
           </div>
           <div class="w-full flex flex-col 2xl:w-1/3">
             {/* Activity log */}
-            <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
+            {/* <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
               <div class="flex items-center justify-between">
                 <span class="text-xl text-gray-900 font-bold">Activity log</span>
               </div>
@@ -1045,11 +1045,11 @@ export default function Account() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             {/* End of Activity log */}
           </div>
           <div class="w-full flex flex-col 2xl:w-1/3">
-            <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
+            {/* <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
               <div class="flex items-center justify-between">
                 <span class="text-xl text-gray-900 font-bold">Your package will expire in</span>
               </div>
@@ -1140,7 +1140,6 @@ export default function Account() {
               <div class="flex items-center justify-between">
                 <span class="text-xl text-gray-900 font-bold">Package details</span>
               </div>
-              {/* <p className="ml-2 text-gray-500">Member Package</p> */}
               <div
                 className="p-3 text-start space-y-4"
               >
@@ -1167,7 +1166,7 @@ export default function Account() {
                   <p className="ml-2 text-gray-500">All Extra income</p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
         </div>
