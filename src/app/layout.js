@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <GlobalState>
           <Navbar />
-          <main className="flex min-h-screen flex-col mt-[80px]">{children}</main>
+          <main className="flex min-h-screen flex-col">{children}</main>
           <Footer />
           <Dev />
         </GlobalState>

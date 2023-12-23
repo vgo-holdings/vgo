@@ -2,7 +2,7 @@
 
 import { GlobalContext } from "@/context";
 import { adminNavOptions, hrNavOptions, navOptions, sellerNavOptions } from "@/utils";
-import { Fragment, useContext, useEffect } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import CommonModal from "../CommonModal";
 import Cookies from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
@@ -11,58 +11,113 @@ import logo from "./vgo 1.png";
 import Image from "next/image";
 import imagePlaceHolder from "@/assets/images/propic.png";
 
-function NavItems({ isModalView = false, isAdminView, router, isSellerView, isHrView }) {
+function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, isHrView }) {
   return (
-    <div
-      className={`items-center justify-between w-full md:flex md:w-auto ${
-        isModalView ? "" : "hidden"
-      }`}
-      id="nav-items"
+    // <ul class="px-4 text-left mt-7">
+
+    //             <li class="pb-3">
+
+    //               <a href="" class="text-sm text-gray-700 hover:text-blue-400 dark:text-gray-100">Home</a>
+
+    //             </li>
+    <ul
+      className={`px-4 text-left mt-7"
+          }`}
     >
-      <ul
-        className={`flex flex-col p-4 md:p-0 mt-4 font-medium  rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-white ${
-          isModalView ? "border-none" : "border border-gray-100"
-        }`}
-      >
-        {isAdminView
-          ? adminNavOptions.map((item) => (
-              <li
-                className="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p-0"
-                key={item.id}
-                onClick={() => router.push(item.path)}
-              >
-                {item.label}
-              </li>
-            ))
-          : isSellerView
+      {isAdminView
+        ? adminNavOptions.map((item) => (
+          <li
+            class="pb-2 pt-2 text-sm text-white hover:text-blue-400 dark:text-gray-100 cursor-pointer"
+            key={item.id}
+            onClick={() => router.push(item.path)}
+          >
+            {item.label}
+          </li>
+        ))
+        : isSellerView
           ? sellerNavOptions.map((item) => (
-              <li
-                className="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p-0"
-                key={item.id}
-                onClick={() => router.push(item.path)}
-              >
-                {item.label}
-              </li>
-            ))
+            <li
+              class="pb-2 pt-2  text-lg text-white font-semibold hover:text-myOrange cursor-pointer"
+              key={item.id}
+              onClick={() => router.push(item.path)}
+            >
+              {item.label}
+            </li>
+          ))
           : isHrView
-          ? hrNavOptions.map((item) => (
+            ? hrNavOptions.map((item) => (
               <li
-                className="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p-0"
+                class="pb-2 pt-2  text-lg text-white font-semibold hover:text-myOrange cursor-pointer"
                 key={item.id}
                 onClick={() => router.push(item.path)}
               >
                 {item.label}
               </li>
             ))
-          : navOptions.map((item) => (
+            : navOptions.map((item) => (
               <li
-                className="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p-0"
+                class="pb-2 pt-2 text-lg text-white font-semibold hover:text-myOrange cursor-pointer"
                 key={item.id}
                 onClick={() => router.push(item.path)}
               >
                 {item.label}
               </li>
             ))}
+    </ul>
+
+  );
+}
+
+function NavItems({ isModalView = false, isAdminView, router, isSellerView, isHrView }) {
+  return (
+    <div
+      className={`items-center justify-between w-full md:flex md:w-auto ${isModalView ? "" : "hidden"
+        }`}
+      id="nav-items"
+    >
+      <ul
+        className={`flex flex-col p-4 md:p-0 mt-4 font-medium  rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-white ${isModalView ? "border-none" : "border border-gray-100"
+          }`}
+      >
+        {isAdminView
+          ? adminNavOptions.map((item) => (
+            <li
+              class="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
+              key={item.id}
+              onClick={() => router.push(item.path)}
+            >
+              {item.label}
+            </li>
+          ))
+          : isSellerView
+            ? sellerNavOptions.map((item) => (
+              <li
+                class="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
+                key={item.id}
+                onClick={() => router.push(item.path)}
+              >
+                {item.label}
+              </li>
+            ))
+            : isHrView
+              ? hrNavOptions.map((item) => (
+                <li
+                  class="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
+                  key={item.id}
+                  onClick={() => router.push(item.path)}
+                >
+                  {item.label}
+                </li>
+              ))
+              : navOptions.map((item) => (
+                <li
+                  class="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
+                  key={item.id}
+                  onClick={() => router.push(item.path)}
+                >
+                  {item.label}
+                </li>
+              ))}
       </ul>
     </div>
   );
@@ -100,6 +155,18 @@ export default function Navbar() {
     router.push("/");
   }
 
+  const [showNav, setShowNav] = useState(false);
+
+  function onNavBar() {
+    console.log("hh")
+    setShowNav(true)
+  }
+
+  function testFun() {
+    console.log("hh")
+    setShowNav(false)
+  }
+
   const isAdminView = pathName.includes("admin-view");
   const isSellerView = pathName.includes("seller-view");
   const isHrView = pathName.includes("hr-view");
@@ -108,8 +175,353 @@ export default function Navbar() {
 
   return (
     <>
-      <nav
-        className="bg-white fixed flex-row justify-between z-20 top-0 left-0 border-b border-gray-200"
+      <section class="shadow-lg font-poppins dark:bg-white">
+
+        <div class="max-w-6xl px-4 mx-auto" x-data="{open:false}">
+
+          <div class="relative flex items-center justify-between py-4">
+
+            <a href="/" class="text-3xl font-semibold leading-none dark:text-gray-400">
+              <Image
+                src={logo}
+                alt="User 1"
+                className="ml-2 h-16 w-16 md:h-16 md:w-16 object-cover transform scale-100"
+              />
+            </a>
+
+            {/* <ul class="hidden lg:w-auto lg:space-x-12 lg:items-center lg:flex ">
+
+              <li><a href="/" class="text-lg text-black font-semibold hover:text-myOrange">Home</a>
+
+              </li>
+
+              <li><a href="/product/listing/all-products" class="text-lg text-black font-semibold hover:text-myOrange ">Shop</a>
+
+              </li>
+
+              <li><a href="/contact-us" class="text-lg text-black font-semibold hover:text-myOrange ">Contact Us</a>
+
+              </li>
+
+              <li><a href="/contact-us" class="text-lg text-black font-semibold hover:text-myOrange ">About Us</a>
+
+              </li>
+            </ul> */}
+            <NavItems router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} />
+
+            {!isAdminView && !isSellerView && isAuthUser ? (
+              <div class=" flex items-center justify-around ">
+
+                <div class="flex -space-x-2 rtl:space-x-reverse items-center cursor-pointer" onClick={() => router.push("/account")}>
+                  <img class="w-12 h-12 lg:w-16 lg:h-16 border-2 border-myOrange rounded-full dark:border-myOrange" src={user?.imageURL === undefined ? imagePlaceHolder : user?.imageURL} alt="" />
+                  <a onClick={() => router.push("/account")} class="px-3 font-bold rounded-full flex items-center justify-center w-auto h-8 text-sm lg:h-10 lg:text-lg   text-white bg-myOrange border-2 border-white  hover:bg-gray-600" href="#">{user?.name}</a>
+                </div>
+
+                <button
+                  className={
+                    " border-orange-600 px-3 md:px-5 py-2 text-xl font-medium upprcase tracking-wide text-myOrange"
+                  }
+                  style={{
+                    // backgroundColor: "#e84118",
+                    borderRadius: "8px",
+                    borderColor: "#e84118",
+                  }}
+                  onClick={() => setShowCartModal(true)}
+                >
+                  <i className="fa fa-shopping-cart"></i>
+                </button>
+
+
+                <a onClick={handleLogout}
+
+                  class="hidden lg:inline-block px-1 py-2 lg:px-4 lg:py-3  mr-2 text-xs font-semibold leading-none text-orange-200 bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
+
+                  Out
+
+                </a>
+                <div class="lg:hidden">
+
+                  <button
+                    onClick={onNavBar}
+                    class="flex items-center px-3 py-2 text-myOrange border border-myOrange rounded dark:text-myOrange navbar-burger hover:text-orange-200 hover:orange-200 lg:hidden"
+
+                  >
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+
+                      class="bi bi-list" viewBox="0 0 16 16">
+
+                      <path fill-rule="evenodd"
+
+                        d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+
+                    </svg>
+
+                  </button>
+
+                </div>
+
+              </div>
+            ) :
+
+              <div class="hidden lg:block">
+
+                <a href="/login"
+
+                  class="inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-blue-600 border border-blue-200 rounded dark:hover:border-orange-300 dark:hover:text-orange-700 dark:text-myOrange dark:border-myOrange hover:text-orange-700 hover:border-orange-300">Log
+
+                  In</a>
+
+                <a href="/register/customer-register"
+
+                  class="inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-orange-200 bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
+
+                  Up
+
+                </a>
+
+              </div>
+            }
+            <div class="lg:hidden">
+
+              <button
+                onClick={onNavBar}
+                class="flex items-center px-3 py-2 text-myOrange border border-myOrange rounded dark:text-myOrange navbar-burger hover:text-orange-200 hover:orange-200 lg:hidden"
+
+              >
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+
+                  class="bi bi-list" viewBox="0 0 16 16">
+
+                  <path fill-rule="evenodd"
+
+                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+
+                </svg>
+
+              </button>
+
+            </div>
+
+            {/* check this im here */}
+            {user?.role === "admin" ? (
+              isAdminView ? (
+                <button
+                  className={
+                    "mt-1.5 inline-block  border-orange-600 px-3 md:px-5 py-2 text-xl font-medium upprcase tracking-wide text-white"
+                  }
+                  style={{
+                    backgroundColor: "#000000",
+                    borderRadius: "8px",
+                    borderColor: "#e84118",
+                  }}
+                  onClick={() => router.push("/")}
+                >
+                  Client View
+                </button>
+              ) : (
+                <button
+                  onClick={() => router.push("/admin-view")}
+                  className={
+                    "mt-1.5 inline-block  border-orange-600 px-3 md:px-5  py-2 text-xl font-medium upprcase tracking-wide text-white"
+                  }
+                  style={{
+                    backgroundColor: "#000000",
+                    borderRadius: "8px",
+                    borderColor: "#e84118",
+                  }}
+                >
+                  <i className="fa fa-user-secret"></i>
+                  <span className="hidden md:inline">Admin View</span>
+                </button>
+              )
+            ) : user?.role === "hr" ? (
+              isSellerView ? (
+                <button
+                  className={
+                    "mt-1.5 inline-block  border-orange-600 px-3 md:px-5 py-2 text-xl font-medium upprcase tracking-wide text-white"
+                  }
+                  style={{
+                    backgroundColor: "#000000",
+                    borderRadius: "8px",
+                    borderColor: "#e84118",
+                  }}
+                  onClick={() => router.push("/")}
+                >
+                  Client View
+                </button>
+              ) : (
+                <button
+                  onClick={() => router.push("/hr-view")}
+                  className={
+                    "mt-1.5 inline-block  border-orange-600 px-3 md:px-5 py-2 text-xl font-medium upprcase tracking-wide text-white"
+                  }
+                  style={{
+                    backgroundColor: "#000000",
+                    borderRadius: "8px",
+                    borderColor: "#e84118",
+                  }}
+                >
+                  <i className="fa fa-user-secret"></i>
+                  <span className="hidden md:inline">Hr View</span>
+                </button>
+              )
+            ) : user?.role === "freelancer" || user?.role === "member" || user?.role === "rookie" ? (
+              isSellerView ? (
+                <button
+                  className={
+                    "mt-1.5 inline-block  border-orange-600 px-3 md:px-5 py-2 text-xl font-medium upprcase tracking-wide text-white"
+                  }
+                  style={{
+                    backgroundColor: "#000000",
+                    borderRadius: "8px",
+                    borderColor: "#e84118",
+                  }}
+                  onClick={() => router.push("/")}
+                >
+                  Client View
+                </button>
+              ) : (
+                <button
+                  onClick={() => router.push("/seller-view")}
+                  className={
+                    "mt-1.5 inline-block  border-orange-600 px-3 md:px-5 py-2 text-xl font-medium upprcase tracking-wide text-white"
+                  }
+                  style={{
+                    backgroundColor: "#000000",
+                    borderRadius: "8px",
+                    borderColor: "#e84118",
+                  }}
+                >
+                  <i className="fa fa-user-secret"></i>
+                  <span className="hidden md:inline">Seller View</span>
+                </button>
+              )
+            ) : null}
+            {/* check this end */}
+
+          </div>
+
+          {/* <!-- Mobile Sidebar --> */}
+          {showNav &&
+            <div onClick={testFun}
+              class="fixed inset-0 w-full bg-gray-900 opacity-25 dark:bg-gray-400 lg:hidden"
+
+            >
+
+            </div>
+          }
+          {showNav &&
+            <div class="absolute inset-0 z-10 h-screen p-3 text-gray-400 duration-500 transform bg-blue-50 dark:bg-gray-800 w-80 lg:hidden lg:transform-none lg:relative"
+
+            >
+
+              <div class="flex justify-between lg:">
+
+                <a href="/" class="text-3xl font-semibold leading-none dark:text-gray-400">
+                  <Image
+                    src={logo}
+                    alt="User 1"
+                    className="ml-2 h-16 w-16 md:h-16 md:w-16 object-cover transform scale-100"
+                  />
+                </a>
+
+                <button onClick={testFun}
+                  class="p-2 text-gray-700 rounded-md dark:text-gray-400 hover:text-blue-300 lg:hidden "
+
+                >
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+
+                    class="bi bi-x-circle" viewBox="0 0 16 16">
+
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+
+                    <path
+
+                      d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+
+                  </svg>
+
+                </button>
+
+              </div >
+
+              {/* <ul class="px-4 text-left mt-7">
+
+                <li class="pb-3">
+
+                  <a href="" class="text-sm text-gray-700 hover:text-blue-400 dark:text-gray-100">Home</a>
+
+                </li>
+
+                <li class="pb-3">
+
+                  <a href="" class="text-sm text-gray-700 hover:text-blue-400 dark:text-gray-400">About us</a>
+
+                </li>
+
+                <li class="pb-3">
+
+                  <a href="" class="text-sm text-gray-700 hover:text-blue-400 dark:text-gray-400">Features</a>
+
+                </li>
+
+                <li class="pb-3">
+
+                  <a href="" class="text-sm text-gray-700 hover:text-blue-400 dark:text-gray-400">Blog </a>
+
+                </li>
+
+                <li class="pb-3">
+
+                  <a href="" class="text-sm text-gray-700 hover:text-blue-400 dark:text-gray-400">Testimonials</a>
+
+                </li>
+
+              </ul> */}
+
+              <NavItemsSide router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} />
+
+              {isAuthUser ? (
+                <div class="block mt-5 lg:hidden">
+
+                  <a onClick={handleLogout}
+
+                    class="inline-block w-full px-4 py-3 mr-2 text-xs font-semibold leading-none text-center text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
+
+                    Out
+
+                  </a>
+
+                </div>
+              ) : <div class="block mt-5 lg:hidden">
+
+                <a href="/login"
+
+                  class="inline-block w-full px-4 py-3 mb-4 mr-2 text-xs font-semibold leading-none text-center text-blue-600 border border-blue-200 rounded dark:hover:border-orange-300 dark:hover:text-orange-700 dark:text-myOrange dark:border-myOrange hover:text-orange-700 hover:border-orange-300">Log
+
+                  In</a>
+
+                <a href="/register/customer-register"
+
+                  class="inline-block w-full px-4 py-3 mr-2 text-xs font-semibold leading-none text-center text-orange-200 bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
+
+                  Up
+
+                </a>
+
+              </div>}
+
+            </div >
+          }
+        </div >
+
+      </section >
+      {/* old nav */}
+      {/* <nav
+        className="bg-white fixed flex-row justify-between z-20  left-0 border-b border-gray-200"
         style={{ width: "100%", fontSize: "20px" }}
       >
         <div
@@ -135,17 +547,17 @@ export default function Navbar() {
                   }
                   onClick={() => router.push("/account")}
                 >
-                    <Image
-                      src={user?.imageURL === undefined ? imagePlaceHolder : user?.imageURL}
-                      alt="User 1"
-                      height={isMobileView ? 50 : isTabletView ? 35 : 50}
-                      width={isMobileView ? 50 : isTabletView ? 35 : 50}
-                      style={{
-                        objectFit: "fill",
-                        borderRadius: "100%",
-                        border: "1px solid #e84118",
-                      }}
-                    />
+                  <Image
+                    src={user?.imageURL === undefined ? imagePlaceHolder : user?.imageURL}
+                    alt="User 1"
+                    height={isMobileView ? 50 : isTabletView ? 35 : 50}
+                    width={isMobileView ? 50 : isTabletView ? 35 : 50}
+                    style={{
+                      objectFit: "fill",
+                      borderRadius: "100%",
+                      border: "1px solid #e84118",
+                    }}
+                  />
                   <span className="hidden md:inline font-bold text-black p-4">{user?.name}</span>
                 </button>
                 <button
@@ -256,7 +668,7 @@ export default function Navbar() {
                   <span className="hidden md:inline">Seller View</span>
                 </button>
               )
-            ): null}
+            ) : null}
             {isAuthUser ? (
               <button
                 onClick={handleLogout}
@@ -330,8 +742,8 @@ export default function Navbar() {
           </div>
           <NavItems router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} />
         </div>
-      </nav>
-      <CommonModal
+      </nav> */}
+      {/* <CommonModal
         showModalTitle={false}
         mainContent={
           <NavItems
@@ -345,7 +757,7 @@ export default function Navbar() {
         show={showNavModal}
         setShow={setShowNavModal}
       />
-      {showCartModal && <CartModal />}
+      {showCartModal && <CartModal />} */}
     </>
   );
 }
