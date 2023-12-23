@@ -46,7 +46,7 @@ async function helperForUPloadingImageToFirebase(file) {
     return;
   }
   const getFileName = createUniqueFileName(file);
-  
+
   const storageReference = ref(storage, `slip/${getFileName}`);
   console.log(storageReference, " ggfs amputa")
   const uploadImage = uploadBytesResumable(storageReference, file);
@@ -54,7 +54,7 @@ async function helperForUPloadingImageToFirebase(file) {
   return new Promise((resolve, reject) => {
     uploadImage.on(
       "state_changed",
-      (snapshot) => {},
+      (snapshot) => { },
       (error) => {
         console.log(error);
         reject(error);
@@ -138,17 +138,17 @@ export default function Register() {
         profit: 0,
         holdProfit: 0,
       });
-      if(user.role == "member"){
+      if (user.role == "member") {
         setDepositFormData({
-          imageUrl:"",
-          name:user.name,
-          refkey:user._id
+          imageUrl: "",
+          name: user.name,
+          refkey: user._id
         })
-      }else{
+      } else {
         setDepositFormData({
-          imageUrl:"",
-          name:user.name,
-          user_id:user._id
+          imageUrl: "",
+          name: user.name,
+          user_id: user._id
         })
       }
     }
@@ -156,14 +156,33 @@ export default function Register() {
 
 
   useEffect(() => {
-    const status = searchParams.get("status");
-    if (status === "success") {
-      // handleUpdateUser();
-      console.log("Payment successful!");
-    } else if (status === "cancel") {
-      // Payment was canceled, you can show a cancel message or redirect to a cancel page
-      console.log("Payment canceled.");
+    if (user?.name) {
+      // console.log(user.name, "user2");
+      if (user.role == "member") {
+        setDepositFormData({
+          imageUrl: "",
+          name: user.name,
+          refkey: user._id
+        })
+      } else {
+        const status = searchParams.get("status");
+        console.log("🚀 ~ file: page.js:160 ~ useEffect ~ status:", status)
+        if (status) {
+          setDepositFormData({
+            name: user.name,
+            user_id: user._id,
+            refkey: status
+          })
+          console.log(status);
+        } else if (status === "cancel") {
+          // Payment was canceled, you can show a cancel message or redirect to a cancel page
+          console.log("Payment canceled.");
+        }
+      }
+    } else {
+      router.push("/login")
     }
+
   });
 
   function isFormValid() {
@@ -184,7 +203,7 @@ export default function Register() {
       depositFormData.user_id.trim() !== "" &&
       depositFormData.refkey &&
       depositFormData.refkey.trim() !== "" &&
-      file 
+      file
       ? true
       : false;
   }
@@ -255,7 +274,7 @@ export default function Register() {
           <div className="w-full mt-10 mr-0 mb-0 ml-0 relative max-w-2xl lg:mt-0 lg:w-5/12">
             <div className="flex flex-col items-center justify-start pt-10 pr-10 pb-10 pl-10 bg-white bg-opacity-50 filter backdrop-blur-sm shadow-2xl rounded-xl relative z-10">
               <p className="w-full text-2xl font-medium text-center font-serif text-black">
-              Proceed with Bank deposit
+                Proceed with Bank deposit
               </p>
               <p className="w-full text-4xl font-medium text-center font-serif text-black">
                 {isRegistered
@@ -290,7 +309,7 @@ export default function Register() {
                               [controlItem.id]: event.target.value,
                             });
                           }}
-                          disabled= {controlItem.disabled || false}
+                          disabled={controlItem.disabled || false}
                           value={depositFormData[controlItem.id]}
                         />
                       ) : controlItem.componentType === "select" ? (
