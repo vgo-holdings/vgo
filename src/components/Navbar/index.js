@@ -13,13 +13,6 @@ import imagePlaceHolder from "@/assets/images/propic.png";
 
 function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, isHrView }) {
   return (
-    // <ul class="px-4 text-left mt-7">
-
-    //             <li class="pb-3">
-
-    //               <a href="" class="text-sm text-gray-700 hover:text-blue-400 dark:text-gray-100">Home</a>
-
-    //             </li>
     <ul
       className={`px-4 text-left mt-7"
           }`}
@@ -27,15 +20,29 @@ function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, 
       {isAdminView
         ? adminNavOptions.map((item) => (
           <li
-            class="pb-2 pt-2 text-sm text-white hover:text-blue-400 dark:text-gray-100 cursor-pointer"
+            class="pb-2 pt-2  text-lg text-white font-semibold hover:text-myOrange cursor-pointer"
             key={item.id}
             onClick={() => router.push(item.path)}
           >
             {item.label}
           </li>
         ))
-        : isSellerView
+        : null}
+      {
+        isSellerView
           ? sellerNavOptions.map((item) => (
+            <li
+              class="pb-2 pt-2 text-lg text-white font-semibold hover:text-myOrange cursor-pointer"
+              key={item.id}
+              onClick={() => router.push(item.path)}
+            >
+              {item.label}
+            </li>
+          ))
+          : null}
+      {
+        isHrView
+          ? hrNavOptions.map((item) => (
             <li
               class="pb-2 pt-2  text-lg text-white font-semibold hover:text-myOrange cursor-pointer"
               key={item.id}
@@ -44,25 +51,26 @@ function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, 
               {item.label}
             </li>
           ))
-          : isHrView
-            ? hrNavOptions.map((item) => (
-              <li
-                class="pb-2 pt-2  text-lg text-white font-semibold hover:text-myOrange cursor-pointer"
-                key={item.id}
-                onClick={() => router.push(item.path)}
-              >
-                {item.label}
-              </li>
-            ))
-            : navOptions.map((item) => (
-              <li
-                class="pb-2 pt-2 text-lg text-white font-semibold hover:text-myOrange cursor-pointer"
-                key={item.id}
-                onClick={() => router.push(item.path)}
-              >
-                {item.label}
-              </li>
-            ))}
+          : null}
+      {
+        console.log("🚀 ~ file: index.js:119 ~ NavItems ~ isAdminView:", isAdminView)}
+      {
+        console.log("🚀 ~ file: index.js:119 ~ NavItems ~ isSellerView:", isSellerView)}
+      {
+        console.log("🚀 ~ file: index.js:119 ~ NavItems ~ isHrView:", isHrView)
+      }
+
+      {!isHrView && !isSellerView && !isAdminView ?
+        navOptions.map((item) => (
+          <li
+            class="pb-2 pt-2 text-lg text-white font-semibold hover:text-myOrange cursor-pointer"
+            key={item.id}
+            onClick={() => router.push(item.path)}
+          >
+            {item.label}
+          </li>
+        )) : null
+      }
     </ul>
 
   );
@@ -405,7 +413,7 @@ export default function Navbar() {
 
               {/* check this end */}
             </div>
-            
+
           </div>
 
           {/* <!-- Mobile Sidebar --> */}
