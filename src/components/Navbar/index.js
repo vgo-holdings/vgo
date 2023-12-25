@@ -11,7 +11,7 @@ import logo from "./vgo 1.png";
 import Image from "next/image";
 import imagePlaceHolder from "@/assets/images/propic.png";
 
-function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, isHrView }) {
+function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, isHrView ,testFun }) {
   return (
     <ul
       className={`px-4 text-left mt-7"
@@ -65,7 +65,11 @@ function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, 
           <li
             class="pb-2 pt-2 text-lg text-white font-semibold hover:text-myOrange cursor-pointer"
             key={item.id}
-            onClick={() => router.push(item.path)}
+            // onClick={() => router.push(item.path)}
+            onClick={() => {
+              testFun();
+              router.push(item.path);
+            }}
           >
             {item.label}
           </li>
@@ -495,7 +499,7 @@ export default function Navbar() {
 
               </ul> */}
 
-              <NavItemsSide router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} />
+              <NavItemsSide router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} testFun={testFun}/>
 
               {user?.role === "freelancer" || user?.role === "member" || user?.role === "rookie" ? (
                 isSellerView ? (
