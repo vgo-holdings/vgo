@@ -89,8 +89,21 @@ function NavItems({ isModalView = false, isAdminView, router, isSellerView, isHr
               {item.label}
             </li>
           ))
-          : isSellerView
-            ? sellerNavOptions.map((item) => (
+          : null}
+        {isSellerView
+          ? sellerNavOptions.map((item) => (
+            <li
+              class="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
+              key={item.id}
+              onClick={() => router.push(item.path)}
+            >
+              {item.label}
+            </li>
+          ))
+          : null}
+        {
+          isHrView
+            ? hrNavOptions.map((item) => (
               <li
                 class="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
                 key={item.id}
@@ -99,25 +112,26 @@ function NavItems({ isModalView = false, isAdminView, router, isSellerView, isHr
                 {item.label}
               </li>
             ))
-            : isHrView
-              ? hrNavOptions.map((item) => (
-                <li
-                  class="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
-                  key={item.id}
-                  onClick={() => router.push(item.path)}
-                >
-                  {item.label}
-                </li>
-              ))
-              : navOptions.map((item) => (
-                <li
-                  class="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
-                  key={item.id}
-                  onClick={() => router.push(item.path)}
-                >
-                  {item.label}
-                </li>
-              ))}
+            : null
+        }
+        {
+          console.log("🚀 ~ file: index.js:119 ~ NavItems ~ isAdminView:", isAdminView)}
+        {
+          console.log("🚀 ~ file: index.js:119 ~ NavItems ~ isSellerView:", isSellerView)}
+        {
+          console.log("🚀 ~ file: index.js:119 ~ NavItems ~ isHrView:", isHrView)
+        }
+        {!isHrView && !isSellerView && !isAdminView ?
+          navOptions.map((item) => (
+            <li
+              class="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
+              key={item.id}
+              onClick={() => router.push(item.path)}
+            >
+              {item.label}
+            </li>
+          )) : null
+        }
       </ul>
     </div>
   );
@@ -189,25 +203,8 @@ export default function Navbar() {
               />
             </a>
 
-            {/* <ul class="hidden lg:w-auto lg:space-x-12 lg:items-center lg:flex ">
-
-              <li><a href="/" class="text-lg text-black font-semibold hover:text-myOrange">Home</a>
-
-              </li>
-
-              <li><a href="/product/listing/all-products" class="text-lg text-black font-semibold hover:text-myOrange ">Shop</a>
-
-              </li>
-
-              <li><a href="/contact-us" class="text-lg text-black font-semibold hover:text-myOrange ">Contact Us</a>
-
-              </li>
-
-              <li><a href="/contact-us" class="text-lg text-black font-semibold hover:text-myOrange ">About Us</a>
-
-              </li>
-            </ul> */}
             <NavItems router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} />
+
             <div class=" flex items-center justify-around ">
               {!isAdminView && !isSellerView && isAuthUser ? (
                 <div class=" flex items-center justify-around ">
@@ -408,7 +405,7 @@ export default function Navbar() {
 
               {/* check this end */}
             </div>
-
+            
           </div>
 
           {/* <!-- Mobile Sidebar --> */}
@@ -491,37 +488,6 @@ export default function Navbar() {
               </ul> */}
 
               <NavItemsSide router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} />
-              {/* { user?.role === "freelancer" || user?.role === "member" || user?.role === "rookie" ? (
-                isSellerView ? (
-                  <button
-                    className={
-                      "hidden lg:block px-4 py-3 mr-2 text-xs font-semibold leading-none text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700"
-                    }
-                    style={{
-                      backgroundColor: "#000000",
-                      borderRadius: "8px",
-                      borderColor: "#e84118",
-                    }}
-                    onClick={() => router.push("/")}
-                  >
-                    Client View
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => router.push("/seller-view")}
-                    className={
-                      "hidden lg:block px-4 py-3 mr-2 text-xs font-semibold leading-none text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700"
-                    }
-                    style={{
-                      backgroundColor: "#000000",
-                      borderRadius: "8px",
-                      borderColor: "#e84118",
-                    }}
-                  >
-                    <i className="fa fa-user-secret"></i>
-                    <span className="hidden md:inline">Seller View</span>
-                  </button>
-                )} */}
 
               {user?.role === "freelancer" || user?.role === "member" || user?.role === "rookie" ? (
                 isSellerView ? (
