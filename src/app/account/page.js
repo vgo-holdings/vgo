@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 import { handleVerify } from "@/services/verifyAccount";
 // import "./page-style.css";
 import Image from "next/image";
-import { updateImage, updateProfile, updateAboutMe, userConnection } from "@/services/user";
+import { updateImage, updateProfile, updateAboutMe, userConnection, userLog } from "@/services/user";
 import { initializeApp } from "firebase/app";
 import {
   getDownloadURL,
@@ -99,8 +99,8 @@ export default function Account() {
     pageLevelLoader,
     setPageLevelLoader,
   } = useContext(GlobalContext);
-
   const [userData, setUserData] = useState([]);
+  const [logData, setlogData] = useState([]);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [hideButton, setHideButton] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
@@ -146,6 +146,30 @@ export default function Account() {
     fetchData();
   }, []);
 
+  async function getActivityLog() {
+    console.log(user?._id, "user?._id");
+    const activitylog = await userLog(user?._id);
+    console.log("🚀 ~ file: page.js:152 ~ getActivityLog ~ activitylog:", activitylog)
+    return activitylog.extractApprovedDeposits
+  }
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      const Logdata = await getActivityLog();
+      console.log("🚀 ~ file: page.js:160 ~ fetchData ~ Logdata:", Logdata)
+      setlogData(Logdata);
+    };
+
+    fetchData();
+
+    // Fetch data every 2 minutes
+    const fetchDataInterval = setInterval(fetchData, 2 * 60 * 1000);
+
+    // Cleanup the interval when the component unmounts
+    return () => clearInterval(fetchDataInterval);
+
+  },[setlogData]);
 
   const calculateTimeLeft = () => {
     const createdAt = new Date(user?.createdAt);
@@ -280,7 +304,7 @@ export default function Account() {
     const userId = user?._id;
     if (userId) {
       const textArea = document.createElement("textarea");
-      textArea.value = "https://www.vigour.space/user-profile/"+userId;
+      textArea.value = "https://www.vigour.space/user-profile/" + userId;
       document.body.appendChild(textArea);
       textArea.select();
       document.execCommand("copy");
@@ -388,12 +412,12 @@ export default function Account() {
         toast.success("File Uploaded.", {
           position: toast.POSITION.TOP_RIGHT,
         });
-      }else{
+      } else {
         toast.success("File Not Uploaded.", {
           position: toast.POSITION.TOP_RIGHT,
         });
       }
-      
+
     }
   }
   const [openSettings, setOpenSettings] = useState(false);
@@ -484,7 +508,7 @@ export default function Account() {
                                                       [],
   ]
 
-  async function shareProfileToUser(){
+  async function shareProfileToUser() {
     router.push("/login")
   }
   return (
@@ -998,21 +1022,24 @@ export default function Account() {
           </div>
           <div class="w-full flex flex-col 2xl:w-1/3">
             {/* Activity log */}
-            {/* <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
+
+            <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
               <div class="flex items-center justify-between">
                 <span class="text-xl text-gray-900 font-bold">Activity log</span>
               </div>
               <div class="relative px-4">
                 <div class="absolute h-full border border-dashed border-opacity-50 border-secondary border-black"></div>
-                <div class="flex items-center w-full my-6 -ml-1.5">
-                  <div class="w-1/12 z-10">
-                    <div class="w-3.5 h-3.5 bg-orange-600 rounded-full"></div>
+                {logData?.map((controlItem, key) =>
+                  <div class="flex items-center w-full my-6 -ml-1.5">
+                    <div class="w-1/12 z-10">
+                      <div class="w-3.5 h-3.5 bg-orange-600 rounded-full"></div>
+                    </div>
+                    <div class="w-11/12">
+                      <p class="text-sm text-black font-semibold">{controlItem.description}</p>
+                    </div>
                   </div>
-                  <div class="w-11/12">
-                    <p class="text-sm text-black font-semibold">Profile informations changed.</p>
-                  </div>
-                </div>
-                <div class="flex items-center w-full my-6 -ml-1.5">
+                )}
+                {/* <div class="flex items-center w-full my-6 -ml-1.5">
                   <div class="w-1/12 z-10">
                     <div class="w-3.5 h-3.5 bg-orange-600 rounded-full"></div>
                   </div>
@@ -1054,9 +1081,9 @@ export default function Account() {
                     <p class="text-sm text-black font-semibold">
                       Message received from <a href="#" class="text-orange-600 font-bold">Jane Stillman</a>.</p>
                   </div>
-                </div>
+                </div> */}
               </div>
-            </div> */}
+            </div>
             {/* End of Activity log */}
           </div>
           <div class="w-full flex flex-col 2xl:w-1/3">

@@ -179,6 +179,34 @@ export const userProfileShare = async (id) => {
   }
 };
 
+export const userLog = async (id) => {
+  console.log("🚀 ~ file: index.js:183 ~ userLog ~ id:", id)
+
+  const newFormData = {
+    "user_id": id,
+  }
+
+  try {
+    console.log(newFormData, "Log")
+    const response = await fetch("http://localhost:3000/api/user-activity-log", {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+      cache: "no-store",
+      body: JSON.stringify(newFormData),
+    }); 
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log("error in here")
+    console.log(error);
+  }
+};
+
 export const userConnection = async (id) => {
   console.log("🚀 ~ file: index.js:153 ~ userConnection ~ id:", id)
 

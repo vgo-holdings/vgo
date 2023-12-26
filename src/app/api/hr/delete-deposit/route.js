@@ -23,6 +23,7 @@ export async function DELETE(req) {
       const deletedDeposit = await Bankdeposit.findByIdAndDelete(id);
 
       if (deletedDeposit) {
+        // handel log delete
         return NextResponse.json({
           success: true,
           message: "Deposit decline successfully",

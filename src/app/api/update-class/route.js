@@ -1,6 +1,7 @@
 import connectToDB from "@/database";
 import AuthUser from "@/middleware/AuthUser";
 import User from "@/models/user";
+import userLog from "@/models/userLog";
 import classData from "@/models/classData";
 import { NextResponse } from "next/server";
 
@@ -33,12 +34,24 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
             if (clusters_lvl2.length >= 2) {
                 console.log("clusters_lvl2 lvl")
                 const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                const newLog = await userLog.create(
+                    {
+                        userId: clusters_lvl2[0]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 const updatedClassR = await classData.updateOne(
                     { _id: clasRdata[0]._id },
                     { $set: { lvl1_count: 1 } }
                 );
 
                 const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                const newLog2 = await userLog.create(
+                    {
+                        userId: clusters_lvl2[1]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 updatedClassL = await classData.updateOne(
                     { _id: clasLdata[0]._id },
                     { $set: { lvl1_count: 1 } }
@@ -47,6 +60,12 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
             } else {
                 console.log("clusters_lvl2 lvl 1")
                 const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                const newLog = await userLog.create(
+                    {
+                        userId: clusters_lvl2[0]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 const updatedClassR = await classData.updateOne(
                     { _id: clasRdata[0]._id },
                     { $set: { lvl1_count: 1 } }
@@ -56,12 +75,24 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
             if (clusters_lvl3.length >= 2) {
                 console.log("clusters_lvl3 lvl")
                 const updateLvl2Ref = await User.updateOne({ name: clusters_lvl3[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                const newLog = await userLog.create(
+                    {
+                        userId: clusters_lvl3[0]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 const updatedClassR = await classData.updateOne(
                     { _id: clasRdata[0]._id },
                     { $set: { lvl1_count: 1 } }
                 );
 
                 const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl3[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                const newLog2 = await userLog.create(
+                    {
+                        userId: clusters_lvl3[1]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 updatedClassL = await classData.updateOne(
                     { _id: clasLdata[0]._id },
                     { $set: { lvl1_count: 1 } }
@@ -69,6 +100,12 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
             } else {
                 console.log("clusters_lvl3 lvl 1")
                 const updateLvl2Ref = await User.updateOne({ name: clusters_lvl3[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                const newLog = await userLog.create(
+                    {
+                        userId: clusters_lvl3[0]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 const updatedClassR = await classData.updateOne(
                     { _id: ClassR[0]._id },
                     { $set: { lvl1_count: 1 } }
@@ -78,12 +115,24 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
             if (clusters_lvl4.length >= 2) {
                 console.log("clusters_lvl4 lvl")
                 const updateLvl2Ref = await User.updateOne({ name: clusters_lvl4[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                const newLog = await userLog.create(
+                    {
+                        userId: clusters_lvl4[0]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 const updatedClassR = await classData.updateOne(
                     { _id: clasRdata[0]._id },
                     { $set: { lvl1_count: 1 } }
                 );
 
                 const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl4[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                const newLog2 = await userLog.create(
+                    {
+                        userId: clusters_lvl4[1]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 updatedClassL = await classData.updateOne(
                     { _id: clasLdata[0]._id },
                     { $set: { lvl1_count: 1 } }
@@ -91,6 +140,12 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
             } else {
                 console.log("clusters_lvl4 lvl 1")
                 const updateLvl2Ref = await User.updateOne({ name: clusters_lvl4[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                const newLog = await userLog.create(
+                    {
+                        userId: clusters_lvl4[0]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 const updatedClassR = await classData.updateOne(
                     { _id: clasRdata[0]._id },
                     { $set: { lvl1_count: 1 } }
@@ -128,12 +183,24 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
                 if (clusters_lvl2_rest.length >= 2) {
                     console.log("clusters_lvl2_rest lvl")
                     const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                    const newLog = await userLog.create(
+                        {
+                            userId: clusters_lvl2_rest[0]._id,
+                            description: "Congratulations, you were now class top.",
+                        }
+                    )
                     const updatedClassR = await classData.updateOne(
                         { _id: clasRdata[0]._id },
                         { $set: { lvl1_count: 1 } }
                     );
 
                     const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2_rest[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                    const newLog2 = await userLog.create(
+                        {
+                            userId: clusters_lvl2_rest[1]._id,
+                            description: "Congratulations, you were now class top.",
+                        }
+                    )
                     updatedClassL = await classData.updateOne(
                         { _id: clasLdata[0]._id },
                         { $set: { lvl1_count: 1 } }
@@ -142,6 +209,12 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
                 } else {
                     console.log("clusters_lvl2 lvl 1")
                     const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                    const newLog = await userLog.create(
+                        {
+                            userId: clusters_lvl2_rest[0]._id,
+                            description: "Congratulations, you were now class top.",
+                        }
+                    )
                     const updatedClassR = await classData.updateOne(
                         { _id: clasRdata[0]._id },
                         { $set: { lvl1_count: 1 } }
@@ -151,12 +224,24 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
                 if (clusters_lvl3_rest.length >= 2) {
                     console.log("clusters_lvl3_rest lvl")
                     const updateLvl2Ref = await User.updateOne({ name: clusters_lvl3_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                    const newLog = await userLog.create(
+                        {
+                            userId: clusters_lvl3_rest[0]._id,
+                            description: "Congratulations, you were now class top.",
+                        }
+                    )
                     const updatedClassR = await classData.updateOne(
                         { _id: clasRdata[0]._id },
                         { $set: { lvl1_count: 1 } }
                     );
 
                     const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl3_rest[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                    const newLog2 = await userLog.create(
+                        {
+                            userId: clusters_lvl3_rest[1]._id,
+                            description: "Congratulations, you were now class top.",
+                        }
+                    )
                     updatedClassL = await classData.updateOne(
                         { _id: clasLdata[0]._id },
                         { $set: { lvl1_count: 1 } }
@@ -164,6 +249,12 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
                 } else {
                     console.log("clusters_lvl3_rest lvl 1")
                     const updateLvl2Ref = await User.updateOne({ name: clusters_lvl3_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                    const newLog = await userLog.create(
+                        {
+                            userId: clusters_lvl3_rest[0]._id,
+                            description: "Congratulations, you were now class top.",
+                        }
+                    )
                     const updatedClassR = await classData.updateOne(
                         { _id: ClassR[0]._id },
                         { $set: { lvl1_count: 1 } }
@@ -173,12 +264,24 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
                 if (clusters_lvl4_rest.length >= 2) {
                     console.log("clusters_lvl4_rest lvl")
                     const updateLvl2Ref = await User.updateOne({ name: clusters_lvl4_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                    const newLog = await userLog.create(
+                        {
+                            userId: clusters_lvl4_rest[0]._id,
+                            description: "Congratulations, you were now class top.",
+                        }
+                    )
                     const updatedClassR = await classData.updateOne(
                         { _id: clasRdata[0]._id },
                         { $set: { lvl1_count: 1 } }
                     );
 
                     const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl4_rest[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                    const newLog2 = await userLog.create(
+                        {
+                            userId: clusters_lvl4_rest[1]._id,
+                            description: "Congratulations, you were now class top.",
+                        }
+                    )
                     updatedClassL = await classData.updateOne(
                         { _id: clasLdata[0]._id },
                         { $set: { lvl1_count: 1 } }
@@ -186,6 +289,12 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
                 } else {
                     console.log("clusters_lvl4_rest lvl 1")
                     const updateLvl2Ref = await User.updateOne({ name: clusters_lvl4_rest[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                    const newLog = await userLog.create(
+                        {
+                            userId: clusters_lvl4_rest[0]._id,
+                            description: "Congratulations, you were now class top.",
+                        }
+                    )
                     const updatedClassR = await classData.updateOne(
                         { _id: clasRdata[0]._id },
                         { $set: { lvl1_count: 1 } }
@@ -208,12 +317,24 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
                 }
                 // const clusters_lvl2_rest_mem = await User.find({ $and: [{ "class_lvl": 2 }, { "class_name": classDataId }, { "memberCount": 0 }] }).sort({ 'updatedAt': 1 });
                 const updateLvl2Ref = await User.updateOne({ name: clusters_lvl2_rest_mem[0].name }, { $set: { class_lvl: 1, class_name: clasRdata[0]._id, } })
+                const newLog = await userLog.create(
+                    {
+                        userId: clusters_lvl2_rest_mem[0]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 const updatedClassR = await classData.updateOne(
                     { _id: clasRdata[0]._id },
                     { $set: { lvl1_count: 1 } }
                 );
 
                 const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2_rest_mem[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                const newLog2 = await userLog.create(
+                    {
+                        userId: clusters_lvl2_rest_mem[1]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 updatedClassL = await classData.updateOne(
                     { _id: clasLdata[0]._id },
                     { $set: { lvl1_count: 1 } }
@@ -239,6 +360,12 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
         if (clusters_lvl2[0] != undefined) {
             console.log("clusters_lvl2 lvl LL")
             const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+            const newLog = await userLog.create(
+                {
+                    userId: clusters_lvl2[0]._id,
+                    description: "Congratulations, you were now class top.",
+                }
+            )
             updatedClassL = await classData.updateOne(
                 { _id: clasLdata[0]._id },
                 { $set: { lvl1_count: 1 } }
@@ -247,6 +374,12 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
         else if (clusters_lvl3[0] != undefined) {
             console.log("clusters_lvl3 lvl LL")
             const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl3[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+            const newLog = await userLog.create(
+                {
+                    userId: clusters_lvl3[0]._id,
+                    description: "Congratulations, you were now class top.",
+                }
+            )
             updatedClassL = await classData.updateOne(
                 { _id: clasLdata[0]._id },
                 { $set: { lvl1_count: 1 } }
@@ -255,6 +388,12 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
         else if (clusters_lvl4[0] != undefined) {
             console.log("clusters_lvl4 lvl LL")
             const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl4[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+            const newLog = await userLog.create(
+                {
+                    userId: clusters_lvl4[0]._id,
+                    description: "Congratulations, you were now class top.",
+                }
+            )
             updatedClassL = await classData.updateOne(
                 { _id: clasLdata[0]._id },
                 { $set: { lvl1_count: 1 } }
@@ -275,6 +414,12 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
             if (clusters_lvl2_rest[0] != undefined) {
                 console.log("clusters_lvl2_rest lvl LL")
                 const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2_rest[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                const newLog = await userLog.create(
+                    {
+                        userId: clusters_lvl2_rest[0]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 updatedClassL = await classData.updateOne(
                     { _id: clasLdata[0]._id },
                     { $set: { lvl1_count: 1 } }
@@ -283,6 +428,12 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
             else if (clusters_lvl3_rest[0] != undefined) {
                 console.log("clusters_lvl3_rest lvl LL")
                 const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl3_rest[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                const newLog = await userLog.create(
+                    {
+                        userId: clusters_lvl3_rest[0]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 updatedClassL = await classData.updateOne(
                     { _id: clasLdata[0]._id },
                     { $set: { lvl1_count: 1 } }
@@ -291,6 +442,12 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
             else if (clusters_lvl4_rest[0] != undefined) {
                 console.log("clusters_lvl4_rest lvl LL")
                 const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl4_rest[0].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                const newLog = await userLog.create(
+                    {
+                        userId: clusters_lvl4_rest[0]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 updatedClassL = await classData.updateOne(
                     { _id: clasLdata[0]._id },
                     { $set: { lvl1_count: 1 } }
@@ -304,6 +461,12 @@ async function logic1Test(ObjectId, ClassR, ClassL, clusters_lvl2, clusters_lvl3
                     const userData = await getUserData(classDataId, "lvl2_memberCount", 1);
                 }
                 const updateLvl2_LRef = await User.updateOne({ name: clusters_lvl2_rest_mem[1].name }, { $set: { class_lvl: 1, class_name: clasLdata[0]._id, } })
+                const newLog = await userLog.create(
+                    {
+                        userId: clusters_lvl2_rest_mem[0]._id,
+                        description: "Congratulations, you were now class top.",
+                    }
+                )
                 updatedClassL = await classData.updateOne(
                     { _id: clasLdata[0]._id },
                     { $set: { lvl1_count: 1 } }
@@ -422,6 +585,12 @@ async function UpdateRole(ObjectId, refGetId) {
             { new: true }
         );
         // veteran
+        const newLog = await userLog.create(
+            {
+                userId: refGetId,
+                description: "Congratulations, you were now Rocky.",
+            }
+        )
 
         if (refDataNew[0].refkey != "") {
             // todo : check other accut ref key also
@@ -450,7 +619,12 @@ async function UpdateRole(ObjectId, refGetId) {
                     },
                     { new: true }
                 );
-
+                const newLog = await userLog.create(
+                    {
+                        userId: veteranId,
+                        description: "Congratulations, you were now veteran.",
+                    }
+                )
                 // Eliate
 
                 if (veteranDataNew[0].refkey != "") {
@@ -480,7 +654,12 @@ async function UpdateRole(ObjectId, refGetId) {
                             },
                             { new: true }
                         );
-
+                        const newLog = await userLog.create(
+                            {
+                                userId: EliateId,
+                                description: "Congratulations, you were now Eliate.",
+                            }
+                        )
                         // Master
                         if (EliateDataNew[0].refkey != "") {
 
@@ -509,6 +688,12 @@ async function UpdateRole(ObjectId, refGetId) {
                                     },
                                     { new: true }
                                 );
+                                const newLog = await userLog.create(
+                                    {
+                                        userId: MasterId,
+                                        description: "Congratulations, you were now Master.",
+                                    }
+                                )
                             }
 
                         }
@@ -570,7 +755,18 @@ export async function PUT(req1) {
                 },
                 { new: true }
             );
-
+            const newLog = await userLog.create(
+                {
+                    userId: refGetId,
+                    description: "You got one new connection.",
+                }
+            )
+            const newLog2 = await userLog.create(
+                {
+                    userId: getUId,
+                    description: "Your payment slip was accepted.",
+                }
+            )
             await UpdateRole(ObjectId, refGetId);
 
             if (classDataInfo_byID[0].lvl4_count != 8) {
@@ -588,7 +784,18 @@ export async function PUT(req1) {
                         timestamps: true
                     }
                 );
-
+                const newLog = await userLog.create(
+                    {
+                        userId: getUId,
+                        description: "Congratulations, you were now member.",
+                    }
+                )
+                const newLog2 = await userLog.create(
+                    {
+                        userId: getUId,
+                        description: "Congratulations, you connected with : " + refData[0].name,
+                    }
+                )
                 // update ref class
                 const updatedRefCls = await classData.findOneAndUpdate(
                     { _id: classDataId },
@@ -634,6 +841,12 @@ export async function PUT(req1) {
                                 },
                                 { new: true }
                             );
+                            const newLog = await userLog.create(
+                                {
+                                    userId: topLVL[0]._id,
+                                    description: "Congratulations, you have been promoted to another class",
+                                }
+                            )
 
                             const updatedClass = await classData.findOneAndUpdate(
                                 { _id: lvl2[0]._id },
@@ -687,7 +900,12 @@ export async function PUT(req1) {
                                             },
                                             { new: true }
                                         );
-
+                                        const newLog = await userLog.create(
+                                            {
+                                                userId: topLVL[0]._id,
+                                                description: "Congratulations, you have been promoted to another class",
+                                            }
+                                        )
                                         const updatedClass = await classData.findOneAndUpdate(
                                             { _id: lvl3[0]._id },
                                             {
@@ -740,7 +958,12 @@ export async function PUT(req1) {
                                                         },
                                                         { new: true }
                                                     );
-
+                                                    const newLog = await userLog.create(
+                                                        {
+                                                            userId: topLVL[0]._id,
+                                                            description: "Congratulations, you have been promoted to another class",
+                                                        }
+                                                    )
                                                     const updatedClass = await classData.findOneAndUpdate(
                                                         { _id: lvl4[0]._id },
                                                         {
@@ -793,7 +1016,12 @@ export async function PUT(req1) {
                                                         timestamps: true
                                                     }
                                                 );
-
+                                                const newLog = await userLog.create(
+                                                    {
+                                                        userId: topLVL[0]._id,
+                                                        description: "Congratulations, you have been promoted to another class",
+                                                    }
+                                                )
                                                 // update ref class
                                                 const updatedRefCls = await classData.findOneAndUpdate(
                                                     { _id: refDataClassDetails[0]._id },
@@ -851,7 +1079,12 @@ export async function PUT(req1) {
                                             timestamps: true
                                         }
                                     );
-
+                                    const newLog = await userLog.create(
+                                        {
+                                            userId: topLVL[0]._id,
+                                            description: "Congratulations, you have been promoted to another class",
+                                        }
+                                    )
                                     const updatedRefCls = await classData.findOneAndUpdate(
                                         { _id: refDataClassDetails[0]._id },
                                         {
@@ -904,7 +1137,12 @@ export async function PUT(req1) {
                                                     },
                                                     { new: true }
                                                 );
-
+                                                const newLog = await userLog.create(
+                                                    {
+                                                        userId: topLVL[0]._id,
+                                                        description: "Congratulations, you have been promoted to another class",
+                                                    }
+                                                )
                                                 const updatedClass = await classData.findOneAndUpdate(
                                                     { _id: lvl4[0]._id },
                                                     {
@@ -957,7 +1195,12 @@ export async function PUT(req1) {
                                                     timestamps: true
                                                 }
                                             );
-
+                                            const newLog = await userLog.create(
+                                                {
+                                                    userId: topLVL[0]._id,
+                                                    description: "Congratulations, you have been promoted to another class",
+                                                }
+                                            )
                                             // update ref class
                                             const updatedRefCls = await classData.findOneAndUpdate(
                                                 { _id: refDataClassDetails[0]._id },
@@ -1017,7 +1260,12 @@ export async function PUT(req1) {
                                 timestamps: true
                             }
                         );
-
+                        const newLog = await userLog.create(
+                            {
+                                userId: topLVL[0]._id,
+                                description: "Congratulations, you have been promoted to another class",
+                            }
+                        )
                         const updatedRefCls = await classData.findOneAndUpdate(
                             { _id: refDataClassDetails[0]._id },
                             {
@@ -1070,7 +1318,12 @@ export async function PUT(req1) {
                                         },
                                         { new: true }
                                     );
-
+                                    const newLog = await userLog.create(
+                                        {
+                                            userId: topLVL[0]._id,
+                                            description: "Congratulations, you have been promoted to another class",
+                                        }
+                                    )
                                     const updatedClass = await classData.findOneAndUpdate(
                                         { _id: lvl3[0]._id },
                                         {
@@ -1123,7 +1376,12 @@ export async function PUT(req1) {
                                                     },
                                                     { new: true }
                                                 );
-
+                                                const newLog = await userLog.create(
+                                                    {
+                                                        userId: topLVL[0]._id,
+                                                        description: "Congratulations, you have been promoted to another class",
+                                                    }
+                                                )
                                                 const updatedClass = await classData.findOneAndUpdate(
                                                     { _id: lvl4[0]._id },
                                                     {
@@ -1176,7 +1434,12 @@ export async function PUT(req1) {
                                                     timestamps: true
                                                 }
                                             );
-
+                                            const newLog = await userLog.create(
+                                                {
+                                                    userId: topLVL[0]._id,
+                                                    description: "Congratulations, you have been promoted to another class",
+                                                }
+                                            )
                                             // update ref class
                                             const updatedRefCls = await classData.findOneAndUpdate(
                                                 { _id: refDataClassDetails[0]._id },
@@ -1234,7 +1497,12 @@ export async function PUT(req1) {
                                         timestamps: true
                                     }
                                 );
-
+                                const newLog = await userLog.create(
+                                    {
+                                        userId: topLVL[0]._id,
+                                        description: "Congratulations, you have been promoted to another class",
+                                    }
+                                )
                                 const updatedRefCls = await classData.findOneAndUpdate(
                                     { _id: refDataClassDetails[0]._id },
                                     {
@@ -1287,7 +1555,12 @@ export async function PUT(req1) {
                                                 },
                                                 { new: true }
                                             );
-
+                                            const newLog = await userLog.create(
+                                                {
+                                                    userId: topLVL[0]._id,
+                                                    description: "Congratulations, you have been promoted to another class",
+                                                }
+                                            )
                                             const updatedClass = await classData.findOneAndUpdate(
                                                 { _id: lvl4[0]._id },
                                                 {
@@ -1340,7 +1613,12 @@ export async function PUT(req1) {
                                                 timestamps: true
                                             }
                                         );
-
+                                        const newLog = await userLog.create(
+                                            {
+                                                userId: topLVL[0]._id,
+                                                description: "Congratulations, you have been promoted to another class",
+                                            }
+                                        )
                                         // update ref class
                                         const updatedRefCls = await classData.findOneAndUpdate(
                                             { _id: refDataClassDetails[0]._id },
@@ -1397,7 +1675,18 @@ export async function PUT(req1) {
                     timestamps: true
                 }
             );
-
+            const newLog = await userLog.create(
+                {
+                    userId: getUId,
+                    description: "Congratulations, you were now member.",
+                }
+            )
+            const newLog2 = await userLog.create(
+                {
+                    userId: getUId,
+                    description: "Congratulations, you connected with : " + refData[0].name,
+                }
+            )
             // update ref class
             const updatedRefCls = await classData.findOneAndUpdate(
                 { _id: classLvl2Id },
@@ -1443,7 +1732,12 @@ export async function PUT(req1) {
                             },
                             { new: true }
                         );
-
+                        const newLog = await userLog.create(
+                            {
+                                userId: topLVL[0]._id,
+                                description: "Congratulations, you have been promoted to another class",
+                            }
+                        )
                         const updatedClass = await classData.findOneAndUpdate(
                             { _id: lvl2[0]._id },
                             {
@@ -1496,7 +1790,12 @@ export async function PUT(req1) {
                                         },
                                         { new: true }
                                     );
-
+                                    const newLog = await userLog.create(
+                                        {
+                                            userId: topLVL[0]._id,
+                                            description: "Congratulations, you have been promoted to another class",
+                                        }
+                                    )
                                     const updatedClass = await classData.findOneAndUpdate(
                                         { _id: lvl3[0]._id },
                                         {
@@ -1549,7 +1848,12 @@ export async function PUT(req1) {
                                                     },
                                                     { new: true }
                                                 );
-
+                                                const newLog = await userLog.create(
+                                                    {
+                                                        userId: topLVL[0]._id,
+                                                        description: "Congratulations, you have been promoted to another class",
+                                                    }
+                                                )
                                                 const updatedClass = await classData.findOneAndUpdate(
                                                     { _id: lvl4[0]._id },
                                                     {
@@ -1602,7 +1906,12 @@ export async function PUT(req1) {
                                                     timestamps: true
                                                 }
                                             );
-
+                                            const newLog = await userLog.create(
+                                                {
+                                                    userId: topLVL[0]._id,
+                                                    description: "Congratulations, you have been promoted to another class",
+                                                }
+                                            )
                                             // update ref class
                                             const updatedRefCls = await classData.findOneAndUpdate(
                                                 { _id: refDataClassDetails[0]._id },
@@ -1660,7 +1969,12 @@ export async function PUT(req1) {
                                         timestamps: true
                                     }
                                 );
-
+                                const newLog = await userLog.create(
+                                    {
+                                        userId: topLVL[0]._id,
+                                        description: "Congratulations, you have been promoted to another class",
+                                    }
+                                )
                                 const updatedRefCls = await classData.findOneAndUpdate(
                                     { _id: refDataClassDetails[0]._id },
                                     {
@@ -1713,7 +2027,12 @@ export async function PUT(req1) {
                                                 },
                                                 { new: true }
                                             );
-
+                                            const newLog = await userLog.create(
+                                                {
+                                                    userId: topLVL[0]._id,
+                                                    description: "Congratulations, you have been promoted to another class",
+                                                }
+                                            )
                                             const updatedClass = await classData.findOneAndUpdate(
                                                 { _id: lvl4[0]._id },
                                                 {
@@ -1766,7 +2085,12 @@ export async function PUT(req1) {
                                                 timestamps: true
                                             }
                                         );
-
+                                        const newLog = await userLog.create(
+                                            {
+                                                userId: topLVL[0]._id,
+                                                description: "Congratulations, you have been promoted to another class",
+                                            }
+                                        )
                                         // update ref class
                                         const updatedRefCls = await classData.findOneAndUpdate(
                                             { _id: refDataClassDetails[0]._id },
@@ -1826,7 +2150,12 @@ export async function PUT(req1) {
                             timestamps: true
                         }
                     );
-
+                    const newLog = await userLog.create(
+                        {
+                            userId: topLVL[0]._id,
+                            description: "Congratulations, you have been promoted to another class",
+                        }
+                    )
                     const updatedRefCls = await classData.findOneAndUpdate(
                         { _id: refDataClassDetails[0]._id },
                         {
@@ -1879,7 +2208,12 @@ export async function PUT(req1) {
                                     },
                                     { new: true }
                                 );
-
+                                const newLog = await userLog.create(
+                                    {
+                                        userId: topLVL[0]._id,
+                                        description: "Congratulations, you have been promoted to another class",
+                                    }
+                                )
                                 const updatedClass = await classData.findOneAndUpdate(
                                     { _id: lvl3[0]._id },
                                     {
@@ -1932,7 +2266,12 @@ export async function PUT(req1) {
                                                 },
                                                 { new: true }
                                             );
-
+                                            const newLog = await userLog.create(
+                                                {
+                                                    userId: topLVL[0]._id,
+                                                    description: "Congratulations, you have been promoted to another class",
+                                                }
+                                            )
                                             const updatedClass = await classData.findOneAndUpdate(
                                                 { _id: lvl4[0]._id },
                                                 {
@@ -1973,7 +2312,12 @@ export async function PUT(req1) {
                                             },
                                             { new: true }
                                         );
-
+                                        const newLog = await userLog.create(
+                                            {
+                                                userId: topLVL[0]._id,
+                                                description: "Congratulations, you have been promoted to another class",
+                                            }
+                                        )
                                         const updatedUser = await User.findOneAndUpdate(
                                             { _id: topLVL[0]._id },
                                             {
@@ -2043,7 +2387,12 @@ export async function PUT(req1) {
                                     timestamps: true
                                 }
                             );
-
+                            const newLog = await userLog.create(
+                                {
+                                    userId: topLVL[0]._id,
+                                    description: "Congratulations, you have been promoted to another class",
+                                }
+                            )
                             const updatedRefCls = await classData.findOneAndUpdate(
                                 { _id: refDataClassDetails[0]._id },
                                 {
@@ -2096,7 +2445,12 @@ export async function PUT(req1) {
                                             },
                                             { new: true }
                                         );
-
+                                        const newLog = await userLog.create(
+                                            {
+                                                userId: topLVL[0]._id,
+                                                description: "Congratulations, you have been promoted to another class",
+                                            }
+                                        )
                                         const updatedClass = await classData.findOneAndUpdate(
                                             { _id: lvl4[0]._id },
                                             {
@@ -2149,7 +2503,12 @@ export async function PUT(req1) {
                                             timestamps: true
                                         }
                                     );
-
+                                    const newLog = await userLog.create(
+                                        {
+                                            userId: topLVL[0]._id,
+                                            description: "Congratulations, you have been promoted to another class",
+                                        }
+                                    )
                                     // update ref class
                                     const updatedRefCls = await classData.findOneAndUpdate(
                                         { _id: refDataClassDetails[0]._id },

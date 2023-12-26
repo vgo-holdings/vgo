@@ -1,6 +1,7 @@
 import connectToDB from "@/database";
 import Class_data from "@/models/class_datas";
 import User from "@/models/user";
+import userLog from "@/models/userLog";
 import { compare } from "bcryptjs";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
@@ -105,7 +106,12 @@ export async function POST(req) {
         },
       };
     }
-
+    const newLog = await userLog.create(
+      {
+        userId:checkUser._id,
+        description:"You were logged in",
+      }
+    )
     return NextResponse.json({
       success: true,
       message: "Login successful!",
