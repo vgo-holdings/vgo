@@ -188,7 +188,7 @@ export const userLog = async (id) => {
 
   try {
     console.log(newFormData, "Log")
-    const response = await fetch("http://www.vigour.space/api/user-activity-log", {
+    const response = await fetch("/api/user-activity-log", {
       method: "PUT",
       headers: {
         "content-type": "application/json",
