@@ -1,6 +1,7 @@
 import connectToDB from "@/database";
 import { hash } from "bcryptjs";
 import User from "@/models/user";
+import userLog from "@/models/userLog";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -170,6 +171,12 @@ export async function PUT(req1) {
           },
         };
       }
+      const newLog = await userLog.create(
+        {
+          userId:checkUser._id,
+          description:"You updated the profile details.",
+        }
+      )
       return NextResponse.json({
         success: true,
         message: "Success",

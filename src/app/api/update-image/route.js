@@ -1,5 +1,6 @@
 import connectToDB from "@/database";
 import User from "@/models/user";
+import userLog from "@/models/userLog";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -82,7 +83,12 @@ export async function PUT(req1) {
           },
         };
       }
-
+      const newLog = await userLog.create(
+        {
+          userId:updatedUser._id,
+          description:"You changed the profile image",
+        }
+      )
       return NextResponse.json({
         success: true,
         message: "Success",

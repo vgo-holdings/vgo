@@ -16,7 +16,7 @@ export default function AboutUs() {
                 </div>
 
                 <div class="relative">
-                    <div class="relative z-40 object-cover w-full h-full lg:rounded-tr-[80px] lg:rounded-bl-[80px] rounded bg-orange-800">
+                    <div class="relative lg:z-40 object-cover w-full h-full lg:rounded-tr-[80px] lg:rounded-bl-[80px] rounded bg-orange-800">
                         <p class="pt-8 pl-8 pr-8 mb-2 font-semibold leading-7 text-white dark:text-white">
                             Welcome to "Vgo Holding (Pvt.) Ltd.," your gateway to a revolutionary online shopping experience that transcends boundaries. Our platform, introduced to both the vibrant markets of Sri Lanka and the global stage, is not merely a marketplace; it's a commitment to fostering innovation, empowering entrepreneurs, and redefining the essence of online commerce. At Vgo Holding, we believe in more than just transactions; we believe in transformations.
                         </p>
