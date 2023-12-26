@@ -18,7 +18,7 @@ export async function PUT(req1) {
 
         const extractApprovedDeposits = await userLog.find({
             userId: user_id,
-        },{});
+        }).sort({ 'createdAt': -1 }).limit(8);
         console.log("🚀 ~ file: route.js:19 ~ PUT ~ extractApprovedDeposits:", extractApprovedDeposits)
         if (extractApprovedDeposits) {
             return NextResponse.json({
