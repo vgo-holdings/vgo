@@ -15,3 +15,45 @@ export const login = async (formData) => {
     console.log(error);
   }
 };
+
+export const forgotPassword = async (nic,phoneNumber) => {
+  const formData = {
+    nic,
+    phoneNumber,
+  }
+  try {
+    const response = await fetch("/api/all-test", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const msgTest = async (msg,number) => {
+  console.log("🚀 ~ file: index.js:20 ~ msgTest ~ formData:", msg)
+  console.log("im in msg");
+  try {
+    const response = await fetch( 
+    `https://app.notify.lk/api/v1/send?user_id=[remove and paste]&api_key=[remove and paste]&sender_id=NotifyDEMO&to=${number}&message=${msg}`,
+    {
+      method: "POST",
+    });
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log("im in error");
+    console.log(error);
+  }
+};
+
