@@ -61,6 +61,7 @@ export async function POST(req) {
 
       const newlyCreatedUser = await User.create({
         imageURL,
+        bannerURL:"",
         name,
         first_name,
         last_name,
