@@ -600,8 +600,20 @@ export default function Account() {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path>
                 </svg>
               </span>
+              
             </div>
+            <button class=" flex justify-center items-center px-6 py-1.5 space-x-2 hover:bg-gray-200" onClick={handleCopyUserId}>
+                  <span class="text-sm text-gray-700">{user?._id}</span>
+                  {copySuccess && (
+                    <span className="text-gray-800 text-xs">
+                      (Copied to clipboard)
+                    </span>
+                  )}
+                  {/* <p class="text-sm"><a href={`/user-profile/${user?._id}`} class="text-cyan-600">Share Profile</a></p> */}
+
+                </button>
           </div>
+          
           {/* user role and class */}
           <div class="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
             <div class="flex items-center space-x-4 mt-2">
