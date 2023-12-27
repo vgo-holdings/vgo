@@ -14,7 +14,7 @@ export default function SelectComponent({
       <select
         value={value}
         onChange={onChange}
-        className="w-full -ml-9 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-orange-400"
+        className="w-full -ml-9 pl-5 lg:pl-10 text-sm lg:text-lg pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-orange-400"
       >
         <option value="" disabled>
           Select {label}
