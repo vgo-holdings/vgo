@@ -34,6 +34,19 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import imagePlaceholder from "../../assets/images/propic.png";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  PinterestShareButton,
+  PinterestIcon,
+  RedditShareButton,
+  RedditIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+} from 'next-share';
+
 
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app, firebaseStroageURL);
@@ -575,6 +588,10 @@ export default function Account() {
                       </span>
                     )}
                   </button>
+                  <WhatsappShareButton
+                    url={`https://www.vigour.space/user-profile/${user?._id}` } >
+                    <WhatsappIcon size={32} round />
+                  </WhatsappShareButton>
                   {/* <p className="propile-userId">
                   Ref id :
                   <span onClick={handleCopyUserId} style={{ cursor: "pointer" }}>
