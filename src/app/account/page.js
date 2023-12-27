@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 import { handleVerify } from "@/services/verifyAccount";
 // import "./page-style.css";
 import Image from "next/image";
-import { updateImage, updateProfile, updateAboutMe, userConnection, userLog } from "@/services/user";
+import { updateImage, updateBannerImage, updateProfile, updateAboutMe, userConnection, userLog } from "@/services/user";
 import { initializeApp } from "firebase/app";
 import {
   getDownloadURL,
@@ -169,7 +169,7 @@ export default function Account() {
     // Cleanup the interval when the component unmounts
     return () => clearInterval(fetchDataInterval);
 
-  },[setlogData]);
+  }, [setlogData]);
 
   const calculateTimeLeft = () => {
     const createdAt = new Date(user?.createdAt);
@@ -315,6 +315,8 @@ export default function Account() {
       setTimeout(() => {
         setCopySuccess(false);
       }, 2000);
+      // https://api.whatsapp.com/
+      router.push("https://api.whatsapp.com/");
     }
   }
 
@@ -420,6 +422,36 @@ export default function Account() {
 
     }
   }
+
+  async function handleBannerImg(event) {
+    const currentFile = event.target.files[0];
+    if (currentFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(currentFile);
+      const extractImageUrl = await helperForUPloadingImageToFirebase(
+        currentFile
+      );
+      console.log(extractImageUrl, "extractImageUrl user");
+
+      if (extractImageUrl !== "") {
+        const res = await updateBannerImage(user._id, extractImageUrl);
+        setUser(res?.finalData?.user);
+        console.log(res, "Image");
+        toast.success("File Uploaded.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      } else {
+        toast.success("File Not Uploaded.", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
+
+    }
+  }
+
   const [openSettings, setOpenSettings] = useState(false);
   const [openAboutMe, setAboutMe] = useState(false);
 
@@ -515,34 +547,35 @@ export default function Account() {
     <>
       <div class="h-full bg-gray-200 p-8">
         <div class="bg-white rounded-lg shadow-xl pb-8">
-          <div x-data="{ openSettings: false }" class="absolute right-12 mt-4 rounded">
-            <button
-              onClick={() => setOpenSettings(!openSettings)} // Toggle the state when the button is clicked
-              class="border border-gray-400 p-2 rounded text-gray-300 hover:text-gray-300 bg-gray-100 bg-opacity-10 hover:bg-opacity-20"
-              title="Settings"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 " fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
-              </svg>
-            </button>
-            {/* setting  */}
-            <div x-show="openSettings" class={`bg-white absolute right-0 w-40 py-2 mt-1 border border-gray-200 shadow-2xl ${openSettings ? 'block' : 'hidden'}`}>
-              <div class="py-2 border-b">
-                <p class="text-gray-400 text-xs px-6 uppercase mb-1">Settings</p>
-                <button class="w-full flex items-center px-6 py-1.5 space-x-2 hover:bg-gray-200" onClick={handleCopyUserId}>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
-                  </svg>
-                  <span class="text-sm text-gray-700">Share Profile</span>
-                  {copySuccess && (
-                    <span className="text-white-600 text-xs">
-                      (Copied to clipboard)
-                    </span>
-                  )}
-                  {/* <p class="text-sm"><a href={`/user-profile/${user?._id}`} class="text-cyan-600">Share Profile</a></p> */}
 
-                </button>
-                {/* <p className="propile-userId">
+          {/* end of togle settings  */}
+          <div class="w-full h-[250px] relative">
+            <div x-data="{ openSettings: false }" class="absolute right-2 mt-4 rounded">
+              <button
+                onClick={() => setOpenSettings(!openSettings)} // Toggle the state when the button is clicked
+                class="border border-gray-400 p-2 rounded text-gray-300 hover:text-gray-300 bg-gray-100 bg-opacity-10 hover:bg-opacity-20"
+                title="Settings"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 " fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                </svg>
+              </button>
+              {/* setting  */}
+              <div x-show="openSettings" class={`bg-white absolute right-0 w-40 py-2 mt-1 border border-gray-200 shadow-2xl ${openSettings ? 'block' : 'hidden'}`}>
+                <div class="py-2 border-b">
+                  <p class="text-gray-400 text-xs px-6 uppercase mb-1">Settings</p>
+                  <button class="w-full flex items-center px-6 py-1.5 space-x-2 hover:bg-gray-200" onClick={handleCopyUserId}>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                    </svg>
+                    <span class="text-sm text-gray-700">Share Profile</span>
+                    {copySuccess && (
+                      <span className="text-white-600 text-xs">
+                        (Copied to clipboard)
+                      </span>
+                    )}
+                  </button>
+                  {/* <p className="propile-userId">
                   Ref id :
                   <span onClick={handleCopyUserId} style={{ cursor: "pointer" }}>
                     {user?._id}{" "}
@@ -557,8 +590,8 @@ export default function Account() {
                     </span>
                   )}
                 </p> */}
-              </div>
-              {/* <div class="py-2">
+                </div>
+                {/* <div class="py-2">
                 <p class="text-gray-400 text-xs px-6 uppercase mb-1">Feedback</p>
                 <button class="w-full flex items-center py-1.5 px-6 space-x-2 hover:bg-gray-200">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -567,12 +600,25 @@ export default function Account() {
                   <span class="text-sm text-gray-700">Report</span>
                 </button>
               </div> */}
+              </div>
+              {/* end of setting */}
             </div>
-            {/* end of setting */}
-          </div>
-          {/* end of togle settings  */}
-          <div class="w-full h-[250px]">
-            <img src="https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg" class="w-full h-full rounded-tl-lg rounded-tr-lg " />
+            {/* <div class="lg:relative sm:flex"> */}
+            <img src={user?.bannerURL ? user?.bannerURL : "https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg"} class="w-full h-full rounded-tl-lg rounded-tr-lg " />
+            <input
+              accept="image/*"
+              max="1000000"
+              type="file"
+              name="file-image-banner"
+              id="file-image-banner"
+              className="hidden"
+              onChange={handleBannerImg}
+              style={{ display: "none" }}
+            />
+            <label htmlFor="file-image-banner" className="bottom-0 right-1 absolute w-12 h-12 border-4 border-red-500 bg-red-500 dark:border-gray-800 rounded-full flex items-center justify-center cursor-pointer">
+              <i className="fa fa-camera "></i>
+            </label>
+            {/* </div> */}
           </div>
           <div class="flex flex-col items-center -mt-20">
 
@@ -600,20 +646,20 @@ export default function Account() {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path>
                 </svg>
               </span>
-              
+
             </div>
             <button class=" flex justify-center items-center px-6 py-1.5 space-x-2 hover:bg-gray-200" onClick={handleCopyUserId}>
-                  <span class="text-sm text-gray-700">{user?._id}</span>
-                  {copySuccess && (
-                    <span className="text-gray-800 text-xs">
-                      (Copied to clipboard)
-                    </span>
-                  )}
-                  {/* <p class="text-sm"><a href={`/user-profile/${user?._id}`} class="text-cyan-600">Share Profile</a></p> */}
+              <span class="text-sm text-gray-700">{user?._id}</span>
+              {copySuccess && (
+                <span className="text-gray-800 text-xs">
+                  (Copied to clipboard)
+                </span>
+              )}
+              {/* <p class="text-sm"><a href={`/user-profile/${user?._id}`} class="text-cyan-600">Share Profile</a></p> */}
 
-                </button>
+            </button>
           </div>
-          
+
           {/* user role and class */}
           <div class="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
             <div class="flex items-center space-x-4 mt-2">
@@ -999,7 +1045,8 @@ export default function Account() {
                       </a>
                     }
                     {user?.whatsapp &&
-                      <a href={`https://wa.me/${user?.whatsapp}`} target="_blank" rel="noopener noreferrer" className="socialIcon">
+
+                      <a href={`https://api.whatsapp.com/send?phone=${user?.whatsapp}`} target="_blank" rel="noopener noreferrer" className="socialIcon">
                         <i className='fab fa-whatsapp socialIconFont'></i>
                       </a>
                     }
