@@ -236,6 +236,19 @@ export default function Register() {
       });
       console.error("Error in handleDeposit:", error);
     } finally {
+      if (user.role == "member") {
+        setDepositFormData({
+          imageUrl: "",
+          name: user.name,
+          refkey: user._id
+        })
+      } else {
+        setDepositFormData({
+          imageUrl: "",
+          name: user.name,
+          user_id: user._id
+        })
+      }
       setLoading(false);
     }
   }
