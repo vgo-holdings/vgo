@@ -286,3 +286,27 @@ export const updateBannerImage = async (id,imageUrl) => {
     console.log(e);
   }
 };
+
+export const updatePackDetails = async (id,packname) => {
+    const newFormData = {
+      "user_id": id,
+      "packname": packname,
+    }
+  try {
+    const res = await fetch("/api/update-userPackDetails", {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+      cache: "no-store",
+      body: JSON.stringify(newFormData),
+    });
+
+    const data = await res.json();
+
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};

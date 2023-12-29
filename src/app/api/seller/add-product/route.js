@@ -15,6 +15,10 @@ export async function POST(request) {
       description,
       price,
       imageUrl,
+      imageUrl2,
+      imageUrl3,
+      imageUrl4,
+      imageUrl5,
       category,
       sizes,
       deliveryInfo,
@@ -22,6 +26,7 @@ export async function POST(request) {
       bestSelling,
       newArrivals,
       priceDrop,
+      location,
     } = extractData;
 
     console.log(extractData,"extractData")
