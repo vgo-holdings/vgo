@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 import { handleVerify } from "@/services/verifyAccount";
 // import "./page-style.css";
 import Image from "next/image";
-import { updateImage, updateBannerImage, updateProfile, updateAboutMe, userConnection, userLog } from "@/services/user";
+import { updateImage, updateBannerImage, updatePackDetails, updateProfile, updateAboutMe, userConnection, userLog } from "@/services/user";
 import { initializeApp } from "firebase/app";
 import {
   getDownloadURL,
@@ -34,6 +34,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import imagePlaceholder from "../../assets/images/propic.png";
+import logo from "../../components/Navbar/vgo 1.png";
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -134,7 +135,7 @@ export default function Account() {
     minutes: 0,
     seconds: 0,
   });
-  // console.log(formData, "account FormDatas")
+  console.log(user, "account user")
 
   async function handleUserConnection() {
     console.log(user?._id, "user?._id");
@@ -556,8 +557,98 @@ export default function Account() {
   async function shareProfileToUser() {
     router.push("/login")
   }
+  const [AlertMsg, setAlertMsg] = useState(true);
+  async function closeMsg() {
+    setAlertMsg(false);
+    // setAlertErrMsg(false);
+  }
+
+  async function selectedAddpackshoppingMallCount() {
+    // shoppingMallCount
+    const res = await updatePackDetails(user._id, "shoppingMallCount")
+    setUser(res?.finalData?.user);
+    setAlertMsg(false);
+  }
+
+  async function selectedAddpacktotalShops() {
+    // totalShops
+    const res = await updatePackDetails(user._id, "totalShops")
+    setUser(res?.finalData?.user);
+    setAlertMsg(false);
+  }
+
   return (
     <>
+      {
+        user?.shoppingMallCount == 0 && AlertMsg && user.role != "customer" ? (
+          <div class="rounded fixed top-0 left-0 flex items-center justify-center w-full h-full z-10"
+            onClick={closeMsg}
+            style={{ backgroundColor: 'rgba(0,0,0,.5)' }}
+            x-show="open">
+            <div class=" h-auto p-4 mx-2 text-left bg-white rounded-3xl shadow-xl dark:bg-gray-800 md:max-w-xl md:p-6 lg:p-8 md:mx-0"
+            >
+              {/* <div class="flex justify-end mb-4">
+                <button
+                  onClick={closeMsg}
+                  class=" dark:text-blue-400 dark:hover:text-blue-500 hover:text-blue-700">
+                  x
+                </button>
+              </div> */}
+              <div class="flex justify-center mb-4">
+                <button
+                  onClick={closeMsg}
+                  class=" dark:text-blue-400 dark:hover:text-blue-500 hover:text-blue-700">
+                  <Image
+                    src={logo}
+                    alt="User 1"
+                    className="ml-2 h-16 w-16 md:h-16 md:w-16 object-cover transform scale-100"
+                  />
+                </button>
+              </div>
+              <div class="mb-4 text-center">
+                <h2 class="text-2xl font-bold leading-snug text-gray-900 dark:text-gray-400">
+                  HI - {user?.name}
+                </h2>
+                <div class="mt-4 ">
+                  <p class="text-lg leading-5 text-gray-500 dark:text-gray-400">
+                    Please Select Your <a href="#" class="text-myOrange font-bold">Package!</a>
+                    {/* Please select your package! Note: <a href="#" class="text-myOrange font-bold">You can't change your package after selecting it.</a> */}
+                  </p>
+                  <div className="flex mt-2">
+                    <p class="text-mb p-3 w-1/2 leading-5 text-gray-500 dark:text-gray-400 border rounded-2xl">
+                      A shopping mall is a single location for several (six) types of your business
+                    </p>
+                    <p class="text-mb p-3 w-1/2  ml-1 leading-5 text-gray-500 dark:text-gray-400 border rounded-2xl">
+                      An Store is just space for your main business only
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <span class="justify-center  gap-3 rounded-md shadow-sm flex text-xs">
+                <button
+                  style={{ backgroundColor: "#e84118", borderColor: "#e84118" }}
+                  class="disabled:opacity-50 disabled:cursor-not-allowed block w-full max-w-xs mx-auto text-white rounded-3xl px-3 py-3 font-semibold"
+                  onClick={selectedAddpackshoppingMallCount}
+                >
+                  Select Shopping Mall
+                </button>
+                <button
+                  style={{ backgroundColor: "#e84118", borderColor: "#e84118" }}
+                  class="disabled:opacity-50 disabled:cursor-not-allowed block w-full max-w-xs mx-auto text-white rounded-3xl px-3 py-3 font-semibold"
+                  onClick={selectedAddpacktotalShops}
+                >
+                  Select Online Shop
+                </button>
+              </span>
+              <div class="mt-4 flex items-center justify-center">
+                <p class="text-xs lg:text-sm leading-5 text-gray-500 dark:text-gray-400">
+                  Note: <a href="#" class="text-myOrange font-bold">You can't change your package after selecting it.</a>
+                </p>
+              </div>
+            </div>
+          </div >
+        ) : null
+      }
       <div class="h-full bg-gray-200 p-8">
         <div class="bg-white rounded-lg shadow-xl pb-8">
 

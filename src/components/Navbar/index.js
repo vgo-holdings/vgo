@@ -399,7 +399,7 @@ export default function Navbar() {
 
                     <a href="/login"
 
-                      class="inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-white border border-blue-200 rounded dark:hover:border-orange-300 dark:hover:text-orange-700 dark:text-myOrange dark:border-myOrange hover:text-orange-700 hover:border-orange-300">Log
+                      class="inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-myOrange border border-myOrange rounded dark:hover:border-orange-300 dark:hover:text-orange-700 dark:text-myOrange dark:border-myOrange hover:text-orange-700 hover:border-orange-300">Log
 
                       In</a>
 

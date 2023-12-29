@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export async function PUT(req1) {
     let finalData;
-
+    let updatedUser;
     try {
         await connectToDB();
         const extractData = await req1.json();
@@ -16,25 +16,34 @@ export async function PUT(req1) {
 
         const {
             user_id,
-            bannerURL,
+            packname,
         } = extractData;
-        console.log("🚀 ~ file: route.js:19 ~ PUT ~ BannerURL:", bannerURL)
+        console.log("🚀 ~ file: route.js:19 ~ PUT ~ packname:", packname);
 
-        const updatedUser = await User.findOneAndUpdate(
-            { _id: user_id },
-            { 
-                bannerURL:bannerURL, 
-            },
-            {
-                new: false,
-                timestamps: false
-            }
-        );
-
-        console.log(updatedUser, "why this");
+        if (packname == "shoppingMallCount") {
+            updatedUser = await User.findOneAndUpdate(
+                { _id: user_id },
+                {
+                    shoppingMallCount: 1,
+                },
+                {
+                    new: false,
+                    timestamps: false
+                }
+            );
+        } else {
+            updatedUser = await User.findOneAndUpdate(
+                { _id: user_id },
+                {
+                    totalShops: 1,
+                },
+                {
+                    new: false,
+                    timestamps: false
+                }
+            );
+        }
         const checkUser = await User.findOne({ _id: user_id });
-        console.log("🚀 ~ file: route.js:34 ~ PUT ~ checkUser:", checkUser)
-        // console.log(checkUser.imageURL, "why this");
 
         if (updatedUser) {
             if (updatedUser.class_name !== "") {
@@ -46,7 +55,7 @@ export async function PUT(req1) {
                         _id: checkUser._id,
                         role: checkUser.role,
                         imageURL: checkUser.imageURL,
-                        bannerURL:checkUser.bannerURL,
+                        bannerURL: checkUser.bannerURL,
                         createdAt: checkUser.createdAt,
                         class_name: extractAllClasses[0]?.name,
                         first_name: checkUser.first_name,
@@ -72,7 +81,7 @@ export async function PUT(req1) {
                         _id: checkUser._id,
                         role: checkUser.role,
                         imageURL: checkUser.imageURL,
-                        bannerURL:checkUser.bannerURL,
+                        bannerURL: checkUser.bannerURL,
                         createdAt: checkUser.createdAt,
                         first_name: checkUser.first_name,
                         last_name: checkUser.last_name,
@@ -90,12 +99,21 @@ export async function PUT(req1) {
                     },
                 };
             }
-            const newLog = await userLog.create(
-                {
-                    userId: checkUser._id,
-                    description: "You changed the banner image",
-                }
-            )
+            if (packname == "shoppingMallCount") {
+                const newLog = await userLog.create(
+                    {
+                        userId: checkUser._id,
+                        description: "You got Shopping Mall package",
+                    }
+                )
+            }else{
+                const newLog = await userLog.create(
+                    {
+                        userId: checkUser._id,
+                        description: "You got Online Shop package",
+                    }
+                )
+            }
             return NextResponse.json({
                 success: true,
                 message: "Success",
@@ -107,6 +125,8 @@ export async function PUT(req1) {
                 message: "Failed to update! Please try again later",
             });
         }
+
+
     } catch (error) {
         console.error(error);
         return NextResponse.json({

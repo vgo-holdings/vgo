@@ -81,6 +81,8 @@ export async function POST(req) {
           aboutMe:checkUser.aboutMe,
           profit:checkUser.profit,
           memberCount:checkUser.memberCount,
+          shoppingMallCount:checkUser.shoppingMallCount,
+          totalShops:checkUser.totalShops
         },
       };
     } else {
@@ -105,6 +107,8 @@ export async function POST(req) {
           aboutMe:checkUser.aboutMe,
           profit:checkUser.profit,
           memberCount:checkUser.memberCount,
+          shoppingMallCount:checkUser.shoppingMallCount,
+          totalShops:checkUser.totalShops
         },
       };
     }
