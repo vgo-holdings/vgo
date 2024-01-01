@@ -47,7 +47,7 @@ import {
   LinkedinShareButton,
   LinkedinIcon,
 } from 'next-share';
-
+import CommonListing from "@/components/CommonListing";
 
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app, firebaseStroageURL);
