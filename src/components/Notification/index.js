@@ -5,7 +5,7 @@ export default function Notification() {
   return (
     <ToastContainer
       position="top-right"
-      autoClose={4000}
+      autoClose={8000}
       hideProgressBar={false}
       newestOnTop={false}
       closeOnClick

@@ -96,6 +96,7 @@ export default function GlobalState({ children }) {
 
   useEffect(() => {
     if (
+      pathName !== "/forgot-password" &&
       pathName !== "/new-page" &&
       pathName !== "/a-test-page" &&
       !pathName.includes("/user-profile") &&
