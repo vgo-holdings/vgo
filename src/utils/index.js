@@ -441,6 +441,23 @@ export const loginFormControls = [
   },
 ];
 
+export const forgotPasswordFormControls = [
+  {
+    id: "phone",
+    type: "text",
+    placeholder: "Enter your phone number",
+    label: "Phone Number",
+    componentType: "input",
+  },
+  {
+    id: "nic",
+    type: "text",
+    placeholder: "Enter your nic",
+    label: "NIC",
+    componentType: "input",
+  },
+];
+
 export const adminAddShopformControls = [
   {
     id: "name",

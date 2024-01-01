@@ -106,6 +106,9 @@ export default function Login() {
                       />
                     ) : null
                   )}
+                  <div class="flex -mx-3 justify-end">
+                  <a href="/forgot-password" class="text-cyan-600 text-sm">Forgot Password?</a>
+                  </div>
                   <div class="flex -mx-3">
                     <div class="w-full px-3 mt-5">
                       <button

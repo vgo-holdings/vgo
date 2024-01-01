@@ -22,7 +22,29 @@ export const forgotPassword = async (nic,phoneNumber) => {
     phoneNumber,
   }
   try {
-    const response = await fetch("/api/all-test", {
+    const response = await fetch("/api/forgot-password-all/find-user-email", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const resetPassword = async (nic,password) => {
+  const formData = {
+    nic,
+    password,
+  }
+  try {
+    const response = await fetch("/api/forgot-password-all/reset-password", {
       method: "POST",
       headers: {
         "content-type": "application/json",
