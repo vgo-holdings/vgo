@@ -8,8 +8,7 @@ export async function GET(req) {
   try {
     await connectToDB();
 
-      const extractAllproducts = await Product.find({user:"658455013e4effa61aeb71bf"});
-      console.log("🚀 ~ file: route.js:12 ~ GET ~ extractAllproducts:", extractAllproducts)
+      const extractAllproducts = await Product.find({});
 
       if (extractAllproducts) {
         return NextResponse.json({
