@@ -17,6 +17,20 @@ export default function CommonListing({ data }) {
   }, []);
 
   const [productName, setproductName] = useState('');
+  const [priceFilter, setPriceFilter] = useState('');
+  const [locationFilter, setLocationFilter] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('');
+
+  useEffect(() => {
+    // Update filteredData whenever any filter changes
+    const newFilteredData = data.filter(item =>
+      (priceFilter ? item.priceRange === priceFilter : true) &&
+      (locationFilter ? item.location === locationFilter : true) &&
+      (categoryFilter ? item.category === categoryFilter : true)
+    );
+
+    setFilteredData(newFilteredData);
+  }, [priceFilter, locationFilter, categoryFilter]);
 
   async function handleSearch() {
     console.log("search and give relavent data")
@@ -103,7 +117,8 @@ export default function CommonListing({ data }) {
           showFilters &&
           <div>
             <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
-              <select class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
+              <select class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
+              onChange={(e) => setPriceFilter(e.target.value)}>
                 <option value="">Any Price</option>
                 <option value="price1">LKR 0 - LKR 10,000</option>
                 <option value="price2">LKR 10,000 - LKR 20,000</option>
@@ -111,7 +126,8 @@ export default function CommonListing({ data }) {
                 <option value="price4">LKR 50,000 +</option>
               </select>
 
-              <select class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
+              <select class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
+              onChange={(e) => setLocationFilter(e.target.value)}>
                 <option value="">Location</option>
                 <option value="Colombo">Colombo</option>
                 <option value="Kandy">Kandy</option>
@@ -140,7 +156,8 @@ export default function CommonListing({ data }) {
                 <option value="Batticaloa">Batticaloa</option>
               </select>
 
-              <select class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
+              <select class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
+              onChange={(e) => setCategoryFilter(e.target.value)}>
                 <option value="">Category</option>
                 <option value="Electronics">Electronics</option>
                 <option value="Clothing and Fashion">Clothing and Fashion</option>
