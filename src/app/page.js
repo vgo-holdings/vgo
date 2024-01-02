@@ -144,7 +144,7 @@ export default function Home() {
     },
     {
       label: 'Learn Now',
-      onClick: () => router.push("/product/listing/all-products"),
+      onClick: () => router.push("/learn-now"),
       className: "mt-1 inline-block border border-black text-black rounded-lg px-3 py-4 text-xm mb-2 font-medium uppercase tracking-wide",
       backgroundColor: "#e84118",
     },
