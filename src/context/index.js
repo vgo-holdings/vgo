@@ -103,6 +103,7 @@ export default function GlobalState({ children }) {
       pathName !== "/register/customer-register" &&
       pathName !== "/contact-us" &&
       pathName !== "/about-us" &&
+      pathName !== "/learn-now" &&
       !pathName.includes("register") &&
       !pathName.includes("product") &&
       pathName !== "/" &&
