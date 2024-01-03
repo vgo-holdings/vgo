@@ -48,6 +48,7 @@ import {
   LinkedinIcon,
 } from 'next-share';
 import CommonListing from "@/components/CommonListing";
+import { productBySellerId } from "@/services/product";
 
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app, firebaseStroageURL);
@@ -114,6 +115,7 @@ export default function Account() {
     setPageLevelLoader,
   } = useContext(GlobalContext);
   const [userData, setUserData] = useState([]);
+  const [userProduct, setProductData] = useState([]);
   const [logData, setlogData] = useState([]);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [hideButton, setHideButton] = useState(false);
@@ -135,7 +137,7 @@ export default function Account() {
     minutes: 0,
     seconds: 0,
   });
-  console.log(user, "account user")
+  // console.log(user, "account user")
 
   async function handleUserConnection() {
     console.log(user?._id, "user?._id");
@@ -575,6 +577,27 @@ export default function Account() {
     const res = await updatePackDetails(user._id, "totalShops")
     setUser(res?.finalData?.user);
     setAlertMsg(false);
+  }
+
+  useEffect(() => {
+
+    const fetchProductData = async () => {
+      const getAllProducts = await productBySellerId(user._id);
+      console.log("🚀 ~ file: page.js:586 ~ fetchProductData ~ getAllProducts:", getAllProducts.data)
+      setProductData(getAllProducts.data);
+      console.log("🚀 ~ userProduct", userProduct);
+    };
+
+    fetchProductData();
+  }, []);
+
+  async function getProducts() {
+    const getAllProducts = await productBySellerId("658455013e4effa61aeb71bf");
+    console.log("🚀 ~ file: page.js:594 ~ getProducts ~ getAllProducts:", getAllProducts)
+    setProductData(getAllProducts);
+    console.log("🚀 ~ file: gg")
+
+    return getAllProducts;
   }
 
   return (
@@ -1389,72 +1412,95 @@ export default function Account() {
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-8 mt-8">
             {userData.map(mapUserDataToReactElement)}
-            {/* <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection1.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Diane Aguilar</p>
-              <p class="text-xs text-gray-500 text-center">Member</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection2.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Frances Mather</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection3.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Carlos Friedrich</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection4.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Donna Serrano</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection5.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Randall Tabron</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection6.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">John McCleary</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection7.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Amanda Noble</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection8.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Christine Drew</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection9.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Lucas Bell</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection10.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Debra Herring</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection11.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Benjamin Farrior</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection12.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Maria Heal</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection13.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Edward Ice</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection14.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Jeffery Silver</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection15.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Jennifer Schultz</p>
-            </a>
-            <a href="#" class="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-              <img src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection16.jpg" class="w-16 rounded-full" />
-              <p class="text-center font-bold text-sm mt-1">Joseph Marlatt</p>
-            </a> */}
           </div>
+
+        </div>
+        <div class="bg-white rounded-lg shadow-xl p-8 mt-4">
+          {/* <CommonListing data={userProduct} /> */}
+          <div class="flex items-center justify-between">
+            <h4 class="text-xl text-gray-900 font-bold">Your Products ({userProduct?.length})</h4>
+            <a href="#" title="View All">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+              </svg>
+            </a>
+          </div>
+          <section class="flex items-center ">
+            <div class="pt-5">
+              <div class="grid grid-cols-1 gap-4 lg:gap-6 sm:gap-4 sm:grid-cols-2 lg:grid-cols-5">
+                {userProduct && userProduct.length
+                  ? userProduct.map((item) => (
+                    <div class="relative overflow-hidden bg-white rounded-xl dark:bg-gray-700 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 cursor-pointer"
+                      onClick={() =>
+                        router.push(`/product/${item._id}`)
+                      }
+                      key={item._id}
+                    >
+                      <div class="relative overflow-hidden p-5">
+                        <div class="mb-5 overflow-hidden ">
+                          <img class="object-cover w-full mx-auto transition-all rounded h-72 hover:scale-110" src={item.imageUrl} alt="" />
+                        </div>
+                        {item.onSale === "yes" ? (
+                          <button class="absolute top-0 left-0 p-3 bg-orange-500 rounded-l-none hover:bg-orange-600 rounded-b-xl">
+                            <p className="rounded-full text-sm uppercase tracking-wide text-white sm:py-1 sm:px-3">
+                              {item.priceDrop}% Off
+                            </p>
+                          </button>
+                        ) : null}
+                      </div>
+                      <a>
+                        <h3 class="px-5 mb-1 text-lg font-bold dark:text-white h-10"> {item.name} </h3>
+                      </a>
+                      <div class="px-5 p-2">
+                        <p class="mt-1 text-sm text-slate-400">{item.location ? item.location : "Colombo"}</p>
+                        <div class="flex gap-1 text-orange-400 mt-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path
+                              d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path
+                              d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path
+                              d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path
+                              d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-star" viewBox="0 0 16 16">
+                            <path
+                              d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                          </svg>
+                        </div>
+                      </div>
+                      <div class="flex">
+                        <div class="w-1/2 px-5 pb-3">
+                          <p class="text-md font-bold text-orange-500 dark:text-orange-300">
+                            {item.price -
+                              (item.price * item.priceDrop) /
+                              100}
+                          </p>
+                          <span class="block -mt-1 text-xs font-semibold text-gray-400 line-through">{`LKR ${item.price}`}</span>
+                        </div>
+                        <button class="flex-1 text-sm text-white transition-all bg-orange-500 rounded-r-none hover:bg-orange-600 rounded-t-xl">
+                          Add To Cart
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                  : <p>No matching products found</p>
+                }
+              </div>
+            </div>
+          </section>
         </div>
         <Notification />
       </div >
