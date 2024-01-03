@@ -386,6 +386,7 @@ export default function SellerAddNewProduct() {
                           name: event.target.value,
                           user: user._id,
                           location: user?.district,
+                          city: user?.city,
                         })
                       }
                     />
@@ -504,7 +505,7 @@ export default function SellerAddNewProduct() {
                 </div>
                 <div class="py-6 mb-6 border-t border-b border-gray-200 dark:border-gray-700">
                   <span class="text-base text-gray-600 dark:text-gray-400">In Stock</span>
-                  <p class="mt-2 text-sm text-orange-500 dark:text-orange-200">Your Location:{user?.district} :
+                  <p class="mt-2 text-sm text-orange-500 dark:text-orange-200">Your Location:{user?.district}:{user?.city}
                     <span class="text-gray-600 dark:text-gray-400">
                       {/* Add deliveryInfo. */}
                       <input

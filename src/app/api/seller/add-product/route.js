@@ -27,6 +27,7 @@ export async function POST(request) {
       newArrivals,
       priceDrop,
       location,
+      city,
     } = extractData;
 
     console.log(extractData,"extractData")

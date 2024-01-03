@@ -19,6 +19,7 @@ export default function CommonListing({ data }) {
   const [productName, setproductName] = useState('');
   const [priceFilter, setPriceFilter] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
+  const [cityFilter, setcityFilter] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
 
   useEffect(() => {
@@ -26,11 +27,12 @@ export default function CommonListing({ data }) {
     const newFilteredData = data.filter(item =>
       (priceFilter ? item.priceRange === priceFilter : true) &&
       (locationFilter ? item.location === locationFilter : true) &&
+      (cityFilter ? item.city === cityFilter : true) &&
       (categoryFilter ? item.category === categoryFilter : true)
     );
 
     setFilteredData(newFilteredData);
-  }, [priceFilter, locationFilter, categoryFilter]);
+  }, [priceFilter, locationFilter,cityFilter,categoryFilter]);
 
   async function handleSearch() {
     console.log("search and give relavent data")
@@ -118,7 +120,7 @@ export default function CommonListing({ data }) {
           <div>
             <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
               <select class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
-              onChange={(e) => setPriceFilter(e.target.value)}>
+                onChange={(e) => setPriceFilter(e.target.value)}>
                 <option value="">Any Price</option>
                 <option value="price1">LKR 0 - LKR 10,000</option>
                 <option value="price2">LKR 10,000 - LKR 20,000</option>
@@ -127,7 +129,7 @@ export default function CommonListing({ data }) {
               </select>
 
               <select class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
-              onChange={(e) => setLocationFilter(e.target.value)}>
+                onChange={(e) => setLocationFilter(e.target.value)}>
                 <option value="">Location</option>
                 <option value="Colombo">Colombo</option>
                 <option value="Kandy">Kandy</option>
@@ -157,7 +159,589 @@ export default function CommonListing({ data }) {
               </select>
 
               <select class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
-              onChange={(e) => setCategoryFilter(e.target.value)}>
+                onChange={(e) => setcityFilter(e.target.value)}>
+                <option value="">City</option>
+                {
+                  locationFilter == "Ampara" ? (
+                    <>
+                      <option value="Addalaichchenai">Addalaichchenai</option>
+                      <option value="Akkarepattu">Akkarepattu</option>
+                      <option value="Alayadivembu">Alayadivembu</option>
+                      <option value="Ampara">Ampara</option>
+                      <option value="Damana">Damana</option>
+                      <option value="Dehiattakandiya">Dehiattakandiya</option>
+                      <option value="Irakkamam">Irakkamam</option>
+                      <option value="Kalmunai">Kalmunai</option>
+                      <option value="Karaitivu">Karaitivu</option>
+                      <option value="Lahugala">Lahugala</option>
+                      <option value="Maha Oya">Maha Oya</option>
+                      <option value="Navithanveli">Navithanveli</option>
+                      <option value="Nintavur">Nintavur</option>
+                      <option value="Padiyathalawa">Padiyathalawa</option>
+                      <option value="Pottuvil">Pottuvil</option>
+                      <option value="Sainthamaruthu">Sainthamaruthu</option>
+                      <option value="Sammanthurai">Sammanthurai</option>
+                      <option value="Uhana">Uhana</option>
+                    </>
+                  ) : locationFilter === "Batticaloa" ? (
+                    <>
+                      <option value="Araiyampathy">Araiyampathy</option>
+                      <option value="Batticaloa">Batticaloa</option>
+                      <option value="Chenkalady">Chenkalady</option>
+                      <option value="Eravur">Eravur</option>
+                      <option value="Kaluvanchikudy">Kaluvanchikudy</option>
+                      <option value="Kattankudy">Kattankudy</option>
+                      <option value="Kiran">Kiran</option>
+                      <option value="Kokkadichcholai">Kokkadichcholai</option>
+                      <option value="Oddamavadi">Oddamavadi</option>
+                      <option value="Pasikudah">Pasikudah</option>
+                      <option value="Vakarai">Vakarai</option>
+                      <option value="Valaichchenai">Valaichchenai</option>
+                      <option value="Vavunathivu">Vavunathivu</option>
+                      <option value="Vellavely">Vellavely</option>
+                    </>
+                  ) : locationFilter === "Trincomalee" ? (
+                    <>
+                      <option value="Gomarankadawala">Gomarankadawala</option>
+                      <option value="Kantalai">Kantalai</option>
+                      <option value="Kinniya">Kinniya</option>
+                      <option value="Kuchchaveli">Kuchchaveli</option>
+                      <option value="Morawewa">Morawewa</option>
+                      <option value="Muttur">Muttur</option>
+                      <option value="Seruvila">Seruvila</option>
+                      <option value="Siripura">Siripura</option>
+                      <option value="Thampalakamam">Thampalakamam</option>
+                      <option value="Trincomalee">Trincomalee</option>
+                      <option value="Verugal">Verugal</option>
+                    </>
+                  ) : locationFilter === "Anuradhapura" ? (
+                    <>
+                      <option value="Anuradhapura">Anuradhapura</option>
+                      <option value="Bulnewa">Bulnewa</option>
+                      <option value="Eppawala">Eppawala</option>
+                      <option value="Galenbindunuwewa">Galenbindunuwewa</option>
+                      <option value="Galnewa">Galnewa</option>
+                      <option value="Ganewalpola">Ganewalpola</option>
+                      <option value="Habarana">Habarana</option>
+                      <option value="Horowupotana">Horowupotana</option>
+                      <option value="Ipalogama">Ipalogama</option>
+                      <option value="Kahatagasdigiliya">Kahatagasdigiliya</option>
+                      <option value="Kebithigollewa">Kebithigollewa</option>
+                      <option value="Kebitigollawa">Kebitigollawa</option>
+                      <option value="Kekirawa">Kekirawa</option>
+                      <option value="Konapathirawa">Konapathirawa</option>
+                      <option value="Konwewa">Konwewa</option>
+                      <option value="Madatugama">Madatugama</option>
+                      <option value="Mahailuppallama">Mahailuppallama</option>
+                      <option value="Mahavilachchiya">Mahavilachchiya</option>
+                      <option value="Maradankadawala">Maradankadawala</option>
+                      <option value="Medawachchiya">Medawachchiya</option>
+                      <option value="Mihintale">Mihintale</option>
+                      <option value="Nochchiyagama">Nochchiyagama</option>
+                      <option value="Padaviya">Padaviya</option>
+                      <option value="Palagala">Palagala</option>
+                      <option value="Palugaswewa">Palugaswewa</option>
+                      <option value="Rajanganaya">Rajanganaya</option>
+                      <option value="Rambewa">Rambewa</option>
+                      <option value="Seeppukulama">Seeppukulama</option>
+                      <option value="Talawa">Talawa</option>
+                      <option value="Tambuttegama">Tambuttegama</option>
+                      <option value="Thambuttegama">Thambuttegama</option>
+                      <option value="Thirappane">Thirappane</option>
+                      <option value="Yakalla">Yakalla</option>
+                    </>
+                  ) : locationFilter === "Polonnaruwa" ? (
+                    // Add options for Polonnaruwa
+                    <>
+                      <option value="Aralaganwila">Aralaganwila</option>
+                      <option value="Bakamuna">Bakamuna</option>
+                      <option value="Dimbulagala">Dimbulagala</option>
+                      <option value="Elahera">Elahera</option>
+                      <option value="Galamuna">Galamuna</option>
+                      <option value="Giritale">Giritale</option>
+                      <option value="Hingurakgoda">Hingurakgoda</option>
+                      <option value="Jayantipura">Jayantipura</option>
+                      <option value="Kaduruwela">Kaduruwela</option>
+                      <option value="Lankapura">Lankapura</option>
+                      <option value="Manampitiya">Manampitiya</option>
+                      <option value="Medirigiriya">Medirigiriya</option>
+                      <option value="Minneriya">Minneriya</option>
+                      <option value="Polonnaruwa">Polonnaruwa</option>
+                      <option value="Sungawila">Sungawila</option>
+                      <option value="Welikanda">Welikanda</option>
+                    </>
+                  ) : locationFilter === "Badulla" ? (
+                    // Add options for Badulla
+                    <>
+                      <option value="Badulla">Badulla</option>
+                      <option value="Bandarawela">Bandarawela</option>
+                      <option value="Beragala">Beragala</option>
+                      <option value="Diyatalawa">Diyatalawa</option>
+                      <option value="Ella">Ella</option>
+                      <option value="Haldummulla">Haldummulla</option>
+                      <option value="Hali Ela">Hali Ela</option>
+                      <option value="Haputale">Haputale</option>
+                      <option value="Kandaketiya">Kandaketiya</option>
+                      <option value="Lunugala">Lunugala</option>
+                      <option value="Mahiyanganaya">Mahiyanganaya</option>
+                      <option value="Meegahakivula">Meegahakivula</option>
+                      <option value="Passara">Passara</option>
+                      <option value="tennapanguwa">tennapanguwa</option>
+                      <option value="Uva-Paranagama">Uva-Paranagama</option>
+                      <option value="Welimada">Welimada</option>
+                      <option value="Wiyaluwa">Wiyaluwa</option>
+                    </>
+                  ) : locationFilter === "Moneragala" ? (
+                    // Add options for Moneragala
+                    <>
+                      <option value="Badalkumbura">Badalkumbura</option>
+                      <option value="Bibile">Bibile</option>
+                      <option value="Buttala">Buttala</option>
+                      <option value="Kataragama">Kataragama</option>
+                      <option value="Madulla">Madulla</option>
+                      <option value="Medagama">Medagama</option>
+                      <option value="Moneragala">Moneragala</option>
+                      <option value="Okkampitiya">Okkampitiya</option>
+                      <option value="Sevanagala">Sevanagala</option>
+                      <option value="Siyambalanduwa">Siyambalanduwa</option>
+                      <option value="Tanamalwila">Tanamalwila</option>
+                      <option value="Wellawaya">Wellawaya</option>
+                    </>
+                  ) : locationFilter === "Colombo" ? (
+                    // Add options for Colombo
+                    <>
+                      <option value="Angoda">Angoda</option>
+                      <option value="Athurugiriya">Athurugiriya</option>
+                      <option value="Avissawella">Avissawella</option>
+                      <option value="Battaramulla">Battaramulla</option>
+                      <option value="Boralesgamuwa">Boralesgamuwa</option>
+                      <option value="Colombo 01">Colombo 01</option>
+                      <option value="Colombo 02">Colombo 02</option>
+                      <option value="Colombo 03">Colombo 03</option>
+                      <option value="Colombo 04">Colombo 04</option>
+                      <option value="Colombo 05">Colombo 05</option>
+                      <option value="Colombo 06">Colombo 06</option>
+                      <option value="Colombo 07">Colombo 07</option>
+                      <option value="Colombo 08">Colombo 08</option>
+                      <option value="Colombo 09">Colombo 09</option>
+                      <option value="Colombo 10">Colombo 10</option>
+                      <option value="Colombo 11">Colombo 11</option>
+                      <option value="Colombo 12">Colombo 12</option>
+                      <option value="Colombo 13">Colombo 13</option>
+                      <option value="Colombo 14">Colombo 14</option>
+                      <option value="Colombo 15">Colombo 15</option>
+                      <option value="Dehiwala">Dehiwala</option>
+                      <option value="Hanwella">Hanwella</option>
+                      <option value="Homagama">Homagama</option>
+                      <option value="Kaduwela">Kaduwela</option>
+                      <option value="Kesbewa">Kesbewa</option>
+                      <option value="Kohuwala">Kohuwala</option>
+                      <option value="Kolonnawa">Kolonnawa</option>
+                      <option value="Kosgama">Kosgama</option>
+                      <option value="Kottawa">Kottawa</option>
+                      <option value="Kotte">Kotte</option>
+                      <option value="Maharagama">Maharagama</option>
+                      <option value="Malabe">Malabe</option>
+                      <option value="Mount Lavinia">Mount Lavinia</option>
+                      <option value="Nawala">Nawala</option>
+                      <option value="Nugegoda">Nugegoda</option>
+                      <option value="Paddukka">Paddukka</option>
+                      <option value="Pannipitiya">Pannipitiya</option>
+                      <option value="Piliyandala">Piliyandala</option>
+                      <option value="Rajagiriya">Rajagiriya</option>
+                      <option value="Ranala">Ranala</option>
+                      <option value="Ratmalana">Ratmalana</option>
+                      <option value="Talawathugoda">Talawathugoda</option>
+                      <option value="Wellampitiya">Wellampitiya</option>
+                    </>
+                  ) : locationFilter === "Gampaha" ? (
+                    // Add options for Gampaha
+                    <>
+                      <option value="Attanagalla">Attanagalla</option>
+                      <option value="Biyagama">Biyagama</option>
+                      <option value="Delgoda">Delgoda</option>
+                      <option value="Divlapitiya">Divlapitiya</option>
+                      <option value="Dompe">Dompe</option>
+                      <option value="Gampaha">Gampaha</option>
+                      <option value="Ganemulla">Ganemulla</option>
+                      <option value="Ja-Ela">Ja-Ela</option>
+                      <option value="Kadawatha">Kadawatha</option>
+                      <option value="Kandana">Kandana</option>
+                      <option value="Katana">Katana</option>
+                      <option value="Katunayake">Katunayake</option>
+                      <option value="Kelaniya">Kelaniya</option>
+                      <option value="Kiribathgoda">Kiribathgoda</option>
+                      <option value="Mahara">Mahara</option>
+                      <option value="Minuwangoda">Minuwangoda</option>
+                      <option value="Mirigama">Mirigama</option>
+                      <option value="Negombo">Negombo</option>
+                      <option value="Nittambuwa">Nittambuwa</option>
+                      <option value="Ragama">Ragama</option>
+                      <option value="Veyangoda">Veyangoda</option>
+                      <option value="Wattala">Wattala</option>
+                    </>
+                  ) : locationFilter === "Kalutara" ? (
+                    // Add options for Kalutara
+                    <>
+                      <option value="Agalawatta">Agalawatta</option>
+                      <option value="Aluthgama">Aluthgama</option>
+                      <option value="Baduraliya">Baduraliya</option>
+                      <option value="Bandaragama">Bandaragama</option>
+                      <option value="Beruwala">Beruwala</option>
+                      <option value="Bulathsinhala">Bulathsinhala</option>
+                      <option value="Dodangoda">Dodangoda</option>
+                      <option value="Horana">Horana</option>
+                      <option value="Ingiriya">Ingiriya</option>
+                      <option value="Kalutara">Kalutara</option>
+                      <option value="Madurawela">Madurawela</option>
+                      <option value="Matugama">Matugama</option>
+                      <option value="Millaniya">Millaniya</option>
+                      <option value="Panadura">Panadura</option>
+                      <option value="Wadduwa">Wadduwa</option>
+                      <option value="Walallavita">Walallavita</option>
+                    </>
+                  ) : locationFilter === "Galle" ? (
+                    // Add options for Galle
+                    <>
+                      <option value="Ahangama">Ahangama</option>
+                      <option value="Ahungalla">Ahungalla</option>
+                      <option value="Ambalangoda">Ambalangoda</option>
+                      <option value="Baddegama">Baddegama</option>
+                      <option value="Balapitiya">Balapitiya</option>
+                      <option value="Batapola">Batapola</option>
+                      <option value="Bentota">Bentota</option>
+                      <option value="Boossa">Boossa</option>
+                      <option value="Elpitiya">Elpitiya</option>
+                      <option value="Galle">Galle</option>
+                      <option value="Habaraduwa">Habaraduwa</option>
+                      <option value="Hikkaduwa">Hikkaduwa</option>
+                      <option value="Hiniduma">Hiniduma</option>
+                      <option value="Imaduwa">Imaduwa</option>
+                      <option value="Karandeniya">Karandeniya</option>
+                      <option value="Karapitiya">Karapitiya</option>
+                      <option value="Koggala">Koggala</option>
+                      <option value="Kosgoda">Kosgoda</option>
+                      <option value="Mapalagama">Mapalagama</option>
+                      <option value="Nagoda">Nagoda</option>
+                      <option value="Neluwa">Neluwa</option>
+                      <option value="Pitigala">Pitigala</option>
+                      <option value="Rathgama">Rathgama</option>
+                      <option value="Thawalama">Thawalama</option>
+                      <option value="Udugama">Udugama</option>
+                      <option value="Uragasmanhandiya">Uragasmanhandiya</option>
+                      <option value="Wanduramba">Wanduramba</option>
+                      <option value="Yakkalamulla">Yakkalamulla</option>
+                    </>
+                  ) : locationFilter === "Hambantota" ? (
+                    // Add options for Hambantota
+                    <>
+                      <option value="Ambalantota">Ambalantota</option>
+                      <option value="Angunukolapelessa">Angunukolapelessa</option>
+                      <option value="Beliatta">Beliatta</option>
+                      <option value="Hambantota">Hambantota</option>
+                      <option value="Middeniya">Middeniya</option>
+                      <option value="Tangalla">Tangalla</option>
+                      <option value="Tissamaharama">Tissamaharama</option>
+                      <option value="Walasmulla">Walasmulla</option>
+                      <option value="Weeraketiya">Weeraketiya</option>
+                    </>
+                  ) : locationFilter === "Matara" ? (
+                    // Add options for Matara
+                    <>
+                      <option value="Athuraliya">Athuraliya</option>
+                      <option value="Akuressa">Akuressa</option>
+                      <option value="Aparekka">Aparekka</option>
+                      <option value="Denipitiya">Denipitiya</option>
+                      <option value="Deniyaya">Deniyaya</option>
+                      <option value="Devinuwara">Devinuwara</option>
+                      <option value="Dikwella">Dikwella</option>
+                      <option value="Gandara">Gandara</option>
+                      <option value="Hakmana">Hakmana</option>
+                      <option value="Kamburugamuwa">Kamburugamuwa</option>
+                      <option value="Kamburupitiya">Kamburupitiya</option>
+                      <option value="Karaputugala">Karaputugala</option>
+                      <option value="Kekanadura">Kekanadura</option>
+                      <option value="Kirinda">Kirinda</option>
+                      <option value="Kotapola">Kotapola</option>
+                      <option value="Malimbada">Malimbada</option>
+                      <option value="Matara">Matara</option>
+                      <option value="Mirissa">Mirissa</option>
+                      <option value="Morawaka">Morawaka</option>
+                      <option value="Mulatiyana">Mulatiyana</option>
+                      <option value="Pasgoda">Pasgoda</option>
+                      <option value="Pitabeddara">Pitabeddara</option>
+                      <option value="Puhuwella">Puhuwella</option>
+                      <option value="Thelijjawila">Thelijjawila</option>
+                      <option value="Thihagoda">Thihagoda</option>
+                      <option value="Tihagoda">Tihagoda</option>
+                      <option value="Weligama">Weligama</option>
+                      <option value="Welihinda">Welihinda</option>
+                      <option value="Welipitiya">Welipitiya</option>
+                    </>
+                  ) : locationFilter === "Jaffna" ? (
+                    // Add options for Jaffna
+                    <>
+                      <option value="Chankanai">Chankanai</option>
+                      <option value="Chavakachcheri">Chavakachcheri</option>
+                      <option value="Jaffna">Jaffna</option>
+                      <option value="Karainagar">Karainagar</option>
+                      <option value="Karaveddy">Karaveddy</option>
+                      <option value="Kayts">Kayts</option>
+                      <option value="Kopay">Kopay</option>
+                      <option value="Maruthankerney">Maruthankerney</option>
+                      <option value="Nallur">Nallur</option>
+                      <option value="Point Pedro">Point Pedro</option>
+                      <option value="Sandilipay">Sandilipay</option>
+                      <option value="Tellippalai">Tellippalai</option>
+                      <option value="Uduvil">Uduvil</option>
+                      <option value="Velanai">Velanai</option>
+                    </>
+                  ) : locationFilter === "Kilinochchi" ? (
+                    // Add options for Kilinochchi
+                    <>
+                      <option value="Iranamadu">Iranamadu</option>
+                      <option value="Kandavalai">Kandavalai</option>
+                      <option value="Kilinochchi">Kilinochchi</option>
+                      <option value="Pallai">Pallai</option>
+                      <option value="Paranthan">Paranthan</option>
+                      <option value="Poonakary">Poonakary</option>
+                      <option value="Velikkandal">Velikkandal</option>
+                    </>
+                  ) : locationFilter === "Mannar" ? (
+                    // Add options for Mannar
+                    <>
+                      <option value="Adampan">Adampan</option>
+                      <option value="Chilawathurai">Chilawathurai</option>
+                      <option value="Madhu">Madhu</option>
+                      <option value="Mannar">Mannar</option>
+                      <option value="Nanaddan">Nanaddan</option>
+                      <option value="Nachoikuda">Nachoikuda</option>
+                      <option value="Pesalai">Pesalai</option>
+                      <option value="Talaimannar">Talaimannar</option>
+                      <option value="Thalvupadu">Thalvupadu</option>
+                      <option value="Vankalai">Vankalai</option>
+                      <option value="Vellankulam">Vellankulam</option>
+                      <option value="Vidathaltheevu">Vidathaltheevu</option>
+                      <option value="Willyamputhurai">Willyamputhurai</option>
+                    </>
+                  ) : locationFilter === "Mullativu" ? (
+                    // Add options for Mullativu
+                    <>
+                      <option value="Manthai East">Manthai East</option>
+                      <option value="Mankulam">Mankulam</option>
+                      <option value="Mullaitivu">Mullaitivu</option>
+                      <option value="Oddusuddan">Oddusuddan</option>
+                      <option value="Puthukkudiyiruppu">Puthukkudiyiruppu</option>
+
+                    </>
+                  ) : locationFilter === "Vavuniya" ? (
+                    // Add options for Vavuniya
+                    <>
+                      <option value="Cheddikulam">Cheddikulam</option>
+                      <option value="Nedunkeni">Nedunkeni</option>
+                      <option value="Vavuniya">Vavuniya</option>
+
+                    </>
+                  ) : locationFilter === "Kandy" ? (
+                    // Add options for Kandy
+                    <>
+                      <option value="Akurana">Akurana</option>
+                      <option value="Alawatugoda">Alawatugoda</option>
+                      <option value="Ambatenna">Ambatenna</option>
+                      <option value="Ampitiya">Ampitiya</option>
+                      <option value="Daskara">Daskara</option>
+                      <option value="Daulagala">Daulagala</option>
+                      <option value="Delthota">Delthota</option>
+                      <option value="Digana">Digana</option>
+                      <option value="Galagedara">Galagedara</option>
+                      <option value="Galhinna">Galhinna</option>
+                      <option value="Gampola">Gampola</option>
+                      <option value="Gelioya">Gelioya</option>
+                      <option value="Hanguranketa">Hanguranketa</option>
+                      <option value="Hapugastalawa">Hapugastalawa</option>
+                      <option value="Harispattuwa">Harispattuwa</option>
+                      <option value="Hatharaliyadda">Hatharaliyadda</option>
+                      <option value="Kadugannawa">Kadugannawa</option>
+                      <option value="Kadugannawa UC">Kadugannawa UC</option>
+                      <option value="Kandy">Kandy</option>
+                      <option value="Katugastota">Katugastota</option>
+                      <option value="Kundasale">Kundasale</option>
+                      <option value="Madawala">Madawala</option>
+                      <option value="Madawala Bazaar">Madawala Bazaar</option>
+                      <option value="Menikdiwela">Menikdiwela</option>
+                      <option value="Minipe">Minipe</option>
+                      <option value="Nawalapitiya">Nawalapitiya</option>
+                      <option value="Pallekele">Pallekele</option>
+                      <option value="Panvila">Panvila</option>
+                      <option value="Pathadumbara">Pathadumbara</option>
+                      <option value="Pathahewaheta">Pathahewaheta</option>
+                      <option value="Peradeniya">Peradeniya</option>
+                      <option value="Pilimatalawa">Pilimatalawa</option>
+                      <option value="Poojapitiya">Poojapitiya</option>
+                      <option value="Pussellawa">Pussellawa</option>
+                      <option value="Talatuoya">Talatuoya</option>
+                      <option value="Teldeniya">Teldeniya</option>
+                      <option value="Thumpane">Thumpane</option>
+                      <option value="Udapalatha">Udapalatha</option>
+                      <option value="Ududumbara">Ududumbara</option>
+                      <option value="Udunuwara">Udunuwara</option>
+                      <option value="Ulapane">Ulapane</option>
+                      <option value="Watadeniya">Watadeniya</option>
+                      <option value="Wattegama">Wattegama</option>
+                      <option value="Welamboda">Welamboda</option>
+                      <option value="Yatinuwara">Yatinuwara</option>
+                    </>
+                  ) : locationFilter === "Matale" ? (
+                    // Add options for Matale
+                    <>
+                      <option value="Dambulla">Dambulla</option>
+                      <option value="Elkaduwa">Elkaduwa</option>
+                      <option value="Galewela">Galewela</option>
+                      <option value="Gammaduwa">Gammaduwa</option>
+                      <option value="Inamaluwa">Inamaluwa</option>
+                      <option value="Kaikawala">Kaikawala</option>
+                      <option value="Kibissa">Kibissa</option>
+                      <option value="Laggala Pallegama">Laggala Pallegama</option>
+                      <option value="Madawala Ulpotha">Madawala Ulpotha</option>
+                      <option value="Matale">Matale</option>
+                      <option value="Nalanda">Nalanda</option>
+                      <option value="Naula">Naula</option>
+                      <option value="Palapathwela">Palapathwela</option>
+                      <option value="Pallepola">Pallepola</option>
+                      <option value="Rattota">Rattota</option>
+                      <option value="Sigiriya">Sigiriya</option>
+                      <option value="Ukuwela">Ukuwela</option>
+                      <option value="Wahacotte">Wahacotte</option>
+                      <option value="Yatawatta">Yatawatta</option>
+                    </>
+                  ) : locationFilter === "Nuwara Eliya" ? (
+                    // Add options for Nuwara Eliya
+                    <>
+                      <option value="Agrapatana">Agrapatana</option>
+                      <option value="Ambewela">Ambewela</option>
+                      <option value="Bogawantalawa">Bogawantalawa</option>
+                      <option value="Bopattalawa">Bopattalawa</option>
+                      <option value="Dayagama">Dayagama</option>
+                      <option value="Ginigathena">Ginigathena</option>
+                      <option value="Haggala">Haggala</option>
+                      <option value="Hapugastalawa">Hapugastalawa</option>
+                      <option value="Hatton">Hatton</option>
+                      <option value="Kotagala">Kotagala</option>
+                      <option value="Kotmale">Kotmale</option>
+                      <option value="Labukele">Labukele</option>
+                      <option value="Laxapana">Laxapana</option>
+                      <option value="Madulla">Madulla</option>
+                      <option value="Maskeliya">Maskeliya</option>
+                      <option value="Nanuoya">Nanuoya</option>
+                      <option value="Nuwara Eliya">Nuwara Eliya</option>
+                      <option value="Padiyapelella">Padiyapelella</option>
+                      <option value="Ragala">Ragala</option>
+                      <option value="Ramboda">Ramboda</option>
+                      <option value="Rozella">Rozella</option>
+                      <option value="Talawakele">Talawakele</option>
+                      <option value="Udapussallawa">Udapussallawa</option>
+                      <option value="Walapane">Walapane</option>
+                      <option value="Watawala">Watawala</option>
+                    </>
+                  ) : locationFilter === "Kegalle" ? (
+                    // Add options for Kegalle
+                    <>
+                      <option value="Ambepussa">Ambepussa</option>
+                      <option value="Amitirigala">Amitirigala</option>
+                      <option value="Aranayaka">Aranayaka</option>
+                      <option value="Bulathkohupitiya">Bulathkohupitiya</option>
+                      <option value="Dehiovita">Dehiovita</option>
+                      <option value="Deraniyagala">Deraniyagala</option>
+                      <option value="Galigamuwa">Galigamuwa</option>
+                      <option value="Hemmathagama">Hemmathagama</option>
+                      <option value="Karawanella">Karawanella</option>
+                      <option value="Kegalle">Kegalle</option>
+                      <option value="Kitulgala">Kitulgala</option>
+                      <option value="Kotiyakumbura">Kotiyakumbura</option>
+                      <option value="Mawanella">Mawanella</option>
+                      <option value="Rambukkana">Rambukkana</option>
+                      <option value="Ruwanwella">Ruwanwella</option>
+                      <option value="Thalgaspitiya">Thalgaspitiya</option>
+                      <option value="Warakapola">Warakapola</option>
+                      <option value="Yatiyantota">Yatiyantota</option>
+                    </>
+                  ) : locationFilter === "Ratnapura" ? (
+                    // Add options for Ratnapura
+                    <>
+                      <option value="Ayagama">Ayagama</option>
+                      <option value="Balangoda">Balangoda</option>
+                      <option value="Eheliyagoda">Eheliyagoda</option>
+                      <option value="Elapatha">Elapatha</option>
+                      <option value="Embilipitiya">Embilipitiya</option>
+                      <option value="Godakawela">Godakawela</option>
+                      <option value="Imbulpe">Imbulpe</option>
+                      <option value="Kalawana">Kalawana</option>
+                      <option value="Kiriella">Kiriella</option>
+                      <option value="Kolonna">Kolonna</option>
+                      <option value="Kuruwita">Kuruwita</option>
+                      <option value="Nivitigala">Nivitigala</option>
+                      <option value="Opanayaka">Opanayaka</option>
+                      <option value="Pelmadulla">Pelmadulla</option>
+                      <option value="Pinnawala">Pinnawala</option>
+                      <option value="Rakwana">Rakwana</option>
+                      <option value="Ratnapura">Ratnapura</option>
+                      <option value="Weligepola">Weligepola</option>
+                      <option value="Yatiyanthota">Yatiyanthota</option>
+                    </>
+                  ) : locationFilter === "Kurunegala" ? (
+                    // Add options for Kurunegala
+                    <>
+                      <option value="Alawwa">Alawwa</option>
+                      <option value="Bingiriya">Bingiriya</option>
+                      <option value="Dambadeniya">Dambadeniya</option>
+                      <option value="Dandagamuwa">Dandagamuwa</option>
+                      <option value="Galgamuwa">Galgamuwa</option>
+                      <option value="Giriulla">Giriulla</option>
+                      <option value="Hettipola">Hettipola</option>
+                      <option value="Hiripitiya">Hiripitiya</option>
+                      <option value="Ibbagamuwa">Ibbagamuwa</option>
+                      <option value="Katupotha">Katupotha</option>
+                      <option value="Kuliyapitiya">Kuliyapitiya</option>
+                      <option value="Kurunegala">Kurunegala</option>
+                      <option value="Maho">Maho</option>
+                      <option value="Mawathagama">Mawathagama</option>
+                      <option value="Melsiripura">Melsiripura</option>
+                      <option value="Narammala">Narammala</option>
+                      <option value="Nikaweratiya">Nikaweratiya</option>
+                      <option value="pahamune">pahamune</option>
+                      <option value="Panagamuwa">Panagamuwa</option>
+                      <option value="Pannala">Pannala</option>
+                      <option value="Pannawa">Pannawa</option>
+                      <option value="Polgahawela">Polgahawela</option>
+                      <option value="Potuhera">Potuhera</option>
+                      <option value="Ridigama">Ridigama</option>
+                      <option value="Wariyapola">Wariyapola</option>
+                      <option value="Wawathagama">Wawathagama</option>
+                      <option value="Yapahuwa">Yapahuwa</option>
+                    </>
+                  ) : locationFilter === "Puttalam" ? (
+                    // Add options for Puttalam
+                    <>
+                      <option value="Anamaduwa">Anamaduwa</option>
+                      <option value="Chilaw">Chilaw</option>
+                      <option value="Dankotuwa">Dankotuwa</option>
+                      <option value="Kalpitiya">Kalpitiya</option>
+                      <option value="Madampe">Madampe</option>
+                      <option value="Mahakumbukkadawala">Mahakumbukkadawala</option>
+                      <option value="Mundalama">Mundalama</option>
+                      <option value="Nattandiya">Nattandiya</option>
+                      <option value="Nawagattegama">Nawagattegama</option>
+                      <option value="Pallama">Pallama</option>
+                      <option value="Puttalam">Puttalam</option>
+                      <option value="Vanathavilluwa">Vanathavilluwa</option>
+                    </>
+                  ) : null
+                }
+                
+              </select>
+
+              <select class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
+                onChange={(e) => setCategoryFilter(e.target.value)}>
                 <option value="">Category</option>
                 <option value="Electronics">Electronics</option>
                 <option value="Clothing and Fashion">Clothing and Fashion</option>
@@ -212,7 +796,7 @@ export default function CommonListing({ data }) {
                     <h3 class="px-5 mb-1 text-lg font-bold dark:text-white h-10"> {item.name} </h3>
                   </a>
                   <div class="px-5 p-2">
-                    <p class="mt-1 text-sm text-slate-400">Colombo</p>
+                    <p class="mt-1 text-sm text-slate-400">{item.location ? item.location : "Colombo"}</p>
                     <div class="flex gap-1 text-orange-400 mt-1">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-star-fill" viewBox="0 0 16 16">
