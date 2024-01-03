@@ -22,6 +22,7 @@ const ProductSchema = new mongoose.Schema(
     imageUrl4: String,
     imageUrl5: String,
     location: String,
+    city: String,
   },
   { timestamps: true }
 );
