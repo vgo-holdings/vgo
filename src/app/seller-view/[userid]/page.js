@@ -3,7 +3,7 @@ import { productBySellerId } from "@/services/product";
 
 export default async function ProductBySeller({ params }) {
 
-    const getAllProducts = await productBySellerId(params.userid);
+    // const getAllProducts = await productBySellerId(params.userid);
 
-    return <CommonListing data={getAllProducts && getAllProducts.data} />;
+    return <CommonListing param={params} />;
 }
