@@ -28,6 +28,7 @@ export async function POST(request) {
       priceDrop,
       location,
       city,
+      priceRange,
     } = extractData;
 
     console.log(extractData,"extractData")
