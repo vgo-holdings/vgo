@@ -60,7 +60,7 @@ async function helperForUPloadingImageToFirebase(file, Uid) {
 const initialFormData = {
   user: "",
   name: "",
-  price: 0,
+  price: "",
   description: "",
   category: "furniture",
   sizes: [],
@@ -73,7 +73,7 @@ const initialFormData = {
   imageUrl3: "",
   imageUrl4: "",
   imageUrl5: "",
-  priceDrop: 0,
+  priceDrop: "",
   location: ""
 };
 
@@ -227,7 +227,7 @@ export default function SellerAddNewProduct() {
 
   return (
     <div className="w-full mt-5 mr-0 mb-0 ml-0 relative">
-      <div className="flex flex-col items-start justify-start p-10 bg-white shadow-2xl rounded-xl relative">
+      <div className="flex flex-col items-center justify-center p-10 bg-white shadow-2xl rounded-xl relative">
         {preview ? (
           <div style={{ height: '100%', width: '100%' }}>
 
@@ -250,13 +250,6 @@ export default function SellerAddNewProduct() {
             <div class="w-full px-4 mb-8 md:w-1/2 md:mb-0">
               <div class="sticky top-0 overflow-hidden ">
                 <div class="relative mb-6 lg:mb-10 lg:h-96 flex justify-center">
-                  {/* <a class="absolute left-0 transform lg:ml-2 top-1/2 translate-1/2" href="#" onClick={handlePrevClick}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-5 h-5 text-orange-500 bi bi-chevron-left dark:text-orange-200" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z">
-                    </path>
-                  </svg>
-                </a> */}
-                  {/* <div className="flex justify-center items-center"> */}
                   <img className="object-contain w-full lg:h-full" src={formData.imageUrl ? formData.imageUrl : "https://placehold.co/400?text=Add Image 1"} alt=""
                   />
                   <input
@@ -272,21 +265,10 @@ export default function SellerAddNewProduct() {
                   <label htmlFor="file-image" className="bottom-0 absolute w-12 h-12 border-4 border-orange-500 bg-orange-500 dark:border-gray-800 rounded-full flex items-center justify-center cursor-pointer">
                     <i className="fa fa-camera "></i>
                   </label>
-                  {/* </div> */}
-                  {/* <li htmlFor="file-image">dd</li> */}
-                  {/* <img class="object-contain w-full lg:h-full" src="https://i.postimg.cc/0jwyVgqz/Microprocessor1-removebg-preview.png" alt="" /> */}
-                  {/* <a class="absolute right-0 transform lg:mr-2 top-1/2 translate-1/2" href="#" onClick={handleNextClick}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-5 h-5 text-orange-500 bi bi-chevron-right dark:text-orange-200" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z">
-                    </path>
-                  </svg>
-                </a> */}
                 </div>
-                <div class="flex-wrap hidden -mx-2 md:flex">
-                  <div class="w-1/2 p-2 sm:w-1/4 flex justify-center">
-                    <a class="block border border-gray-200 hover:border-orange-400 dark:border-gray-700 dark:hover:border-orange-300" href="#">
-                      <img class="object-contain w-full lg:h-28" src={formData.imageUrl2 ? formData.imageUrl2 : "https://placehold.co/400?text=Add Image 2"} alt="" />
-                    </a>
+                <div class="flex-wrap flex justify-center -mx-2 md:flex">
+                  <div class="w-1/2 p-2 sm:w-1/4 relative flex justify-center">
+                    <img class="object-contain w-full lg:h-28" src={formData.imageUrl2 ? formData.imageUrl2 : "https://placehold.co/400?text=Add Image 2"} alt="" />
                     <input
                       accept="image/*"
                       max="1000000"
@@ -301,7 +283,7 @@ export default function SellerAddNewProduct() {
                       <i className="fa fa-camera "></i>
                     </label>
                   </div>
-                  <div class="w-1/2 p-2 sm:w-1/4 flex justify-center">
+                  <div class="w-1/2 p-2 sm:w-1/4 relative flex justify-center">
                     <a class="block border border-gray-200 hover:border-orange-400 dark:border-gray-700 dark:hover:border-orange-300" href="#">
                       <img class="object-contain w-full lg:h-28" src={formData.imageUrl3 ? formData.imageUrl3 : "https://placehold.co/400?text=Add Image 3"} alt="" />
                     </a>
@@ -319,7 +301,7 @@ export default function SellerAddNewProduct() {
                       <i className="fa fa-camera "></i>
                     </label>
                   </div>
-                  <div class="w-1/2 p-2 sm:w-1/4 flex justify-center">
+                  <div class="w-1/2 p-2 sm:w-1/4 relative flex justify-center">
                     <a class="block border border-gray-200 hover:border-orange-400 dark:border-gray-700 dark:hover:border-orange-300" href="#">
                       <img class="object-contain w-full lg:h-28" src={formData.imageUrl4 ? formData.imageUrl4 : "https://placehold.co/400?text=Add Image 4"} alt="" />
                     </a>
@@ -337,7 +319,7 @@ export default function SellerAddNewProduct() {
                       <i className="fa fa-camera "></i>
                     </label>
                   </div>
-                  <div class="w-1/2 p-2 sm:w-1/4 flex justify-center">
+                  <div class="w-1/2 p-2 sm:w-1/4 relative flex justify-center">
                     <a class="block border border-gray-200 hover:border-orange-400 dark:border-gray-700 dark:hover:border-orange-300" href="#">
                       <img class="object-contain w-full lg:h-28" src={formData.imageUrl5 ? formData.imageUrl5 : "https://placehold.co/400?text=Add Image 5"} alt="" />
                     </a>
@@ -391,63 +373,38 @@ export default function SellerAddNewProduct() {
                       }
                     />
                   </h2>
-                  <div class="flex flex-wrap items-center mb-6">
-                    <ul class="flex mb-4 mr-2 lg:mb-0">
-                      <li>
-                        <a href="#">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-4 mr-1 text-orange-500 dark:text-gray-400 bi bi-star " viewBox="0 0 16 16">
-                            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z">
-                            </path>
-                          </svg>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-4 mr-1 text-orange-500 dark:text-gray-400 bi bi-star " viewBox="0 0 16 16">
-                            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z">
-                            </path>
-                          </svg>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-4 mr-1 text-orange-500 dark:text-gray-400 bi bi-star " viewBox="0 0 16 16">
-                            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z">
-                            </path>
-                          </svg>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-4 mr-1 text-orange-500 dark:text-gray-400 bi bi-star " viewBox="0 0 16 16">
-                            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z">
-                            </path>
-                          </svg>
-                        </a>
-                      </li>
-                    </ul>
-                    {/* <a class="mb-4 text-xs underline hover:text-orange-600 dark:text-gray-400 dark:hover:text-gray-300 lg:mb-0" href="#">
-                    View the acer store
-                  </a> */}
-                  </div>
                   <p class="flex  text-2xl font-semibold text-gray-700 dark:text-gray-400 ">
                     <span>
                       <input
                         class="block w-full px-4 py-3 text-sm placeholder-gray-500 bg-white border rounded dark:text-gray-400 dark:placeholder-gray-500 dark:border-gray-800 dark:bg-gray-800"
                         type="number" name="" placeholder="Add Price" defaultValue={formData.price}
-                        onChange={(event) =>
+                        onChange={(event) => {
+                          const inputValue = event.target.value;
+                          let priceRange;
+
+                          if (inputValue >= 0 && inputValue < 10000) {
+                            priceRange = "price1";
+                          } else if (inputValue >= 10000 && inputValue < 20000) {
+                            priceRange = "price2";
+                          } else if (inputValue >= 20000 && inputValue < 50000) {
+                            priceRange = "price3";
+                          } else if (inputValue >= 50000) {
+                            priceRange = "price4";
+                          }
+
                           setFormData({
                             ...formData,
-                            price: event.target.value,
-                          })
-                        }
+                            price: inputValue,
+                            priceRange: priceRange
+                          });
+                        }}
                       />
                     </span>
                     <input
                       class="block w-full px-4 py-3 text-sm placeholder-gray-500 bg-white border rounded dark:text-gray-400 dark:placeholder-gray-500 dark:border-gray-800 dark:bg-gray-800"
                       type="number" name="" placeholder="Add Discount value (Price Drop)" defaultValue={formData.priceDrop}
                       onChange={(event) => {
-                        if (event.target.value !== "0") {
+                        if (event.target.value !== 0 || event.target.value !== "0") {
                           setFormData({
                             ...formData,
                             priceDrop: event.target.value,

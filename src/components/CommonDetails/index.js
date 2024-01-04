@@ -169,8 +169,8 @@ export default function CommonDetails({ item }) {
                 </div>
                 <p class="inline-block text-2xl font-semibold text-gray-700 dark:text-gray-400 ">
                   <span>{`LKR :${(
-                    item?.price -
-                    item?.price * (item?.priceDrop / 100)
+                    item?.price - item?.priceDrop
+                    // item?.price * (item?.priceDrop / 100)
                   ).toFixed(2)}`}</span>
                   {(item.onSale == "yes") ?
                     < span class="ml-3 text-base font-normal text-gray-500 line-through dark:text-gray-400">LKR{item && item?.price}</span>

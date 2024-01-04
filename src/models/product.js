@@ -23,6 +23,7 @@ const ProductSchema = new mongoose.Schema(
     imageUrl5: String,
     location: String,
     city: String,
+    priceRange: String,
   },
   { timestamps: true }
 );
