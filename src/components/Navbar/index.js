@@ -11,7 +11,7 @@ import logo from "./vgo 1.png";
 import Image from "next/image";
 import imagePlaceHolder from "@/assets/images/propic.png";
 
-function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, isHrView ,testFun }) {
+function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, isHrView ,testFun ,userData}) {
   return (
     <ul
       className={`px-4 text-left mt-7"
@@ -34,7 +34,7 @@ function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, 
             <li
               class="pb-2 pt-2 text-lg text-black dark:text-white font-semibold hover:text-myOrange cursor-pointer"
               key={item.id}
-              onClick={() => router.push(item.path)}
+              onClick={() => item.id == "sellerListing" ? router.push(`/seller-view/${userData?._id}`) : router.push(item.path)}
             >
               {item.label}
             </li>
@@ -52,14 +52,7 @@ function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, 
             </li>
           ))
           : null}
-      {
-        console.log("🚀 ~ file: index.js:119 ~ NavItems ~ isAdminView:", isAdminView)}
-      {
-        console.log("🚀 ~ file: index.js:119 ~ NavItems ~ isSellerView:", isSellerView)}
-      {
-        console.log("🚀 ~ file: index.js:119 ~ NavItems ~ isHrView:", isHrView)
-      }
-
+      
       {!isHrView && !isSellerView && !isAdminView ?
         navOptions.map((item) => (
           <li
@@ -80,7 +73,7 @@ function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, 
   );
 }
 
-function NavItems({ isModalView = false, isAdminView, router, isSellerView, isHrView }) {
+function NavItems({ isModalView = false, isAdminView, router, isSellerView, isHrView ,userData}) {
   return (
     <div
       className={`items-center justify-between w-full md:flex md:w-auto ${isModalView ? "" : "hidden"
@@ -107,7 +100,7 @@ function NavItems({ isModalView = false, isAdminView, router, isSellerView, isHr
             <li
               class="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
               key={item.id}
-              onClick={() => router.push(item.path)}
+              onClick={() => item.id == "sellerListing" ? router.push(`/seller-view/${userData?._id}`) : router.push(item.path)}
             >
               {item.label}
             </li>
@@ -125,13 +118,6 @@ function NavItems({ isModalView = false, isAdminView, router, isSellerView, isHr
               </li>
             ))
             : null
-        }
-        {
-          console.log("🚀 ~ file: index.js:119 ~ NavItems ~ isAdminView:", isAdminView)}
-        {
-          console.log("🚀 ~ file: index.js:119 ~ NavItems ~ isSellerView:", isSellerView)}
-        {
-          console.log("🚀 ~ file: index.js:119 ~ NavItems ~ isHrView:", isHrView)
         }
         {!isHrView && !isSellerView && !isAdminView ?
           navOptions.map((item) => (
@@ -184,12 +170,10 @@ export default function Navbar() {
   const [showNav, setShowNav] = useState(false);
 
   function onNavBar() {
-    console.log("hh")
     setShowNav(true)
   }
 
   function testFun() {
-    console.log("hh")
     setShowNav(false)
   }
 
@@ -215,7 +199,7 @@ export default function Navbar() {
               />
             </a>
 
-            <NavItems router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} />
+            <NavItems router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} userData={user} />
 
             <div class=" flex items-center justify-around ">
               {!isAdminView && !isSellerView && isAuthUser ? (
@@ -499,7 +483,7 @@ export default function Navbar() {
 
               </ul> */}
 
-              <NavItemsSide router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} testFun={testFun}/>
+              <NavItemsSide router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} testFun={testFun} userData={user}/>
 
               {user?.role === "freelancer" || user?.role === "member" || user?.role === "rookie" ? (
                 isSellerView ? (
