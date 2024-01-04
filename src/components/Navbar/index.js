@@ -20,7 +20,7 @@ function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, 
       {isAdminView
         ? adminNavOptions.map((item) => (
           <li
-            class="pb-2 pt-2  text-lg text-black dark:text-white font-semibold hover:text-myOrange cursor-pointer"
+            className="pb-2 pt-2  text-lg text-black dark:text-white font-semibold hover:text-myOrange cursor-pointer"
             key={item.id}
             onClick={() => router.push(item.path)}
           >
@@ -32,7 +32,7 @@ function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, 
         isSellerView
           ? sellerNavOptions.map((item) => (
             <li
-              class="pb-2 pt-2 text-lg text-black dark:text-white font-semibold hover:text-myOrange cursor-pointer"
+              className="pb-2 pt-2 text-lg text-black dark:text-white font-semibold hover:text-myOrange cursor-pointer"
               key={item.id}
               onClick={() => item.id == "sellerListing" ? router.push(`/seller-view/${userData?._id}`) : router.push(item.path)}
             >
@@ -44,7 +44,7 @@ function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, 
         isHrView
           ? hrNavOptions.map((item) => (
             <li
-              class="pb-2 pt-2  text-lg text-black dark:text-white font-semibold hover:text-myOrange cursor-pointer"
+              className="pb-2 pt-2  text-lg text-black dark:text-white font-semibold hover:text-myOrange cursor-pointer"
               key={item.id}
               onClick={() => router.push(item.path)}
             >
@@ -56,7 +56,7 @@ function NavItemsSide({ isModalView = false, isAdminView, router, isSellerView, 
       {!isHrView && !isSellerView && !isAdminView ?
         navOptions.map((item) => (
           <li
-            class="pb-2 pt-2 text-lg text-black dark:text-white font-semibold hover:text-myOrange cursor-pointer"
+            className="pb-2 pt-2 text-lg text-black dark:text-white font-semibold hover:text-myOrange cursor-pointer"
             key={item.id}
             // onClick={() => router.push(item.path)}
             onClick={() => {
@@ -87,7 +87,7 @@ function NavItems({ isModalView = false, isAdminView, router, isSellerView, isHr
         {isAdminView
           ? adminNavOptions.map((item) => (
             <li
-              class="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
+              className="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
               key={item.id}
               onClick={() => router.push(item.path)}
             >
@@ -98,7 +98,7 @@ function NavItems({ isModalView = false, isAdminView, router, isSellerView, isHr
         {isSellerView
           ? sellerNavOptions.map((item) => (
             <li
-              class="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
+              className="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
               key={item.id}
               onClick={() => item.id == "sellerListing" ? router.push(`/seller-view/${userData?._id}`) : router.push(item.path)}
             >
@@ -110,7 +110,7 @@ function NavItems({ isModalView = false, isAdminView, router, isSellerView, isHr
           isHrView
             ? hrNavOptions.map((item) => (
               <li
-                class="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
+                className="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
                 key={item.id}
                 onClick={() => router.push(item.path)}
               >
@@ -122,7 +122,7 @@ function NavItems({ isModalView = false, isAdminView, router, isSellerView, isHr
         {!isHrView && !isSellerView && !isAdminView ?
           navOptions.map((item) => (
             <li
-              class="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
+              className="text-lg text-black font-semibold hover:text-myOrange cursor-pointer"
               key={item.id}
               onClick={() => router.push(item.path)}
             >
@@ -185,13 +185,13 @@ export default function Navbar() {
 
   return (
     <>
-      <section class="shadow-lg font-poppins dark:bg-white">
+      <section className="shadow-lg font-poppins dark:bg-white">
 
-        <div class="max-w-6xl px-4 mx-auto" x-data="{open:false}">
+        <div className="max-w-6xl px-4 mx-auto" x-data="{open:false}">
 
-          <div class="relative flex items-center justify-between py-4">
+          <div className="relative flex items-center justify-between py-4">
 
-            <a href="/" class="text-3xl font-semibold leading-none dark:text-gray-400">
+            <a href="/" className="text-3xl font-semibold leading-none dark:text-gray-400">
               <Image
                 src={logo}
                 alt="User 1"
@@ -201,13 +201,13 @@ export default function Navbar() {
 
             <NavItems router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} userData={user} />
 
-            <div class=" flex items-center justify-around ">
+            <div className=" flex items-center justify-around ">
               {!isAdminView && !isSellerView && isAuthUser ? (
-                <div class=" flex items-center justify-around ">
+                <div className=" flex items-center justify-around ">
 
-                  <div class="flex -space-x-2 rtl:space-x-reverse items-center cursor-pointer" onClick={() => router.push("/account")}>
-                    <img class="w-12 h-12 lg:w-16 lg:h-16 border-2 border-myOrange rounded-full dark:border-myOrange" src={user?.imageURL === undefined ? imagePlaceHolder : user?.imageURL} alt="" />
-                    <a onClick={() => router.push("/account")} class="px-3 font-bold rounded-full flex items-center justify-center w-auto h-8 text-sm lg:h-10 lg:text-lg   text-white bg-myOrange border-2 border-white  hover:bg-gray-600" href="#">{user?.name}</a>
+                  <div className="flex -space-x-2 rtl:space-x-reverse items-center cursor-pointer" onClick={() => router.push("/account")}>
+                    <img className="w-12 h-12 lg:w-16 lg:h-16 border-2 border-myOrange rounded-full dark:border-myOrange" src={user?.imageURL === undefined ? imagePlaceHolder : user?.imageURL} alt="" />
+                    <a onClick={() => router.push("/account")} className="px-3 font-bold rounded-full flex items-center justify-center w-auto h-8 text-sm lg:h-10 lg:text-lg   text-white bg-myOrange border-2 border-white  hover:bg-gray-600" href="#">{user?.name}</a>
                   </div>
 
                   <button
@@ -224,19 +224,19 @@ export default function Navbar() {
                     <i className="fa fa-shopping-cart"></i>
                   </button>
 
-                  <div class="lg:hidden">
+                  <div className="lg:hidden">
 
                     <button
                       onClick={onNavBar}
-                      class="flex items-center px-3 py-2 text-myOrange border border-myOrange rounded dark:text-myOrange navbar-burger hover:text-orange-200 hover:orange-200 lg:hidden"
+                      className="flex items-center px-3 py-2 text-myOrange border border-myOrange rounded dark:text-myOrange navbar-burger hover:text-orange-200 hover:orange-200 lg:hidden"
 
                     >
 
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
 
-                        class="bi bi-list" viewBox="0 0 16 16">
+                        className="bi bi-list" viewBox="0 0 16 16">
 
-                        <path fill-rule="evenodd"
+                        <path fillRule="evenodd"
 
                           d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
 
@@ -249,19 +249,19 @@ export default function Navbar() {
               ) :
                 <>
 
-                  <div class="lg:hidden">
+                  <div className="lg:hidden">
 
                     <button
                       onClick={onNavBar}
-                      class="flex items-center px-3 py-2 text-myOrange border border-myOrange rounded dark:text-myOrange navbar-burger hover:text-orange-200 hover:orange-200 lg:hidden"
+                      className="flex items-center px-3 py-2 text-myOrange border border-myOrange rounded dark:text-myOrange navbar-burger hover:text-orange-200 hover:orange-200 lg:hidden"
 
                     >
 
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
 
-                        class="bi bi-list" viewBox="0 0 16 16">
+                        className="bi bi-list" viewBox="0 0 16 16">
 
-                        <path fill-rule="evenodd"
+                        <path fillRule="evenodd"
 
                           d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
 
@@ -372,24 +372,24 @@ export default function Navbar() {
               {isAuthUser ? (
                 <a onClick={handleLogout}
 
-                  class="hidden lg:inline-block px-1 py-2 lg:px-4 lg:py-3  mr-2 text-xs font-semibold leading-none text-orange-200 bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
+                  className="hidden lg:inline-block px-1 py-2 lg:px-4 lg:py-3  mr-2 text-xs font-semibold leading-none text-orange-200 bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
 
                   Out
 
                 </a>
               ) :
                 <>
-                  <div class="hidden lg:block">
+                  <div className="hidden lg:block">
 
                     <a href="/login"
 
-                      class="inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-myOrange border border-myOrange rounded dark:hover:border-orange-300 dark:hover:text-orange-700 dark:text-myOrange dark:border-myOrange hover:text-orange-700 hover:border-orange-300">Log
+                      className="inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-myOrange border border-myOrange rounded dark:hover:border-orange-300 dark:hover:text-orange-700 dark:text-myOrange dark:border-myOrange hover:text-orange-700 hover:border-orange-300">Log
 
                       In</a>
 
                     <a href="/register/customer-register"
 
-                      class="inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
+                      className="inline-block px-4 py-3 mr-2 text-xs font-semibold leading-none text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
 
                       Up
 
@@ -407,20 +407,20 @@ export default function Navbar() {
           {/* <!-- Mobile Sidebar --> */}
           {showNav &&
             <div onClick={testFun}
-              class="fixed inset-0 w-full bg-gray-900 opacity-25 dark:bg-gray-400 lg:hidden"
+              className="fixed inset-0 w-full bg-gray-900 opacity-25 dark:bg-gray-400 lg:hidden"
 
             >
 
             </div>
           }
           {showNav &&
-            <div class="absolute inset-0 z-10 h-screen p-3 text-gray-400 duration-500 transform bg-blue-50 dark:bg-gray-800 w-80 lg:hidden lg:transform-none lg:relative"
+            <div className="absolute inset-0 z-10 h-screen p-3 text-gray-400 duration-500 transform bg-blue-50 dark:bg-gray-800 w-80 lg:hidden lg:transform-none lg:relative"
 
             >
 
-              <div class="flex justify-between lg:">
+              <div className="flex justify-between lg:">
 
-                <a href="/" class="text-3xl font-semibold leading-none dark:text-gray-400">
+                <a href="/" className="text-3xl font-semibold leading-none dark:text-gray-400">
                   <Image
                     src={logo}
                     alt="User 1"
@@ -429,13 +429,13 @@ export default function Navbar() {
                 </a>
 
                 <button onClick={testFun}
-                  class="p-2 text-gray-700 rounded-md dark:text-gray-400 hover:text-blue-300 lg:hidden "
+                  className="p-2 text-gray-700 rounded-md dark:text-gray-400 hover:text-blue-300 lg:hidden "
 
                 >
 
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
 
-                    class="bi bi-x-circle" viewBox="0 0 16 16">
+                    className="bi bi-x-circle" viewBox="0 0 16 16">
 
                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
 
@@ -448,40 +448,6 @@ export default function Navbar() {
                 </button>
 
               </div >
-
-              {/* <ul class="px-4 text-left mt-7">
-
-                <li class="pb-3">
-
-                  <a href="" class="text-sm text-gray-700 hover:text-blue-400 dark:text-gray-100">Home</a>
-
-                </li>
-
-                <li class="pb-3">
-
-                  <a href="" class="text-sm text-gray-700 hover:text-blue-400 dark:text-gray-400">About us</a>
-
-                </li>
-
-                <li class="pb-3">
-
-                  <a href="" class="text-sm text-gray-700 hover:text-blue-400 dark:text-gray-400">Features</a>
-
-                </li>
-
-                <li class="pb-3">
-
-                  <a href="" class="text-sm text-gray-700 hover:text-blue-400 dark:text-gray-400">Blog </a>
-
-                </li>
-
-                <li class="pb-3">
-
-                  <a href="" class="text-sm text-gray-700 hover:text-blue-400 dark:text-gray-400">Testimonials</a>
-
-                </li>
-
-              </ul> */}
 
               <NavItemsSide router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} testFun={testFun} userData={user}/>
 
@@ -519,28 +485,28 @@ export default function Navbar() {
                 null
               }
               {isAuthUser ? (
-                <div class="block mt-5 lg:hidden">
+                <div className="block mt-5 lg:hidden">
 
                   <a onClick={handleLogout}
 
-                    class="inline-block w-full px-4 py-3 mr-2 text-xs font-semibold leading-none text-center text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
+                    className="inline-block w-full px-4 py-3 mr-2 text-xs font-semibold leading-none text-center text-white bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
 
                     Out
 
                   </a>
 
                 </div>
-              ) : <div class="block mt-5 lg:hidden">
+              ) : <div className="block mt-5 lg:hidden">
 
                 <a href="/login"
 
-                  class="inline-block w-full px-4 py-3 mb-4 mr-2 text-xs font-semibold leading-none text-center text-myOrange border border-myOrange rounded dark:hover:border-orange-300 dark:hover:text-orange-700 dark:text-myOrange dark:border-myOrange hover:text-orange-700 hover:border-orange-300">Log
+                  className="inline-block w-full px-4 py-3 mb-4 mr-2 text-xs font-semibold leading-none text-center text-myOrange border border-myOrange rounded dark:hover:border-orange-300 dark:hover:text-orange-700 dark:text-myOrange dark:border-myOrange hover:text-orange-700 hover:border-orange-300">Log
 
                   In</a>
 
                 <a href="/register/customer-register"
 
-                  class="inline-block w-full px-4 py-3 mr-2 text-xs font-semibold leading-none text-center text-orange-200 bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
+                  className="inline-block w-full px-4 py-3 mr-2 text-xs font-semibold leading-none text-center text-orange-200 bg-myOrange border border-orange-300 rounded  hover:bg-orange-700">Sign
 
                   Up
 
