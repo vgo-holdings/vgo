@@ -867,14 +867,14 @@ export default function productShop({ param }) {
                       <span className="block -mt-1 text-xs font-semibold text-gray-400 line-through">{`LKR ${item.price}`}</span>
                     </div>
                   </div>
-                  <div className="pt-2 w-full">
+                  {/* <div className="pt-2 w-full">
                     <button className="flex w-full p-2 rounded items-center justify-center text-sm text-white bg-orange-500 hover:bg-orange-600">
                       Edit
                     </button>
                     <button type="button" onClick={() => router.refresh()}>
                       Click here to reload
                     </button>
-                  </div>
+                  </div> */}
                   <div className="pt-2 w-full">
                     <button className="flex w-full p-2 rounded items-center justify-center text-sm text-white bg-orange-500 hover:bg-orange-600"
                       onClick={() => showMsg(item._id)}

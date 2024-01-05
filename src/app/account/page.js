@@ -2,6 +2,8 @@
 
 import InputComponent from "@/components/FormElements/InputComponent";
 import ComponentLevelLoader from "@/components/Loader/componentlevel";
+import Qr from "@/components/qr";
+import TimerProfile from "@/components/TimerProfile";
 import Notification from "@/components/Notification";
 import { GlobalContext } from "@/context";
 import {
@@ -131,12 +133,6 @@ export default function Account() {
     role: user?.role,
     refkey: user?.refkey,
   });
-  const [countdown, setCountdown] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
   // console.log(user, "account user")
 
   async function handleUserConnection() {
@@ -186,45 +182,6 @@ export default function Account() {
     return () => clearInterval(fetchDataInterval);
 
   }, [setlogData]);
-
-  const calculateTimeLeft = () => {
-    const createdAt = new Date(user?.createdAt);
-
-    // Calculate expiration date based on user role
-    let expireDate;
-    if (user?.role === "freelancer") {
-      // Freelancer countdown expires after 15 days
-      expireDate = new Date(createdAt);
-      expireDate.setDate(createdAt.getDate() + 15);
-    } else if (user?.role === "member") {
-      // Member countdown expires after 365 days
-      expireDate = new Date(createdAt);
-      expireDate.setDate(createdAt.getDate() + 365);
-    } else {
-      // No countdown for other roles
-      return;
-    }
-
-    const currentDate = new Date();
-    const timeLeft = expireDate.getTime() - currentDate.getTime();
-
-    if (timeLeft > 0) {
-      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-      setCountdown({ days, hours, minutes, seconds });
-    }
-  };
-
-  useEffect(() => {
-    const timer = setInterval(calculateTimeLeft, 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
 
   async function handleVerifyPassword() {
     setComponentLevelLoader({ loading: true, id: "" });
@@ -320,7 +277,7 @@ export default function Account() {
     const userId = user?._id;
     if (userId) {
       const textArea = document.createElement("textarea");
-      textArea.value = "https://www.vigour.space/user-profile/" + userId;
+      textArea.value = userId;
       document.body.appendChild(textArea);
       textArea.select();
       document.execCommand("copy");
@@ -332,7 +289,7 @@ export default function Account() {
         setCopySuccess(false);
       }, 2000);
       // https://api.whatsapp.com/
-      router.push("https://api.whatsapp.com/");
+      // router.push("https://api.whatsapp.com/");
     }
   }
 
@@ -1232,146 +1189,24 @@ export default function Account() {
                     </div>
                   </div>
                 )}
-                {/* <div class="flex items-center w-full my-6 -ml-1.5">
-                  <div class="w-1/12 z-10">
-                    <div class="w-3.5 h-3.5 bg-orange-600 rounded-full"></div>
-                  </div>
-                  <div class="w-11/12">
-                    <p class="text-sm text-black font-semibold">
-                      Connected with <a href="#" class="text-orange-600 font-bold">Colby Covington</a>.</p>
-                  </div>
-                </div>
-                <div class="flex items-center w-full my-6 -ml-1.5">
-                  <div class="w-1/12 z-10">
-                    <div class="w-3.5 h-3.5 bg-orange-600 rounded-full"></div>
-                  </div>
-                  <div class="w-11/12">
-                    <p class="text-sm text-black font-semibold">Invoice <a href="#" class="text-orange-600 font-bold">#4563</a> was created.</p>
-                  </div>
-                </div>
-                <div class="flex items-center w-full my-6 -ml-1.5">
-                  <div class="w-1/12 z-10">
-                    <div class="w-3.5 h-3.5 bg-orange-600 rounded-full"></div>
-                  </div>
-                  <div class="w-11/12">
-                    <p class="text-sm text-black font-semibold">
-                      Message received from <a href="#" class="text-orange-600 font-bold">Cecilia Hendric</a>.</p>
-                  </div>
-                </div>
-                <div class="flex items-center w-full my-6 -ml-1.5">
-                  <div class="w-1/12 z-10">
-                    <div class="w-3.5 h-3.5 bg-orange-600 rounded-full"></div>
-                  </div>
-                  <div class="w-11/12">
-                    <p class="text-sm text-black font-semibold">New order received <a href="#" class="text-orange-600 font-bold">#OR9653</a>.</p>
-                  </div>
-                </div>
-                <div class="flex items-center w-full my-6 -ml-1.5">
-                  <div class="w-1/12 z-10">
-                    <div class="w-3.5 h-3.5 bg-orange-600 rounded-full"></div>
-                  </div>
-                  <div class="w-11/12">
-                    <p class="text-sm text-black font-semibold">
-                      Message received from <a href="#" class="text-orange-600 font-bold">Jane Stillman</a>.</p>
-                  </div>
-                </div> */}
               </div>
             </div>
             {/* End of Activity log */}
           </div>
           <div class="w-full flex flex-col 2xl:w-1/3">
-            {/* <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
+            <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
               <div class="flex items-center justify-between">
                 <span class="text-xl text-gray-900 font-bold">Your package will expire in</span>
               </div>
-              <div class="relative px-4">
-                <div className="flex flex-row space-x-4 my-4">
-                  <div className="flex flex-col w-20   ">
-                    <h1
-                      className="text-md text-center text-white"
-                      style={{ backgroundColor: "#e84118", color: "white" }}
-                    >
-                      Days
-                    </h1>
-                    <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
-                      <div className="flex items-center justify-center h-full">
-                        <div
-                          className="text-center text-3xl font-semibold"
-                          style={{ color: "#e84118" }}
-                        >
-                          {countdown.days < 10
-                            ? `0${countdown.days}`
-                            : countdown.days}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col w-20  ">
-                    <h1
-                      className="text-md text-center text-white"
-                      style={{ backgroundColor: "#e84118", color: "white" }}
-                    >
-                      Hours
-                    </h1>
-                    <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
-                      <div className="flex items-center justify-center h-full">
-                        <div
-                          className="text-center text-3xl font-semibold"
-                          style={{ color: "#e84118" }}
-                        >
-                          {countdown.hours < 10
-                            ? `0${countdown.hours}`
-                            : countdown.hours}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col w-20">
-                    <h1
-                      className="text-md text-center text-white"
-                      style={{ backgroundColor: "#e84118", color: "white" }}
-                    >
-                      Mins.
-                    </h1>
-                    <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
-                      <div className="flex items-center justify-center h-full">
-                        <div
-                          className="text-center text-3xl font-semibold"
-                          style={{ color: "#e84118" }}
-                        >
-                          {countdown.minutes < 10
-                            ? `0${countdown.minutes}`
-                            : countdown.minutes}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col w-20">
-                    <h1
-                      className="text-md text-center text-white"
-                      style={{ backgroundColor: "#e84118", color: "white" }}
-                    >
-                      Secs.
-                    </h1>
-                    <div className="h-16" style={{ backgroundColor: "#F1F1F1" }}>
-                      <div className="flex items-center justify-center h-full">
-                        <div
-                          className="text-center text-3xl font-semibold"
-                          style={{ color: "#e84118" }}
-                        >
-                          {countdown.seconds < 10
-                            ? `0${countdown.seconds}`
-                            : countdown.seconds}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <TimerProfile />
               <div class="flex items-center justify-between">
-                <span class="text-xl text-gray-900 font-bold">Package details</span>
+                <span class="text-xl text-gray-900 font-bold">
+                  {
+                    user?.role == "member" || user?.role == "customer" ? "Company QR" : "Your QR"
+                  }
+                </span>
               </div>
-              <div
+              {/* <div
                 className="p-3 text-start space-y-4"
               >
                 <div className="flex flex-row">
@@ -1396,8 +1231,14 @@ export default function Account() {
                   <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path clipRule="evenodd" d="M10.4521 1.31159C11.2522 0.334228 12.7469 0.334225 13.5471 1.31159L14.5389 2.52304L16.0036 1.96981C17.1853 1.52349 18.4796 2.2708 18.6839 3.51732L18.9372 5.06239L20.4823 5.31562C21.7288 5.51992 22.4761 6.81431 22.0298 7.99598L21.4765 9.46066L22.688 10.4525C23.6653 11.2527 23.6653 12.7473 22.688 13.5475L21.4765 14.5394L22.0298 16.004C22.4761 17.1857 21.7288 18.4801 20.4823 18.6844L18.9372 18.9376L18.684 20.4827C18.4796 21.7292 17.1853 22.4765 16.0036 22.0302L14.5389 21.477L13.5471 22.6884C12.7469 23.6658 11.2522 23.6658 10.4521 22.6884L9.46022 21.477L7.99553 22.0302C6.81386 22.4765 5.51948 21.7292 5.31518 20.4827L5.06194 18.9376L3.51687 18.6844C2.27035 18.4801 1.52305 17.1857 1.96937 16.004L2.5226 14.5394L1.31115 13.5475C0.333786 12.7473 0.333782 11.2527 1.31115 10.4525L2.5226 9.46066L1.96937 7.99598C1.52304 6.81431 2.27036 5.51992 3.51688 5.31562L5.06194 5.06239L5.31518 3.51732C5.51948 2.2708 6.81387 1.52349 7.99553 1.96981L9.46022 2.52304L10.4521 1.31159ZM11.2071 16.2071L18.2071 9.20712L16.7929 7.79291L10.5 14.0858L7.20711 10.7929L5.79289 12.2071L9.79289 16.2071C9.98043 16.3947 10.2348 16.5 10.5 16.5C10.7652 16.5 11.0196 16.3947 11.2071 16.2071Z" fill="black" fillRule="evenodd" /></svg>
                   <p className="ml-2 text-gray-500">All Extra income</p>
                 </div>
-              </div>
-            </div> */}
+              </div> */}
+              {
+                user?.role == "member" ? (<Qr profileUrl={"https://www.vigour.space"} />)
+                  : user?.role == "customer" ? (<Qr profileUrl={"https://www.vigour.space"} />)
+                    : (<Qr profileUrl={"https://www.vigour.space/user-profile/" + user?._id} />)
+              }
+
+            </div>
           </div>
 
         </div>

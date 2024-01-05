@@ -15,7 +15,7 @@ export const navOptions = [
     path: "/contact-us",
   },
   {
-    id: "contact",
+    id: "aboutUs",
     label: "About Us",
     path: "/about-us",
   },
