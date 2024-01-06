@@ -26,7 +26,7 @@ import i9 from "../assets/images/assets/i9.png";
 import i10 from "../assets/images/assets/i10.png";
 import i11 from "../assets/images/assets/i11.png";
 import i12 from "../assets/images/assets/i12.png";
-import ScrollAnimation from 'react-animate-on-scroll';
+// import ScrollAnimation from 'react-animate-on-scroll';
 import logo from "../assets/images/logo/VGO 4.png";
 
 import './page-style.css';
@@ -172,7 +172,7 @@ export default function Home() {
   return (
     <main className="home-container">
       <section className="home-heroSection">
-        <ScrollAnimation duration={5} animateIn="fadeIn" className="home-heroContainer">
+        <div className="home-heroContainer">
           <div className="home-heroTextContainer">
             <h1
               className="max-w-2xl mb-4 text-4xl font-bold tracking-tight leading-none mt-5 md:text-5xl xl:text-7xl"
@@ -257,7 +257,7 @@ export default function Home() {
           <div className="home-heroImage">
             <Image src={vgo} alt="vgo Model" />
           </div>
-        </ScrollAnimation>
+        </div>
       </section>
       <div className="w-full" style={{ backgroundColor: "#e84118" }}>
         <section
@@ -640,16 +640,16 @@ export default function Home() {
           <div className="mb-20   ">
             <div className="text-start py-8">
               <h2
-                className="text-xl font-bold  text-center"
-                style={{ color: "#2F3640", fontSize: '2.8rem' }}
+                className="text-4xl lg:text-5xl font-bold  text-center"
+                style={{ color: "#2F3640",}}
               >
                 Want To <span style={{ color: "#e84118" }}>Join Us</span>
               </h2>
             </div>
             <div className="text-center py-8">
               <h2
-                className="text-xl font-extrabold "
-                style={{ color: "#2F3640", fontSize: '2.5rem' }}
+                className="text-4xl font-extrabold "
+                style={{ color: "#2F3640" }}
               >
                 Pricing <span className="font-semibold">Plans</span>
               </h2>

@@ -77,8 +77,8 @@ export default function ContactUs() {
               </div>
               <p class="mb-16 text-base text-center text-gray-500">
                 <p class="mb-16 text-base text-center text-gray-500">
-                  Elevate your experience with VGO. 
-                  We believe in creating seamless connections. 
+                  Elevate your experience with VGO.
+                  We believe in creating seamless connections.
                   Contact us today to embark on a journey of innovation and excellence with VGO.
                 </p>
 
