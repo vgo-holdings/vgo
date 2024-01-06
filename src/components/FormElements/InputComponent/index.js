@@ -15,8 +15,8 @@ export default function InputComponent({
         {label}
       </p>
       {type == 'password' ? (
-        <div class="relative flex">
-          <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
+        <div className="relative flex">
+          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i className="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
           {/* <div className=" relative flex"> */}
           <input
             placeholder={placeholder}
@@ -30,9 +30,9 @@ export default function InputComponent({
           {/* </div> */}
         </div>
       ) : (
-        <div class="flex">
-          <div class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-            <i class="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
+        <div className="flex">
+          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+            <i className="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
           <input
             placeholder={placeholder}
             type={type || "text"}
