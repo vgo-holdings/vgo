@@ -53,7 +53,7 @@ export default function Login() {
             });
             setIsAuthUser(true);
             setUser(res?.finalData?.user);
-            setFormData(initialFormdata);
+            setFormData("");
             Cookies.set("token", res?.finalData?.token);
             localStorage.setItem("user", JSON.stringify(res?.finalData?.user));
             setLoadingC(false);

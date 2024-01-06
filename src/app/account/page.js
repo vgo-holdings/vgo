@@ -560,7 +560,7 @@ export default function Account() {
   return (
     <>
       {
-        user?.shoppingMallCount == 0 && AlertMsg && user.role != "customer" ? (
+        user?.shoppingMallCount == 0 &&  user?.totalShops == 0 && AlertMsg && user.role != "customer" ? (
           <div class="rounded fixed top-0 left-0 flex items-center justify-center w-full h-full z-10"
             onClick={closeMsg}
             style={{ backgroundColor: 'rgba(0,0,0,.5)' }}
