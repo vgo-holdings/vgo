@@ -348,7 +348,7 @@ export default function SellerAddNewProduct() {
                         <i className="fa fa-camera "></i>
                       </label>
                     </div>
-                    {user.shoppingMallCount >= 1 ?
+                    {user?.shoppingMallCount >= 1 ?
                       <div class="flex-wrap flex justify-center -mx-2 md:flex">
                         <div class="w-1/2 p-2 sm:w-1/4 relative flex justify-center">
                           <img class="object-contain w-full lg:h-28" src={formData.imageUrl2 ? formData.imageUrl2 : "https://placehold.co/400?text=Add Image 2"} alt="" />
