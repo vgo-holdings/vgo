@@ -31,12 +31,6 @@ export default function Footer() {
                 <li>
                     <a className="hover:text-green-500" style={{ color: "#8B8989"}}>Shop</a>
                 </li>
-                <li>
-                    <a className="hover:text-green-500" style={{ color: "#8B8989"}}>Manufacturing</a>
-                </li>
-                <li>
-                    <a className="hover:text-green-500" style={{ color: "#8B8989"}}>Reviews</a>
-                </li>
               </ul>
             </div>
             <div className="md:w-1/4 md:text-center">
@@ -59,7 +53,7 @@ export default function Footer() {
                 </li>
               </ul>
             </div>
-            <div className="md:w-1/4 md:text-center">
+            {/* <div className="md:w-1/4 md:text-center">
               <h4 className="text-xl font-semibold mb-2 text-orange-600">Contact Us</h4>
               <div className="space-y-2" style={{ color: "#8B8989"}}>
                 <p>123 Main Street</p>
@@ -68,7 +62,7 @@ export default function Footer() {
                 <p>Phone: +123 456 789</p>
                 <p>Working Time: 8.00 A.M - 6.00 P.M</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </footer>
       );
