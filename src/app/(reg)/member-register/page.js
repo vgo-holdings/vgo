@@ -248,6 +248,7 @@ export default function Register() {
                     refkey: "",
                 })
             }
+            setSelectedImage("");
             setLoading(false);
         }
     }
