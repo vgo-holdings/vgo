@@ -524,7 +524,7 @@ export default function Register() {
         </div>
       </div>
       {AlertMsg ? (
-        <div class="rounded absolute top-0 left-0 flex items-center justify-center w-full h-full " onClick={closeMsg}
+        <div class="rounded fixed top-0 left-0 flex items-center justify-center w-full h-full z-10" onClick={closeMsg}
           style={{ backgroundColor: 'rgba(0,0,0,.5)' }}
           x-show="open">
           <div class=" h-auto p-4 mx-2 text-left bg-white rounded-3xl shadow-xl dark:bg-gray-800 md:max-w-xl md:p-6 lg:p-8 md:mx-0"
