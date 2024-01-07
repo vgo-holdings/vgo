@@ -113,7 +113,7 @@ export default function Home() {
     if (isAuthUser && user.role == "director" || user.role == "admin") {
       router.push('/');
     } else if (isAuthUser) {
-      router.push('/register/member-register');
+      router.push('/member-register');
     }
     else {
       router.push('/register/customer-register')
