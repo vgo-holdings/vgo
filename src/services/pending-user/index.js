@@ -23,7 +23,7 @@ export const addNewUser = async (formData) => {
 
 export const getAllAdminPendingdirectors = async () => {
   try {
-    const res = await fetch("https://www.vigour.space/api/admin/all-director", {
+    const res = await fetch("https://www.vgo.lk/api/admin/all-director", {
       method: "GET",
       cache: "no-store",
     });
@@ -73,7 +73,7 @@ export const declineDirector = async (itemId) => {
 
 export const getAllAdminPendinghrs = async () => {
   try {
-    const res = await fetch("https://www.vigour.space/api/admin/all-hr", {
+    const res = await fetch("https://www.vgo.lk/api/admin/all-hr", {
       method: "GET",
       cache: "no-store",
     });
@@ -161,7 +161,7 @@ export const deleteAUser = async (id) => {
 export const userByCategory = async (id) => {
   try {
     const res = await fetch(
-      `https://www.vigour.space/api/admin/user-by-category?id=${id}`,
+      `https://www.vgo.lk/api/admin/user-by-category?id=${id}`,
       {
         method: "GET",
         cache: "no-store",
@@ -179,7 +179,7 @@ export const userByCategory = async (id) => {
 export const userById = async (id) => {
   try {
     const res = await fetch(
-      `https://www.vigour.space/api/admin/user-by-id?id=${id}`,
+      `https://www.vgo.lk/api/admin/user-by-id?id=${id}`,
       {
         method: "GET",
         cache: "no-store",

@@ -43,7 +43,7 @@ export const addNewProductbySeller = async (id) => {
 
 export const getAllAdminProducts = async () => {
   try {
-    const res = await fetch("https://www.vigour.space/api/admin/all-products", {
+    const res = await fetch("https://www.vgo.lk/api/admin/all-products", {
       method: "GET",
       headers: {
         "content-type": "application/json",
@@ -62,7 +62,7 @@ export const getAllAdminProducts = async () => {
 
 export const getFiveAdminProducts = async () => {
   try {
-    const res = await fetch("https://www.vigour.space/api/admin/five-product", {
+    const res = await fetch("https://www.vgo.lk/api/admin/five-product", {
       method: "GET",
       cache: "no-store",
     });
@@ -77,7 +77,7 @@ export const getFiveAdminProducts = async () => {
 
 export const getAllSellerProducts = async () => {
   try {
-    const res = await fetch("https://www.vigour.space/api/seller/all-products", {
+    const res = await fetch("https://www.vgo.lk/api/seller/all-products", {
       method: "GET",
       cache: "no-store",
     });
@@ -147,7 +147,7 @@ export const deleteAProductBySeller = async (id) => {
 export const productByCategory = async (id) => {
   try {
     const res = await fetch(
-      `https://www.vigour.space/api/admin/product-by-category?id=${id}`,
+      `https://www.vgo.lk/api/admin/product-by-category?id=${id}`,
       {
         method: "GET",
         cache: "no-store",
@@ -165,7 +165,7 @@ export const productByCategory = async (id) => {
 export const productById = async (id) => {
   try {
     const res = await fetch(
-      `https://www.vigour.space/api/admin/product-by-id?id=${id}`,
+      `https://www.vgo.lk/api/admin/product-by-id?id=${id}`,
       {
         method: "GET",
         cache: "no-store",
@@ -183,7 +183,7 @@ export const productById = async (id) => {
 export const productBySellerId = async (id) => {
   try {
     const res = await fetch(
-      `https://www.vigour.space/api/seller/product-by-id?id=${id}`,
+      `https://www.vgo.lk/api/seller/product-by-id?id=${id}`,
       {
         method: "GET",
         cache: "no-store",

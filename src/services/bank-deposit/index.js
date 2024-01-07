@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 
 export const getAllSellerDeposits = async () => {
   try {
-    const res = await fetch("https://www.vigour.space/api/hr/all-deposits", {
+    const res = await fetch("https://www.vgo.lk/api/hr/all-deposits", {
       method: "GET",
       cache: "no-store",
     });
@@ -17,7 +17,7 @@ export const getAllSellerDeposits = async () => {
 
 export const getAllDeposits = async () => {
   try {
-    const res = await fetch("http://www.vigour.space/api/hr/false-deposits", {
+    const res = await fetch("https://www.vgo.lk/api/hr/false-deposits", {
       method: "GET",
       cache: "no-store",
     });

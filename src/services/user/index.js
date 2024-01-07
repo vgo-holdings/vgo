@@ -23,7 +23,7 @@ export const addNewUser = async (formData) => {
 
 export const getAllAdminUsers = async () => {
   try {
-    const res = await fetch("https://www.vigour.space/api/admin/all-users", {
+    const res = await fetch("https://www.vgo.lk/api/admin/all-users", {
       method: "GET",
       cache: "no-store",
     });
@@ -116,7 +116,7 @@ export const deleteAUser = async (id) => {
 export const userByCategory = async (id) => {
   try {
     const res = await fetch(
-      `http://localhost:3000/api/admin/user-by-category?id=${id}`,
+      `https://www.vgo.lk/api/admin/user-by-category?id=${id}`,
       {
         method: "GET",
         cache: "no-store",
@@ -134,7 +134,7 @@ export const userByCategory = async (id) => {
 export const userById = async (id) => {
   try {
     const res = await fetch(
-      `http://localhost:3000/api/admin/user-by-id?id=${id}`,
+      `https://www.vgo.lk/api/admin/user-by-id?id=${id}`,
       {
         method: "GET",
         cache: "no-store",
@@ -315,7 +315,7 @@ export const updatePackDetails = async (id,packname) => {
 export const userName = async (id) => {
   try {
     const res = await fetch(
-      `http://localhost:3000/api/user-name?id=${id}`,
+      `https://www.vgo.lk/api/user-name?id=${id}`,
       {
         method: "GET",
         cache: "no-store",
