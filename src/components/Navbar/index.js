@@ -273,7 +273,6 @@ export default function Navbar() {
                 </>
               }
 
-
               {/* check this im here */}
               {user?.role === "admin" ? (
                 isAdminView ? (
@@ -337,7 +336,7 @@ export default function Navbar() {
                     <span className="hidden md:inline">Hr View</span>
                   </button>
                 )
-              ) : user?.role === "freelancer" || user?.role === "member" || user?.role === "Rocky" ? (
+              ) : user?.role && user?.role != "customer" ? (
                 isSellerView ? (
                   <button
                     className={
@@ -451,7 +450,7 @@ export default function Navbar() {
 
               <NavItemsSide router={router} isAdminView={isAdminView} isSellerView={isSellerView} isHrView={isHrView} testFun={testFun} userData={user}/>
 
-              {user?.role === "freelancer" || user?.role === "member" || user?.role === "Rocky" ? (
+              {user?.role && user?.role != "customer" ?  (
                 isSellerView ? (
                   <button
                     className={
