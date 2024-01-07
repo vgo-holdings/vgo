@@ -310,3 +310,22 @@ export const updatePackDetails = async (id,packname) => {
     console.log(e);
   }
 };
+
+
+export const userName = async (id) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3000/api/user-name?id=${id}`,
+      {
+        method: "GET",
+        cache: "no-store",
+      }
+    );
+
+    const data = await res.json();
+
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
