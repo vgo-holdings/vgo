@@ -23,7 +23,7 @@ export const addNewShop = async (formData) => {
 
 export const getAllAdminShops = async () => {
   try {
-    const res = await fetch("https://www.vigour.space/api/admin/all-shops", {
+    const res = await fetch("https://www.vgo.lk/api/admin/all-shops", {
       method: "GET",
       cache: "no-store",
     });
@@ -76,7 +76,7 @@ export const deleteAShop = async (id) => {
 export const shopByCategory = async (id) => {
   try {
     const res = await fetch(
-      `https://www.vigour.space/api/admin/shop-by-category?id=${id}`,
+      `https://www.vgo.lk/api/admin/shop-by-category?id=${id}`,
       {
         method: "GET",
         cache: "no-store",
@@ -94,7 +94,7 @@ export const shopByCategory = async (id) => {
 export const shopById = async (id) => {
   try {
     const res = await fetch(
-      `https://www.vigour.space/api/admin/shop-by-id?id=${id}`,
+      `https://www.vgo.lk/api/admin/shop-by-id?id=${id}`,
       {
         method: "GET",
         cache: "no-store",

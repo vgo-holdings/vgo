@@ -65,7 +65,7 @@ export const msgTest = async (msg,number) => {
   console.log("im in msg");
   try {
     const response = await fetch( 
-    `https://app.notify.lk/api/v1/send?user_id=[remove and paste]&api_key=[remove and paste]&sender_id=NotifyDEMO&to=${number}&message=${msg}`,
+    `https://app.notify.lk/api/v1/send?user_id=[26355]&api_key=HeryEJQmT4LXI6mGN2Gu&sender_id=NotifyDEMO&to=${number}&message=${msg}`,
     {
       method: "POST",
     });
