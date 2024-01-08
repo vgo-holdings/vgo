@@ -237,6 +237,36 @@ export const userConnection = async (id) => {
   }
 };
 
+export const userDataByNic = async (id) => {
+  console.log("🚀 ~ file: index.js:153 ~ userConnection ~ id:", id)
+
+  const newFormData = {
+    "nic": id,
+  }
+
+  try {
+    const res = await fetch(
+      "/api/user-details-by-nic",
+      {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+        cache: "no-store",
+        body: JSON.stringify(newFormData),
+      }
+    );
+
+    const data = await res.json();
+
+    return data;
+  } catch (e) {
+    console.log("kkk");
+    console.log(e);
+  }
+};
+
 export const updateImage = async (id,imageUrl) => {
   console.log(id, imageUrl, "dn sapada")
     const newFormData = {
