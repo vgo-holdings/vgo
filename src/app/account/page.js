@@ -51,6 +51,7 @@ import {
 } from 'next-share';
 import CommonListing from "@/components/CommonListing";
 import { productBySellerId } from "@/services/product";
+import { getClassDataById } from "@/services/class";
 
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app, firebaseStroageURL);
@@ -102,6 +103,33 @@ function mapUserDataToReactElement(userConnectionData) {
     </a>
   );
 }
+function moreDetailsView(UserClassdata, userName) {
+  console.log("🚀 ~ file: page.js:8 ~ moreDetailsView ~ UserClassdata:", UserClassdata)
+
+  const renderNames = (level) => {
+    return UserClassdata?.map((user) => (
+      user.class_lvl === level && (
+        <div key={user._id} className={`rounded-lg items-center flex justify-center w-[214px] py-1 m-2 ${userName === user.name ? 'bg-green-500' : 'bg-gray-400'}`}>
+          <h1 className="text-gray-900 text-sm p-2">{user.name}</h1>
+        </div>
+      )
+    ));
+  };
+
+  return (
+    <div className="absolute right-10 z-10  bg-gray-200 p-5">
+      <h1 className="items-center flex justify-center">Class Details</h1>
+      <div>
+        {[1, 2, 3, 4].map((level) => (
+          <div key={level} className="flex flex-auto mt-8 items-center">
+            <h1 className="text-gray-900 text-sm  ">Lvl:{level}</h1>
+            <div>{renderNames(level)}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Account() {
   const {
@@ -133,7 +161,7 @@ export default function Account() {
     role: user?.role,
     refkey: user?.refkey,
   });
-  // console.log(user, "account user")
+  console.log(user, "account user")
 
   async function handleUserConnection() {
     console.log(user?._id, "user?._id");
@@ -557,10 +585,21 @@ export default function Account() {
     return getAllProducts;
   }
 
+  const [detailsid, setDetailsid] = useState("");
+  const [UserClassdata, setUserClassdata] = useState([]);
+  const [showclassDetails, setClassDetails] = useState(false);
+  async function viewMore(id, classId) {
+    setDetailsid(id)
+    const res = await getClassDataById(classId)
+    setUserClassdata(res.data)
+    console.log("🚀 ~ file: page.js:119 ~ viewMore ~ res:", res);
+    setClassDetails(!showclassDetails);
+  }
+
   return (
     <>
       {
-        user?.shoppingMallCount == 0 &&  user?.totalShops == 0 && AlertMsg && user.role != "customer" ? (
+        user?.shoppingMallCount == 0 && user?.totalShops == 0 && AlertMsg && user.role != "customer" ? (
           <div class="rounded fixed top-0 left-0 flex items-center justify-center w-full h-full z-10"
             onClick={closeMsg}
             style={{ backgroundColor: 'rgba(0,0,0,.5)' }}
@@ -760,17 +799,24 @@ export default function Account() {
                   </svg> */}
                 <span>User Role: {user?.role}</span>
               </button>
-              <button class="flex items-center bg-orange-600  text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
+              <button class="flex items-center bg-orange-600  text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100"
+                onClick={() => viewMore(user?._id, user?.classId)}
+              >
                 {/* <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path>
                   </svg> */}
                 <span>User Class: {user?.class_name}</span>
               </button>
+
             </div>
+
           </div>
           {/* end of user role and class */}
         </div>
-
+        {
+          showclassDetails && detailsid == user?._id &&
+          moreDetailsView(UserClassdata, user?.name)
+        }
         <div class="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-x-4 h-full">
           <div />
           {/* Statistics */}

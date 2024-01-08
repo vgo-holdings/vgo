@@ -82,7 +82,8 @@ export async function POST(req) {
           profit:checkUser.profit,
           memberCount:checkUser.memberCount,
           shoppingMallCount:checkUser.shoppingMallCount,
-          totalShops:checkUser.totalShops
+          totalShops:checkUser.totalShops,
+          classId:checkUser.class_name,
         },
       };
     } else {
