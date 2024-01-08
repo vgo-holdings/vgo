@@ -16,12 +16,11 @@ export async function PUT(req) {
     // const { _id } = await req.json();
     const classDataWithUsers = [];
     try {
-        const checkUser = await User.find({ refkey: extractData.user_id }, { name: 1, imageURL: 1, role: 1, _id: 1, class_name: 1, nic: 1 });
+        const checkUser = await User.find({ nic: extractData.nic }, { name: 1, imageURL: 1, role: 1, _id: 1, class_name: 1, nic: 1 });
         console.log("🚀 ~ file: route.js:18 ~ POST ~ checkUser:", checkUser)
         for (let i = 0; i < checkUser.length; i++) {
             const classId = checkUser[i].class_name;
-
-            if (classId != "") {
+            if (classId != ""){
                 const extractedClassName = await Class_data.findOne({ _id: classId }, { name: 1 })
 
                 const testTry = {
@@ -33,9 +32,9 @@ export async function PUT(req) {
                     class_id: checkUser[i].class_name,
                     class_name: extractedClassName?.name,
                 }
-
+    
                 classDataWithUsers.push(testTry);
-            } else {
+            }else{
                 const testTry = {
                     _id: checkUser[i]._id,
                     imageURL: checkUser[i].imageURL,
@@ -45,9 +44,11 @@ export async function PUT(req) {
                     class_id: checkUser[i].class_name,
                     class_name: "",
                 }
-
+    
                 classDataWithUsers.push(testTry);
             }
+            
+            
         }
 
         // const extractedClassName = await Class_data.find({ _id: checkUser.class_name })
@@ -62,6 +63,7 @@ export async function PUT(req) {
         });
 
     } catch (error) {
+        console.log("🚀 ~ file: route.js:51 ~ PUT ~ error:", error)
         return NextResponse.json({
             success: false,
             message: "Error",
